@@ -1,6 +1,7 @@
 
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const dotenv = require('dotenv');
 
 // Load env vars
@@ -66,6 +67,15 @@ app.get('/register', (req, res) => {
 
 app.get('/dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'dashboard.html'));
+});
+
+app.get('*', (req, res) => {
+    const cleanPath = req.path === '/' ? '/index' : req.path;
+    const filePath = path.join(__dirname, 'frontend', `${cleanPath}.html`);
+    if (fs.existsSync(filePath)) {
+        return res.sendFile(filePath);
+    }
+    return res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
 app.listen(PORT, () => {
