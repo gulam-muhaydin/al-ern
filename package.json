@@ -1,0 +1,11 @@
+{
+  "name": "allstartrade-root",
+  "private": true,
+  "engines": {
+    "node": "18.x"
+  },
+  "scripts": {
+    "start": "node allstartrade-clone/local-server.js",
+    "postinstall": "npm --prefix allstartrade-clone install"
+  }
+}
