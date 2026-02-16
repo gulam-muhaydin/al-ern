@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>All Star Trades | Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="shortcut icon" href="assets/uploads/logo/favicon.png" type="image/x-icon">
+    <style>
+        .settings-wrap {
+            padding: 18px 16px 30px 16px;
+        }
+
+        .settings-title {
+            color: #a3e635;
+            font-weight: 900;
+            font-size: 20px;
+            margin: 14px 0 14px 0;
+            text-align: center;
+        }
+
+        .panel {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(34, 197, 94, 0.18);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+        }
+
+        .info-item {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .info-label {
+            color: rgba(255,255,255,0.7);
+            font-weight: 700;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .info-value {
+            color: #fff;
+            font-weight: 900;
+            word-break: break-word;
+        }
+
+        .action-btn {
+            width: 100%;
+            background: #22c55e;
+            color: #04110a;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-weight: 900;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-wrapper">
+        <header class="dash-header">
+            <div class="dash-logo">
+                <img src="assets/uploads/logo/logo.png" alt="All Star Trades">
+            </div>
+            <button class="menu-btn" id="menuToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </header>
+
+        <div class="mobile-menu-overlay" id="mobileMenu">
+            <div class="menu-content">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fa-solid fa-layer-group"></i> Dashboard
+                </a>
+                <a href="deposit.html" class="menu-item">Deposit</a>
+                <a href="running-plans.html" class="menu-item">My Plans</a>
+                <a href="deposit-transactions.html" class="menu-item">Deposit Transactions</a>
+                <a href="all-transactions.html" class="menu-item">All Transactions</a>
+                <a href="withdraw.html" class="menu-item">Withdraw</a>
+                <a href="withdraw-history.html" class="menu-item">Withdraw History</a>
+                <a href="invite-referral.html" class="menu-item">Invite Referral</a>
+                <a href="settings.html" class="menu-item active">Settings</a>
+                <a href="referral-bonus.html" class="menu-item">Referral Bonus Transaction</a>
+                <a href="#" class="menu-item" id="logoutBtn">Logout</a>
+            </div>
+        </div>
+
+        <div class="settings-wrap">
+            <div class="settings-title">Settings</div>
+
+            <div class="panel">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Name</div>
+                        <div class="info-value" id="setName">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Phone/Email</div>
+                        <div class="info-value" id="setEmail">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">User ID</div>
+                        <div class="info-value" id="setUserId">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Role</div>
+                        <div class="info-value" id="setRole">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Join Date</div>
+                        <div class="info-value" id="setJoinDate">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <button class="action-btn" id="logoutBtnMain">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const logoutBtnMain = document.getElementById('logoutBtnMain');
+            const setName = document.getElementById('setName');
+            const setEmail = document.getElementById('setEmail');
+            const setUserId = document.getElementById('setUserId');
+            const setRole = document.getElementById('setRole');
+            const setJoinDate = document.getElementById('setJoinDate');
+
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('active');
+                    const icon = menuToggle.querySelector('i');
+                    if (mobileMenu.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+
+                mobileMenu.addEventListener('click', (e) => {
+                    if (e.target === mobileMenu) {
+                        mobileMenu.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+
+            const doLogout = () => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = 'login.html';
+            };
+
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    doLogout();
+                });
+            }
+
+            if (logoutBtnMain) {
+                logoutBtnMain.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    doLogout();
+                });
+            }
+
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const getApiUrl = (endpoint) => {
+                if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
+                    if (window.location.port === '5500' || window.location.port === '5501') {
+                        return `http://localhost:3000${endpoint}`;
+                    }
+                }
+                return endpoint;
+            };
+
+            const fetchProfile = async () => {
+                try {
+                    const res = await fetch(getApiUrl('/api/user'), {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (!res.ok) return;
+                    const user = await res.json();
+                    if (setName) setName.textContent = user.name || '-';
+                    if (setEmail) setEmail.textContent = user.email || '-';
+                    if (setUserId) setUserId.textContent = user._id || '-';
+                    if (setRole) setRole.textContent = user.role || '-';
+                    if (setJoinDate) setJoinDate.textContent = user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '-';
+                } catch {
+                }
+            };
+
+            fetchProfile();
+        });
+    </script>
+</body>
+</html>

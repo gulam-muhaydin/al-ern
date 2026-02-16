@@ -1,0 +1,2479 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]>
+<html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>
+<html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>
+<html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html class="no-js" lang="en" >
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes">  <meta name="mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+ <!-- Font Awesome (icons) -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    :root{
+      --bg1:#020617;
+      --bg2:#001b1a;
+      --card: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.12);
+      --glow: rgba(34,197,94,.22);
+      --green:#22c55e;
+      --lime:#a3e635;
+      --text:#e5e7eb;
+      --muted: rgba(229,231,235,.75);
+      --shadow: 0 18px 45px rgba(0,0,0,.35);
+      --radius: 22px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% 0%, rgba(163,230,53,.15), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(34,197,94,.12), transparent 55%),
+        linear-gradient(160deg, var(--bg1), #000 55%, var(--bg2));
+      min-height:100vh;
+    }
+
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1180px; margin:0 auto; padding:0 18px}
+    .blur{
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--stroke);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* NAV */
+    .nav{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 14px 0;
+      background: rgba(2,6,23,.55);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(14px);
+    }
+    .nav-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing:.2px;
+    }
+    .brand .logo{
+      width:42px; height:42px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      background: linear-gradient(135deg, rgba(34,197,94,.35), rgba(163,230,53,.18));
+      border: 1px solid rgba(163,230,53,.25);
+      box-shadow: 0 0 26px rgba(163,230,53,.12);
+    }
+    .brand small{
+      display:block;
+      font-weight:700;
+      color: var(--muted);
+      margin-top:2px;
+      letter-spacing:.1px;
+    }
+    .nav-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    /* BUTTONS */
+    .btn{
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding: 11px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      cursor:pointer;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(163,230,53,.35);
+      box-shadow: 0 10px 28px rgba(0,0,0,.35);
+      background: rgba(255,255,255,.08);
+    }
+    .btn-primary{
+      border: 1px solid rgba(163,230,53,.35);
+      background: linear-gradient(90deg, rgba(34,197,94,.95), rgba(163,230,53,.95));
+      color:#04110a;
+      box-shadow: 0 14px 30px rgba(34,197,94,.18);
+    }
+    .btn-primary:hover{ box-shadow: 0 16px 35px rgba(34,197,94,.26); }
+
+    /* HERO */
+    .hero{
+      padding: 34px 0 18px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns:1fr}
+    }
+
+    .hero-card{
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+    .hero-media{
+      position: relative;
+      min-height: 320px;
+      background:
+        radial-gradient(700px 320px at 20% 10%, rgba(163,230,53,.22), transparent 55%),
+        radial-gradient(700px 320px at 90% 10%, rgba(34,197,94,.18), transparent 60%),
+        linear-gradient(135deg, rgba(2,6,23,.75), rgba(0,0,0,.35));
+    }
+    .hero-media img{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      opacity:.35;
+      filter: saturate(1.05) contrast(1.05);
+      transform: scale(1.02);
+    }
+    .hero-overlay{
+      position:absolute;
+      inset:0;
+      background: linear-gradient(90deg, rgba(2,6,23,.92), rgba(2,6,23,.45));
+    }
+    .hero-content{
+      position:relative;
+      padding: 28px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(163,230,53,.25);
+      background: rgba(163,230,53,.10);
+      color: rgba(236,253,245,.95);
+      font-weight: 800;
+      letter-spacing:.1px;
+    }
+    .hero h1{
+      margin: 14px 0 10px;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.06;
+      letter-spacing:-.4px;
+    }
+    .hero p{
+      margin:0;
+      color: var(--muted);
+      font-size: 15.5px;
+      line-height:1.7;
+      max-width: 60ch;
+    }
+    .hero-cta{
+      margin-top: 18px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    /* STATS CARD */
+    .stat-card{
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+    .stat{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+    }
+    .stat b{font-size: 18px}
+    .stat span{color: var(--muted); font-weight: 700}
+    .mini{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+    }
+    .mini .ic{
+      width:44px;height:44px;border-radius: 16px;
+      display:grid;place-items:center;
+      border:1px solid rgba(163,230,53,.20);
+      background: linear-gradient(135deg, rgba(34,197,94,.18), rgba(163,230,53,.08));
+      box-shadow: 0 0 18px rgba(163,230,53,.10);
+    }
+
+    /* PLANS */
+    .section{padding: 20px 0 34px}
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap: 12px;
+      flex-wrap:wrap;
+      margin: 8px 0 14px;
+    }
+    .section-head h2{
+      margin:0;
+      font-size: 26px;
+      letter-spacing: -.2px;
+    }
+    .section-head p{
+      margin:0;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .plan-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 980px){
+      .plan-grid{grid-template-columns:1fr}
+    }
+
+    .plan{
+      border-radius: var(--radius);
+      padding: 18px;
+      position:relative;
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    .plan:hover{transform: translateY(-2px)}
+    .plan:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(520px 200px at 20% 0%, rgba(163,230,53,.18), transparent 55%),
+                  radial-gradient(520px 200px at 90% 10%, rgba(34,197,94,.16), transparent 60%);
+      pointer-events:none;
+    }
+    .plan > *{position:relative}
+
+    .plan-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .plan-ico{
+      width:54px;height:54px;border-radius: 18px;
+      display:grid;place-items:center;
+      border:1px solid rgba(163,230,53,.22);
+      background: linear-gradient(135deg, rgba(34,197,94,.20), rgba(163,230,53,.10));
+      box-shadow: 0 0 22px rgba(34,197,94,.14);
+      font-size: 20px;
+    }
+    .pill{
+      padding: 8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.88);
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing:.3px;
+    }
+    .plan h3{
+      margin: 0 0 6px;
+      font-size: 20px;
+      letter-spacing:-.2px;
+    }
+    .price{
+      display:flex;
+      align-items:baseline;
+      gap: 8px;
+      margin: 10px 0 14px;
+    }
+    .price b{font-size: 30px}
+    .price span{color: var(--muted); font-weight: 800}
+
+    .features{
+      list-style:none;
+      padding:0;
+      margin: 0 0 14px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .features li{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      color: rgba(255,255,255,.88);
+      font-weight: 700;
+    }
+    .features i{
+      margin-top: 2px;
+      color: var(--lime);
+      text-shadow: 0 0 18px rgba(163,230,53,.25);
+    }
+
+    /* BANNER STRIP */
+    .strip{
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 220px;
+    }
+    @media (max-width: 980px){
+      .strip{grid-template-columns:1fr}
+    }
+    .strip .left{
+      padding: 22px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap: 10px;
+    }
+    .strip .left h3{margin:0; font-size: 22px}
+    .strip .left p{margin:0; color: var(--muted); font-weight:700; line-height:1.7}
+    .strip .right{
+      position:relative;
+      min-height: 220px;
+      background: linear-gradient(135deg, rgba(34,197,94,.20), rgba(2,6,23,.75));
+    }
+    .strip .right img{
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; opacity:.35;
+      filter: saturate(1.05) contrast(1.05);
+    }
+    .footer{
+      padding: 26px 0 40px;
+      color: rgba(229,231,235,.65);
+      font-weight: 700;
+      text-align:center;
+    }
+
+    /* small helper */
+    .divider{
+      height:1px;
+      background: rgba(255,255,255,.08);
+      margin: 10px 0 6px;
+    }
+    /* =======================================
+   DESKTOP FIX: container narrow issue
+   (Laravel theme/Bootstrap .container override)
+   Paste at END of CSS
+   ======================================= */
+
+@media (min-width: 992px){
+
+  /* force wide containers for this homepage sections */
+  .nav .container,
+  .hero .container,
+  #plans .container,
+  #how .container{
+    width: 100% !important;
+    max-width: 1320px !important;   /* adjust if you want 1400px */
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* force hero layout to 2 columns on desktop */
+  .hero-grid{
+    display: grid !important;
+    grid-template-columns: 1.25fr .75fr !important;
+    gap: 18px !important;
+    align-items: stretch !important;
+  }
+
+  /* keep cards full width inside their columns */
+  .hero-card,
+  .stat-card{
+    width: 100% !important;
+  }
+
+  /* some themes override blur/card background; re-apply */
+  .blur{
+    background: rgba(255,255,255,.05) !important;
+    border: 1px solid rgba(255,255,255,.12) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+  }
+}
+
+  </style>
+
+    <meta name="description" content="All Star Trades is a Invest Smart. Earn Daily.
+Choose a plan, track profit, and withdraw easily.">
+<meta name="keywords" content="investment, HYIP, HYIP investment, hyip website, invest, investment, Investment Management system, investment script, Bug Finder, bug-finder, bugfinder.net, bugfinder">
+<link rel="shortcut icon" href="https://allstartrade.pk/assets/uploads/logo/favicon.png" type="image/x-icon">
+
+<link rel="apple-touch-icon" href="https://allstartrade.pk/assets/uploads/logo/logo.png">
+<title>All Star Trades | Home</title>
+<link rel="icon" type="image/png" sizes="16x16" href="https://allstartrade.pk/assets/uploads/logo/favicon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="All Star Trades | Home">
+
+<meta itemprop="name" content="All Star Trades | Home">
+<meta itemprop="description" content="All Star Trades is a Invest Smart. Earn Daily.
+Choose a plan, track profit, and withdraw easily.">
+<meta itemprop="image" content="https://allstartrade.pk/assets/uploads/logo/meta.png600x315">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="All Star Trades is a Invest Smart. Earn Daily. Choose a plan, track profit, and withdraw easily.">
+<meta property="og:description" content="All Star Trades is a Invest Smart. Earn Daily.
+Choose a plan, track profit, and withdraw easily.">
+<meta property="og:image" content="https://allstartrade.pk/assets/uploads/logo/meta.png"/>
+<meta property="og:image:type" content="image/png"/>
+<meta property="og:url" content="https://allstartrade.pk">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#001244">
+<link rel="manifest" href="/manifest.json">
+            <link rel="stylesheet" type="text/css" href="/assets/themes/goldenlvato/styleoutput.css">
+</head>
+
+<body class="body">
+    <!--=====progress END=======-->
+    <div class="paginacontainer"> </div> 
+    <!--=====progress END=======-->
+    <!-- TOPBAR -->
+    <!-- Header -->
+<header class="header-home shadow-md mb-8 relative bg-[#020617]/70 backdrop-blur-xl border-b border-white/10">
+  <div class="mx-auto flex justify-between items-center p-2">
+
+    <!-- Logo / Site Title -->
+    <a href="/" class="flex items-center gap-2">
+      <img class="h-8 drop-shadow-[0_8px_20px_rgba(34,197,94,0.25)]"
+           src="https://allstartrade.pk/assets/uploads/logo/logo.png"
+           alt="Home">
+    </a>
+
+    <!-- Mobile Menu Button -->
+    <button id="menu-btn"
+      class="flex flex-col gap-1.5 rounded-xl px-3 py-2
+             bg-white/5 border border-white/10
+             hover:border-green-400/40 hover:bg-white/10 transition
+             focus:outline-none">
+      <span class="block w-6 h-0.5 bg-[#fff]"></span>
+      <span class="block w-6 h-0.5 bg-[#fff]"></span>
+      <span class="block w-6 h-0.5 bg-[#fff]"></span>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <nav id="mobile-menu"
+       class="hidden flex-col pb-nav border-t border-white/10">
+
+    
+      <a href="/" class="pb-nav-link">Home</a>
+      <a href="plan" class="pb-nav-link">Our Plans</a>
+      <a href="register" class="pb-nav-link pb-nav-cta">Sign Up</a>
+      <a href="login" class="pb-nav-link">Login</a>
+
+      </nav>
+</header>
+<style>
+    /* ===== GREEN/LIME NAV THEME ===== */
+.pb-nav{
+  /*background: rgba(2,6,23,.82);*/
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 10px 10px 14px;
+}
+
+.pb-nav-link{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding: 12px 12px;
+  border-radius: 14px;
+  margin: 6px 6px;
+  color: rgba(236,253,245,.92);
+  font-weight: 800;
+  letter-spacing: .1px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  transition: .2s ease;
+}
+
+.pb-nav-link svg{
+  opacity:.95;
+  filter: drop-shadow(0 8px 18px rgba(34,197,94,.20));
+}
+
+.pb-nav-link:hover{
+  background: linear-gradient(90deg, rgba(34,197,94,.18), rgba(163,230,53,.10));
+  border-color: rgba(163,230,53,.35);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(0,0,0,.35);
+}
+
+.pb-nav-cta{
+  background: linear-gradient(90deg, rgba(34,197,94,.95), rgba(163,230,53,.95)) !important;
+  color: #04110a !important;
+  border-color: rgba(163,230,53,.35) !important;
+}
+
+.pb-nav-danger:hover{
+  background: rgba(239,68,68,.15);
+  border-color: rgba(239,68,68,.35);
+}
+
+</style>
+<script>
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('hidden');
+    menu.classList.toggle('flex');
+  });
+</script>
+    <!-- /TOPBAR -->
+    <!-- PAGE-BANNER -->
+
+
+
+    
+
+  <!-- Font Awesome (icons) -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    :root{
+      --bg1:#020617;
+      --bg2:#001b1a;
+      --card: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.12);
+      --glow: rgba(34,197,94,.22);
+      --green:#22c55e;
+      --lime:#a3e635;
+      --text:#e5e7eb;
+      --muted: rgba(229,231,235,.75);
+      --shadow: 0 18px 45px rgba(0,0,0,.35);
+      --radius: 22px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% 0%, rgba(163,230,53,.15), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(34,197,94,.12), transparent 55%),
+        linear-gradient(160deg, var(--bg1), #000 55%, var(--bg2));
+      min-height:100vh;
+    }
+
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1180px; margin:0 auto; padding:0 18px}
+    .blur{
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--stroke);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* NAV */
+    .nav{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 14px 0;
+      background: rgba(2,6,23,.55);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(14px);
+    }
+    .nav-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing:.2px;
+    }
+    .brand .logo{
+      width:42px; height:42px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      background: linear-gradient(135deg, rgba(34,197,94,.35), rgba(163,230,53,.18));
+      border: 1px solid rgba(163,230,53,.25);
+      box-shadow: 0 0 26px rgba(163,230,53,.12);
+    }
+    .brand small{
+      display:block;
+      font-weight:700;
+      color: var(--muted);
+      margin-top:2px;
+      letter-spacing:.1px;
+    }
+    .nav-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    /* BUTTONS */
+    .btn{
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding: 11px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      cursor:pointer;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(163,230,53,.35);
+      box-shadow: 0 10px 28px rgba(0,0,0,.35);
+      background: rgba(255,255,255,.08);
+    }
+    .btn-primary{
+      border: 1px solid rgba(163,230,53,.35);
+      background: linear-gradient(90deg, rgba(34,197,94,.95), rgba(163,230,53,.95));
+      color:#04110a;
+      box-shadow: 0 14px 30px rgba(34,197,94,.18);
+    }
+    .btn-primary:hover{ box-shadow: 0 16px 35px rgba(34,197,94,.26); }
+
+    /* HERO */
+    .hero{
+      padding: 34px 0 18px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns:1fr}
+    }
+
+    .hero-card{
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+    .hero-media{
+      position: relative;
+      min-height: 320px;
+      background:
+        radial-gradient(700px 320px at 20% 10%, rgba(163,230,53,.22), transparent 55%),
+        radial-gradient(700px 320px at 90% 10%, rgba(34,197,94,.18), transparent 60%),
+        linear-gradient(135deg, rgba(2,6,23,.75), rgba(0,0,0,.35));
+    }
+    .hero-media img{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      opacity:.35;
+      filter: saturate(1.05) contrast(1.05);
+      transform: scale(1.02);
+    }
+    .hero-overlay{
+      position:absolute;
+      inset:0;
+      background: linear-gradient(90deg, rgba(2,6,23,.92), rgba(2,6,23,.45));
+    }
+    .hero-content{
+      position:relative;
+      padding: 28px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(163,230,53,.25);
+      background: rgba(163,230,53,.10);
+      color: rgba(236,253,245,.95);
+      font-weight: 800;
+      letter-spacing:.1px;
+    }
+    .hero h1{
+      margin: 14px 0 10px;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.06;
+      letter-spacing:-.4px;
+    }
+    .hero p{
+      margin:0;
+      color: var(--muted);
+      font-size: 15.5px;
+      line-height:1.7;
+      max-width: 60ch;
+    }
+    .hero-cta{
+      margin-top: 18px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    /* STATS CARD */
+    .stat-card{
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+    .stat{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+    }
+    .stat b{font-size: 18px}
+    .stat span{color: var(--muted); font-weight: 700}
+    .mini{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+    }
+    .mini .ic{
+      width:44px;height:44px;border-radius: 16px;
+      display:grid;place-items:center;
+      border:1px solid rgba(163,230,53,.20);
+      background: linear-gradient(135deg, rgba(34,197,94,.18), rgba(163,230,53,.08));
+      box-shadow: 0 0 18px rgba(163,230,53,.10);
+    }
+
+    /* PLANS */
+    .section{padding: 20px 0 34px}
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap: 12px;
+      flex-wrap:wrap;
+      margin: 8px 0 14px;
+    }
+    .section-head h2{
+      margin:0;
+      font-size: 26px;
+      letter-spacing: -.2px;
+    }
+    .section-head p{
+      margin:0;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .plan-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 980px){
+      .plan-grid{grid-template-columns:1fr}
+    }
+
+    .plan{
+      border-radius: var(--radius);
+      padding: 18px;
+      position:relative;
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    .plan:hover{transform: translateY(-2px)}
+    .plan:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(520px 200px at 20% 0%, rgba(163,230,53,.18), transparent 55%),
+                  radial-gradient(520px 200px at 90% 10%, rgba(34,197,94,.16), transparent 60%);
+      pointer-events:none;
+    }
+    .plan > *{position:relative}
+
+    .plan-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .plan-ico{
+      width:54px;height:54px;border-radius: 18px;
+      display:grid;place-items:center;
+      border:1px solid rgba(163,230,53,.22);
+      background: linear-gradient(135deg, rgba(34,197,94,.20), rgba(163,230,53,.10));
+      box-shadow: 0 0 22px rgba(34,197,94,.14);
+      font-size: 20px;
+    }
+    .pill{
+      padding: 8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.88);
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing:.3px;
+    }
+    .plan h3{
+      margin: 0 0 6px;
+      font-size: 20px;
+      letter-spacing:-.2px;
+    }
+    .price{
+      display:flex;
+      align-items:baseline;
+      gap: 8px;
+      margin: 10px 0 14px;
+    }
+    .price b{font-size: 30px}
+    .price span{color: var(--muted); font-weight: 800}
+
+    .features{
+      list-style:none;
+      padding:0;
+      margin: 0 0 14px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .features li{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      color: rgba(255,255,255,.88);
+      font-weight: 700;
+    }
+    .features i{
+      margin-top: 2px;
+      color: var(--lime);
+      text-shadow: 0 0 18px rgba(163,230,53,.25);
+    }
+
+    /* BANNER STRIP */
+    .strip{
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 220px;
+    }
+    @media (max-width: 980px){
+      .strip{grid-template-columns:1fr}
+    }
+    .strip .left{
+      padding: 22px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap: 10px;
+    }
+    .strip .left h3{margin:0; font-size: 22px}
+    .strip .left p{margin:0; color: var(--muted); font-weight:700; line-height:1.7}
+    .strip .right{
+      position:relative;
+      min-height: 220px;
+      background: linear-gradient(135deg, rgba(34,197,94,.20), rgba(2,6,23,.75));
+    }
+    .strip .right img{
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; opacity:.35;
+      filter: saturate(1.05) contrast(1.05);
+    }
+    .footer{
+      padding: 26px 0 40px;
+      color: rgba(229,231,235,.65);
+      font-weight: 700;
+      text-align:center;
+    }
+
+    /* small helper */
+    .divider{
+      height:1px;
+      background: rgba(255,255,255,.08);
+      margin: 10px 0 6px;
+    }
+    /* =======================================
+   DESKTOP FIX: container narrow issue
+   (Laravel theme/Bootstrap .container override)
+   Paste at END of CSS
+   ======================================= */
+
+@media (min-width: 992px){
+
+  /* force wide containers for this homepage sections */
+  .nav .container,
+  .hero .container,
+  #plans .container,
+  #how .container{
+    width: 100% !important;
+    max-width: 1320px !important;   /* adjust if you want 1400px */
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* force hero layout to 2 columns on desktop */
+  .hero-grid{
+    display: grid !important;
+    grid-template-columns: 1.25fr .75fr !important;
+    gap: 18px !important;
+    align-items: stretch !important;
+  }
+
+  /* keep cards full width inside their columns */
+  .hero-card,
+  .stat-card{
+    width: 100% !important;
+  }
+
+  /* some themes override blur/card background; re-apply */
+  .blur{
+    background: rgba(255,255,255,.05) !important;
+    border: 1px solid rgba(255,255,255,.12) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+  }
+}
+
+  </style>
+</head>
+
+<body>
+
+
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+
+        <div class="hero-card blur">
+          <div class="hero-media">
+            <!-- Banner Image 1 (replace with your image) -->
+            <img src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=1400&q=70" alt="banner">
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+              <div class="badge">
+                <i class="fa-solid fa-shield-halved"></i>
+                Trusted  Investment Platform
+              </div>
+
+              <h1>Grow Your Investment with <span style="color: var(--lime);">Smart</span> Plans</h1>
+              <p>
+                Choose a plan, invest securely, and track profits instantly.
+              </p>
+
+              <!--<div class="hero-cta">-->
+              <!--  <a class="btn btn-primary" href="#plans">-->
+              <!--    <i class="fa-solid fa-rocket"></i> View Plans-->
+              <!--  </a>-->
+              <!--  <a class="btn" href="#how">-->
+              <!--    <i class="fa-solid fa-circle-info"></i> How It Works-->
+              <!--  </a>-->
+              <!--</div>-->
+
+              <div class="divider"></div>
+
+              <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+                <span class="pill"><i class="fa-solid fa-bolt"></i> Instant Withdraw</span>
+                <span class="pill"><i class="fa-solid fa-bolt"></i> Refer Bonus</span>
+                <span class="pill"><i class="fa-solid fa-lock"></i> Secure System</span>
+                <span class="pill"><i class="fa-solid fa-headset"></i> 24/7 Support</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card blur">
+          <!--<div class="stat">-->
+          <!--  <div class="mini">-->
+          <!--    <div class="ic"><i class="fa-solid fa-users"></i></div>-->
+          <!--    <div>-->
+          <!--      <b>12,480+</b><br>-->
+          <!--      <span>Active Members</span>-->
+          <!--    </div>-->
+          <!--  </div>-->
+          <!--  <i class="fa-solid fa-arrow-trend-up" style="color:var(--lime)"></i>-->
+          <!--</div>-->
+
+          <!--<div class="stat">-->
+          <!--  <div class="mini">-->
+          <!--    <div class="ic"><i class="fa-solid fa-sack-dollar"></i></div>-->
+          <!--    <div>-->
+          <!--      <b>$1.9M+</b><br>-->
+          <!--      <span>Total Invested</span>-->
+          <!--    </div>-->
+          <!--  </div>-->
+          <!--  <i class="fa-solid fa-circle-check" style="color:var(--lime)"></i>-->
+          <!--</div>-->
+
+          <!--<div class="stat">-->
+          <!--  <div class="mini">-->
+          <!--    <div class="ic"><i class="fa-solid fa-hand-holding-dollar"></i></div>-->
+          <!--    <div>-->
+          <!--      <b>$870K+</b><br>-->
+          <!--      <span>Total Withdrawn</span>-->
+          <!--    </div>-->
+          <!--  </div>-->
+          <!--  <i class="fa-solid fa-shield-heart" style="color:var(--lime)"></i>-->
+          <!--</div>-->
+
+          <a class="btn btn-primary" href="/register" style="justify-content:center; width:100%; padding:13px 14px;">
+            <i class="fa-solid fa-user-plus"></i> Create Account
+          </a>
+          <a class="btn" href="/login" style="justify-content:center; width:100%;">
+            <i class="fa-solid fa-right-to-bracket"></i> Login Account
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+<center> 
+  <img src="/assets/images/allstarfbr.jpg" width="100%" />
+  </center>
+<script type="application/json" id="planReferralJson">
+{"1":{"invest":[{"id":93,"plan_id":1,"commission_type":"invest","level":1,"percent":13,"is_active":true,"created_at":"2026-02-09T10:30:52.000000Z","updated_at":"2026-02-09T10:30:52.000000Z"},{"id":94,"plan_id":1,"commission_type":"invest","level":2,"percent":3,"is_active":true,"created_at":"2026-02-09T10:30:52.000000Z","updated_at":"2026-02-09T10:30:52.000000Z"}]},"7":{"invest":[{"id":107,"plan_id":7,"commission_type":"invest","level":1,"percent":13,"is_active":true,"created_at":"2026-02-09T10:32:15.000000Z","updated_at":"2026-02-09T10:32:15.000000Z"},{"id":108,"plan_id":7,"commission_type":"invest","level":2,"percent":3,"is_active":true,"created_at":"2026-02-09T10:32:15.000000Z","updated_at":"2026-02-09T10:32:15.000000Z"}]},"6":{"invest":[{"id":103,"plan_id":6,"commission_type":"invest","level":1,"percent":13,"is_active":true,"created_at":"2026-02-09T10:31:58.000000Z","updated_at":"2026-02-09T10:31:58.000000Z"},{"id":104,"plan_id":6,"commission_type":"invest","level":2,"percent":3,"is_active":true,"created_at":"2026-02-09T10:31:58.000000Z","updated_at":"2026-02-09T10:31:58.000000Z"}]},"9":{"invest":[{"id":113,"plan_id":9,"commission_type":"invest","level":1,"percent":13,"is_active":true,"created_at":"2026-02-09T10:32:41.000000Z","updated_at":"2026-02-09T10:32:41.000000Z"},{"id":114,"plan_id":9,"commission_type":"invest","level":2,"percent":3,"is_active":true,"created_at":"2026-02-09T10:32:41.000000Z","updated_at":"2026-02-09T10:32:41.000000Z"}]},"5":{"invest":[{"id":101,"plan_id":5,"commission_type":"invest","level":1,"percent":13,"is_active":true,"created_at":"2026-02-09T10:31:40.000000Z","updated_at":"2026-02-09T10:31:40.000000Z"},{"id":102,"plan_id":5,"commission_type":"invest","level":2,"percent":3,"is_active":true,"created_at":"2026-02-09T10:31:40.000000Z","updated_at":"2026-02-09T10:31:40.000000Z"}]},"8":{"invest":[{"id":111,"plan_id":8,"commission_type":"invest","level":1,"percent":13,"is_active":true,"created_at":"2026-02-09T10:32:33.000000Z","updated_at":"2026-02-09T10:32:33.000000Z"},{"id":112,"plan_id":8,"commission_type":"invest","level":2,"percent":3,"is_active":true,"created_at":"2026-02-09T10:32:33.000000Z","updated_at":"2026-02-09T10:32:33.000000Z"}]},"4":{"invest":[{"id":99,"plan_id":4,"commission_type":"invest","level":1,"percent":13,"is_active":true,"created_at":"2026-02-09T10:31:17.000000Z","updated_at":"2026-02-09T10:31:17.000000Z"},{"id":100,"plan_id":4,"commission_type":"invest","level":2,"percent":3,"is_active":true,"created_at":"2026-02-09T10:31:17.000000Z","updated_at":"2026-02-09T10:31:17.000000Z"}]},"10":{"invest":[{"id":115,"plan_id":10,"commission_type":"invest","level":1,"percent":13,"is_active":true,"created_at":"2026-02-09T10:32:49.000000Z","updated_at":"2026-02-09T10:32:49.000000Z"},{"id":116,"plan_id":10,"commission_type":"invest","level":2,"percent":3,"is_active":true,"created_at":"2026-02-09T10:32:49.000000Z","updated_at":"2026-02-09T10:32:49.000000Z"}]},"3":{"invest":[{"id":97,"plan_id":3,"commission_type":"invest","level":1,"percent":13,"is_active":true,"created_at":"2026-02-09T10:31:09.000000Z","updated_at":"2026-02-09T10:31:09.000000Z"},{"id":98,"plan_id":3,"commission_type":"invest","level":2,"percent":3,"is_active":true,"created_at":"2026-02-09T10:31:09.000000Z","updated_at":"2026-02-09T10:31:09.000000Z"}]},"2":{"invest":[{"id":95,"plan_id":2,"commission_type":"invest","level":1,"percent":13,"is_active":true,"created_at":"2026-02-09T10:31:01.000000Z","updated_at":"2026-02-09T10:31:01.000000Z"},{"id":96,"plan_id":2,"commission_type":"invest","level":2,"percent":3,"is_active":true,"created_at":"2026-02-09T10:31:01.000000Z","updated_at":"2026-02-09T10:31:01.000000Z"}]},"11":{"invest":[{"id":117,"plan_id":11,"commission_type":"invest","level":1,"percent":13,"is_active":true,"created_at":"2026-02-09T10:32:58.000000Z","updated_at":"2026-02-09T10:32:58.000000Z"},{"id":118,"plan_id":11,"commission_type":"invest","level":2,"percent":2,"is_active":true,"created_at":"2026-02-09T10:32:58.000000Z","updated_at":"2026-02-09T10:32:58.000000Z"}]}}
+</script>
+
+
+  <!-- Font Awesome (optional) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<style>
+    :root{
+      --bg1:#020617;
+      --bg2:#001b1a;
+      --card: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.12);
+      --glow: rgba(34,197,94,.22);
+      --green:#22c55e;
+      --lime:#a3e635;
+      --text:#e5e7eb;
+      --muted: rgba(229,231,235,.75);
+      --shadow: 0 18px 45px rgba(0,0,0,.35);
+      --radius: 22px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% 0%, rgba(163,230,53,.15), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(34,197,94,.12), transparent 55%),
+        linear-gradient(160deg, var(--bg1), #000 55%, var(--bg2));
+      min-height:100vh;
+    }
+
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1180px; margin:0 auto; padding:0 18px}
+    .blur{
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--stroke);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+/* 3D ICON INSIDE PLAN BUTTON */
+#plans .plan-btn .icon-3d{
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+
+  background: linear-gradient(135deg, #22c55e, #a3e635);
+  color: #04110a;
+  box-shadow:
+    inset 0 2px 6px rgba(255,255,255,.35),
+    0 6px 18px rgba(34,197,94,.35);
+}
+
+    /* NAV */
+    .nav{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 14px 0;
+      background: rgba(2,6,23,.55);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(14px);
+    }
+    .nav-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing:.2px;
+    }
+    .brand .logo{
+      width:42px; height:42px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      background: linear-gradient(135deg, rgba(34,197,94,.35), rgba(163,230,53,.18));
+      border: 1px solid rgba(163,230,53,.25);
+      box-shadow: 0 0 26px rgba(163,230,53,.12);
+    }
+    .brand small{
+      display:block;
+      font-weight:700;
+      color: var(--muted);
+      margin-top:2px;
+      letter-spacing:.1px;
+    }
+    .nav-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    /* BUTTONS */
+    .btn{
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding: 11px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      cursor:pointer;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(163,230,53,.35);
+      box-shadow: 0 10px 28px rgba(0,0,0,.35);
+      background: rgba(255,255,255,.08);
+    }
+    .btn-primary{
+      border: 1px solid rgba(163,230,53,.35);
+      background: linear-gradient(90deg, rgba(34,197,94,.95), rgba(163,230,53,.95));
+      color:#04110a;
+      box-shadow: 0 14px 30px rgba(34,197,94,.18);
+    }
+    .btn-primary:hover{ box-shadow: 0 16px 35px rgba(34,197,94,.26); }
+
+    /* HERO */
+    .hero{
+      padding: 34px 0 18px;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns:1fr}
+    }
+
+    .hero-card{
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+    .hero-media{
+      position: relative;
+      min-height: 320px;
+      background:
+        radial-gradient(700px 320px at 20% 10%, rgba(163,230,53,.22), transparent 55%),
+        radial-gradient(700px 320px at 90% 10%, rgba(34,197,94,.18), transparent 60%),
+        linear-gradient(135deg, rgba(2,6,23,.75), rgba(0,0,0,.35));
+    }
+    .hero-media img{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      opacity:.35;
+      filter: saturate(1.05) contrast(1.05);
+      transform: scale(1.02);
+    }
+    .hero-overlay{
+      position:absolute;
+      inset:0;
+      background: linear-gradient(90deg, rgba(2,6,23,.92), rgba(2,6,23,.45));
+    }
+    .hero-content{
+      position:relative;
+      padding: 28px;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(163,230,53,.25);
+      background: rgba(163,230,53,.10);
+      color: rgba(236,253,245,.95);
+      font-weight: 800;
+      letter-spacing:.1px;
+    }
+    .hero h1{
+      margin: 14px 0 10px;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.06;
+      letter-spacing:-.4px;
+    }
+    .hero p{
+      margin:0;
+      color: var(--muted);
+      font-size: 15.5px;
+      line-height:1.7;
+      max-width: 60ch;
+    }
+    .hero-cta{
+      margin-top: 18px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    /* STATS CARD */
+    .stat-card{
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+    .stat{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+    }
+    .stat b{font-size: 18px}
+    .stat span{color: var(--muted); font-weight: 700}
+    .mini{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+    }
+    .mini .ic{
+      width:44px;height:44px;border-radius: 16px;
+      display:grid;place-items:center;
+      border:1px solid rgba(163,230,53,.20);
+      background: linear-gradient(135deg, rgba(34,197,94,.18), rgba(163,230,53,.08));
+      box-shadow: 0 0 18px rgba(163,230,53,.10);
+    }
+
+    /* PLANS */
+    .section{padding: 20px 0 34px}
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap: 12px;
+      flex-wrap:wrap;
+      margin: 8px 0 14px;
+    }
+    .section-head h2{
+      margin:0;
+      font-size: 26px;
+      letter-spacing: -.2px;
+    }
+    .section-head p{
+      margin:0;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .plan-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 980px){
+      .plan-grid{grid-template-columns:1fr}
+    }
+
+    .plan{
+      border-radius: var(--radius);
+      padding: 18px;
+      position:relative;
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      transition: transform .15s ease, border-color .15s ease;
+    }
+    .plan:hover{transform: translateY(-2px)}
+    .plan:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(520px 200px at 20% 0%, rgba(163,230,53,.18), transparent 55%),
+                  radial-gradient(520px 200px at 90% 10%, rgba(34,197,94,.16), transparent 60%);
+      pointer-events:none;
+    }
+    .plan > *{position:relative}
+
+    .plan-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .plan-ico{
+      width:54px;height:54px;border-radius: 18px;
+      display:grid;place-items:center;
+      border:1px solid rgba(163,230,53,.22);
+      background: linear-gradient(135deg, rgba(34,197,94,.20), rgba(163,230,53,.10));
+      box-shadow: 0 0 22px rgba(34,197,94,.14);
+      font-size: 20px;
+    }
+    .pill{
+      padding: 8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.88);
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing:.3px;
+    }
+    .plan h3{
+      margin: 0 0 6px;
+      font-size: 20px;
+      letter-spacing:-.2px;
+    }
+    .price{
+      display:flex;
+      align-items:baseline;
+      gap: 8px;
+      margin: 10px 0 14px;
+    }
+    .price b{font-size: 30px}
+    .price span{color: var(--muted); font-weight: 800}
+
+    .features{
+      list-style:none;
+      padding:0;
+      margin: 0 0 14px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+    .features li{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      color: rgba(255,255,255,.88);
+      font-weight: 700;
+    }
+    .features i{
+      margin-top: 2px;
+      color: var(--lime);
+      text-shadow: 0 0 18px rgba(163,230,53,.25);
+    }
+
+    /* BANNER STRIP */
+    .strip{
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 220px;
+    }
+    @media (max-width: 980px){
+      .strip{grid-template-columns:1fr}
+    }
+    .strip .left{
+      padding: 22px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap: 10px;
+    }
+    .strip .left h3{margin:0; font-size: 22px}
+    .strip .left p{margin:0; color: var(--muted); font-weight:700; line-height:1.7}
+    .strip .right{
+      position:relative;
+      min-height: 220px;
+      background: linear-gradient(135deg, rgba(34,197,94,.20), rgba(2,6,23,.75));
+    }
+    .strip .right img{
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; opacity:.35;
+      filter: saturate(1.05) contrast(1.05);
+    }
+    .footer{
+      padding: 26px 0 40px;
+      color: rgba(229,231,235,.65);
+      font-weight: 700;
+      text-align:center;
+    }
+
+    /* small helper */
+    .divider{
+      height:1px;
+      background: rgba(255,255,255,.08);
+      margin: 10px 0 6px;
+    }
+  </style><!-- pricing section -->
+
+   <!-- PLANS -->
+  <section class="section" id="plans">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Investment Plans</h2>
+          <p>Pick the best plan for your goals</p>
+        </div>
+        <div class="pill"><i class="fa-solid fa-star"></i> Popular Plans</div>
+      </div>
+
+      <div class="plan-grid">
+            
+  
+      
+       
+
+        
+        <div class="plan blur">
+          <div class="plan-top">
+            <div class="plan-ico"><i class="fa-solid fa-crown"></i></div>
+            <div class="pill">VIP</div>
+          </div>
+          <h3>VIP-01</h3>
+          
+          <ul class="features">
+            <li><i class="fa-solid fa-check"></i> Plan Price:- <span style="color:var(--muted)"> 270 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Daily Profit:- <span style="color:var(--muted)"> 80 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Validity:- 65 Days</li>
+            <li><i class="fa-solid fa-check"></i> Total Profit:- 5200 Rs </li>
+            
+
+  <ul class="features mt-2">
+
+    <li>
+      <i class="fa-solid fa-users"></i>
+      Refer Bonus:
+    </li>
+
+    
+    
+      
+                        <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 1 :-
+            <span> 13%</span>
+          </li>
+                  <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 2 :-
+            <span> 3%</span>
+          </li>
+              
+      
+      
+      
+      
+    
+  </ul>
+
+
+          </ul>
+        <a href="javascript:void(0)"
+   data-price="270"
+   data-resource='{"id":1,"name":"VIP-01","badge":"","minimum_amount":"","maximum_amount":"","fixed_amount":"270","profit":"80.00","profit_type":0,"profit_is_random":0,"profit_min":"68.00","profit_max":"73.00","schedule":24,"status":1,"extra_commission":"0.00","is_capital_back":0,"is_lifetime":0,"repeatable":65,"featured":1,"created_at":"2026-01-04T09:05:17.000000Z","updated_at":"2026-01-11T06:03:57.000000Z","price":"Rs270"}'
+   class="btn btn-primary plan-btn investNow flex items-center justify-center gap-3">
+
+    <!-- 3D Green Icon -->
+    <span class="icon-3d" aria-hidden="true">
+        <i class="fa-solid fa-arrow-right"></i>
+    </span>
+
+    <!-- Button Text -->
+    <span class="font-extrabold tracking-wide">
+       Invest Plan
+    </span>
+</a>
+
+
+        </div>
+            
+  
+      
+       
+
+        
+        <div class="plan blur">
+          <div class="plan-top">
+            <div class="plan-ico"><i class="fa-solid fa-crown"></i></div>
+            <div class="pill">VIP</div>
+          </div>
+          <h3>VIP-02</h3>
+          
+          <ul class="features">
+            <li><i class="fa-solid fa-check"></i> Plan Price:- <span style="color:var(--muted)"> 650 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Daily Profit:- <span style="color:var(--muted)"> 160 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Validity:- 65 Days</li>
+            <li><i class="fa-solid fa-check"></i> Total Profit:- 10400 Rs </li>
+            
+
+  <ul class="features mt-2">
+
+    <li>
+      <i class="fa-solid fa-users"></i>
+      Refer Bonus:
+    </li>
+
+    
+    
+      
+                        <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 1 :-
+            <span> 13%</span>
+          </li>
+                  <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 2 :-
+            <span> 3%</span>
+          </li>
+              
+      
+      
+      
+      
+    
+  </ul>
+
+
+          </ul>
+        <a href="javascript:void(0)"
+   data-price="650"
+   data-resource='{"id":2,"name":"VIP-02","badge":"","minimum_amount":"","maximum_amount":"","fixed_amount":"650","profit":"160.00","profit_type":0,"profit_is_random":0,"profit_min":"190.00","profit_max":"198.00","schedule":24,"status":1,"extra_commission":"0.00","is_capital_back":0,"is_lifetime":0,"repeatable":65,"featured":1,"created_at":"2026-01-04T12:41:06.000000Z","updated_at":"2026-01-11T06:04:31.000000Z","price":"Rs650"}'
+   class="btn btn-primary plan-btn investNow flex items-center justify-center gap-3">
+
+    <!-- 3D Green Icon -->
+    <span class="icon-3d" aria-hidden="true">
+        <i class="fa-solid fa-arrow-right"></i>
+    </span>
+
+    <!-- Button Text -->
+    <span class="font-extrabold tracking-wide">
+       Invest Plan
+    </span>
+</a>
+
+
+        </div>
+            
+  
+      
+       
+
+        
+        <div class="plan blur">
+          <div class="plan-top">
+            <div class="plan-ico"><i class="fa-solid fa-crown"></i></div>
+            <div class="pill">VIP</div>
+          </div>
+          <h3>VIP-03</h3>
+          
+          <ul class="features">
+            <li><i class="fa-solid fa-check"></i> Plan Price:- <span style="color:var(--muted)"> 2750 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Daily Profit:- <span style="color:var(--muted)"> 685 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Validity:- 65 Days</li>
+            <li><i class="fa-solid fa-check"></i> Total Profit:- 44525 Rs </li>
+            
+
+  <ul class="features mt-2">
+
+    <li>
+      <i class="fa-solid fa-users"></i>
+      Refer Bonus:
+    </li>
+
+    
+    
+      
+                        <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 1 :-
+            <span> 13%</span>
+          </li>
+                  <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 2 :-
+            <span> 3%</span>
+          </li>
+              
+      
+      
+      
+      
+    
+  </ul>
+
+
+          </ul>
+        <a href="javascript:void(0)"
+   data-price="2750"
+   data-resource='{"id":3,"name":"VIP-03","badge":"","minimum_amount":"","maximum_amount":"","fixed_amount":"2750","profit":"685.00","profit_type":0,"profit_is_random":0,"profit_min":"340.00","profit_max":"348.00","schedule":24,"status":1,"extra_commission":"0.00","is_capital_back":0,"is_lifetime":0,"repeatable":65,"featured":1,"created_at":"2026-01-05T11:28:52.000000Z","updated_at":"2026-01-11T06:05:26.000000Z","price":"Rs2750"}'
+   class="btn btn-primary plan-btn investNow flex items-center justify-center gap-3">
+
+    <!-- 3D Green Icon -->
+    <span class="icon-3d" aria-hidden="true">
+        <i class="fa-solid fa-arrow-right"></i>
+    </span>
+
+    <!-- Button Text -->
+    <span class="font-extrabold tracking-wide">
+       Invest Plan
+    </span>
+</a>
+
+
+        </div>
+            
+  
+      
+       
+
+        
+        <div class="plan blur">
+          <div class="plan-top">
+            <div class="plan-ico"><i class="fa-solid fa-crown"></i></div>
+            <div class="pill">VIP</div>
+          </div>
+          <h3>VIP-04</h3>
+          
+          <ul class="features">
+            <li><i class="fa-solid fa-check"></i> Plan Price:- <span style="color:var(--muted)"> 5550 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Daily Profit:- <span style="color:var(--muted)"> 1385 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Validity:- 65 Days</li>
+            <li><i class="fa-solid fa-check"></i> Total Profit:- 90025 Rs </li>
+            
+
+  <ul class="features mt-2">
+
+    <li>
+      <i class="fa-solid fa-users"></i>
+      Refer Bonus:
+    </li>
+
+    
+    
+      
+                        <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 1 :-
+            <span> 13%</span>
+          </li>
+                  <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 2 :-
+            <span> 3%</span>
+          </li>
+              
+      
+      
+      
+      
+    
+  </ul>
+
+
+          </ul>
+        <a href="javascript:void(0)"
+   data-price="5550"
+   data-resource='{"id":4,"name":"VIP-04","badge":"","minimum_amount":"","maximum_amount":"","fixed_amount":"5550","profit":"1385.00","profit_type":0,"profit_is_random":0,"profit_min":"540.00","profit_max":"548.00","schedule":24,"status":1,"extra_commission":"0.00","is_capital_back":0,"is_lifetime":0,"repeatable":65,"featured":1,"created_at":"2026-01-05T11:29:38.000000Z","updated_at":"2026-01-11T06:06:00.000000Z","price":"Rs5550"}'
+   class="btn btn-primary plan-btn investNow flex items-center justify-center gap-3">
+
+    <!-- 3D Green Icon -->
+    <span class="icon-3d" aria-hidden="true">
+        <i class="fa-solid fa-arrow-right"></i>
+    </span>
+
+    <!-- Button Text -->
+    <span class="font-extrabold tracking-wide">
+       Invest Plan
+    </span>
+</a>
+
+
+        </div>
+            
+  
+      
+       
+
+        
+        <div class="plan blur">
+          <div class="plan-top">
+            <div class="plan-ico"><i class="fa-solid fa-crown"></i></div>
+            <div class="pill">VIP</div>
+          </div>
+          <h3>VIP-05</h3>
+          
+          <ul class="features">
+            <li><i class="fa-solid fa-check"></i> Plan Price:- <span style="color:var(--muted)"> 9550 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Daily Profit:- <span style="color:var(--muted)"> 2385 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Validity:- 65 Days</li>
+            <li><i class="fa-solid fa-check"></i> Total Profit:- 155025 Rs </li>
+            
+
+  <ul class="features mt-2">
+
+    <li>
+      <i class="fa-solid fa-users"></i>
+      Refer Bonus:
+    </li>
+
+    
+    
+      
+                        <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 1 :-
+            <span> 13%</span>
+          </li>
+                  <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 2 :-
+            <span> 3%</span>
+          </li>
+              
+      
+      
+      
+      
+    
+  </ul>
+
+
+          </ul>
+        <a href="javascript:void(0)"
+   data-price="9550"
+   data-resource='{"id":5,"name":"VIP-05","badge":"","minimum_amount":"","maximum_amount":"","fixed_amount":"9550","profit":"2385.00","profit_type":0,"profit_is_random":0,"profit_min":"840.00","profit_max":"848.00","schedule":24,"status":1,"extra_commission":"0.00","is_capital_back":0,"is_lifetime":0,"repeatable":65,"featured":1,"created_at":"2026-01-05T11:30:21.000000Z","updated_at":"2026-01-11T06:06:37.000000Z","price":"Rs9550"}'
+   class="btn btn-primary plan-btn investNow flex items-center justify-center gap-3">
+
+    <!-- 3D Green Icon -->
+    <span class="icon-3d" aria-hidden="true">
+        <i class="fa-solid fa-arrow-right"></i>
+    </span>
+
+    <!-- Button Text -->
+    <span class="font-extrabold tracking-wide">
+       Invest Plan
+    </span>
+</a>
+
+
+        </div>
+            
+  
+      
+       
+
+        
+        <div class="plan blur">
+          <div class="plan-top">
+            <div class="plan-ico"><i class="fa-solid fa-crown"></i></div>
+            <div class="pill">VIP</div>
+          </div>
+          <h3>VIP-06</h3>
+          
+          <ul class="features">
+            <li><i class="fa-solid fa-check"></i> Plan Price:- <span style="color:var(--muted)"> 17200 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Daily Profit:- <span style="color:var(--muted)"> 4300 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Validity:- 65 Days</li>
+            <li><i class="fa-solid fa-check"></i> Total Profit:- 279500 Rs </li>
+            
+
+  <ul class="features mt-2">
+
+    <li>
+      <i class="fa-solid fa-users"></i>
+      Refer Bonus:
+    </li>
+
+    
+    
+      
+                        <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 1 :-
+            <span> 13%</span>
+          </li>
+                  <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 2 :-
+            <span> 3%</span>
+          </li>
+              
+      
+      
+      
+      
+    
+  </ul>
+
+
+          </ul>
+        <a href="javascript:void(0)"
+   data-price="17200"
+   data-resource='{"id":6,"name":"VIP-06","badge":"","minimum_amount":"","maximum_amount":"","fixed_amount":"17200","profit":"4300.00","profit_type":0,"profit_is_random":0,"profit_min":"1340.00","profit_max":"1348.00","schedule":24,"status":1,"extra_commission":"0.00","is_capital_back":0,"is_lifetime":0,"repeatable":65,"featured":1,"created_at":"2026-01-05T11:30:56.000000Z","updated_at":"2026-01-11T06:08:02.000000Z","price":"Rs17200"}'
+   class="btn btn-primary plan-btn investNow flex items-center justify-center gap-3">
+
+    <!-- 3D Green Icon -->
+    <span class="icon-3d" aria-hidden="true">
+        <i class="fa-solid fa-arrow-right"></i>
+    </span>
+
+    <!-- Button Text -->
+    <span class="font-extrabold tracking-wide">
+       Invest Plan
+    </span>
+</a>
+
+
+        </div>
+            
+  
+      
+       
+
+        
+        <div class="plan blur">
+          <div class="plan-top">
+            <div class="plan-ico"><i class="fa-solid fa-crown"></i></div>
+            <div class="pill">VIP</div>
+          </div>
+          <h3>VIP-07</h3>
+          
+          <ul class="features">
+            <li><i class="fa-solid fa-check"></i> Plan Price:- <span style="color:var(--muted)"> 34200 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Daily Profit:- <span style="color:var(--muted)"> 8550 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Validity:- 65 Days</li>
+            <li><i class="fa-solid fa-check"></i> Total Profit:- 555750 Rs </li>
+            
+
+  <ul class="features mt-2">
+
+    <li>
+      <i class="fa-solid fa-users"></i>
+      Refer Bonus:
+    </li>
+
+    
+    
+      
+                        <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 1 :-
+            <span> 13%</span>
+          </li>
+                  <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 2 :-
+            <span> 3%</span>
+          </li>
+              
+      
+      
+      
+      
+    
+  </ul>
+
+
+          </ul>
+        <a href="javascript:void(0)"
+   data-price="34200"
+   data-resource='{"id":7,"name":"VIP-07","badge":"","minimum_amount":"","maximum_amount":"","fixed_amount":"34200","profit":"8550.00","profit_type":0,"profit_is_random":0,"profit_min":"2190.00","profit_max":"2198.00","schedule":24,"status":1,"extra_commission":"0.00","is_capital_back":0,"is_lifetime":0,"repeatable":65,"featured":1,"created_at":"2026-01-05T11:31:28.000000Z","updated_at":"2026-01-11T06:08:43.000000Z","price":"Rs34200"}'
+   class="btn btn-primary plan-btn investNow flex items-center justify-center gap-3">
+
+    <!-- 3D Green Icon -->
+    <span class="icon-3d" aria-hidden="true">
+        <i class="fa-solid fa-arrow-right"></i>
+    </span>
+
+    <!-- Button Text -->
+    <span class="font-extrabold tracking-wide">
+       Invest Plan
+    </span>
+</a>
+
+
+        </div>
+            
+  
+      
+       
+
+        
+        <div class="plan blur">
+          <div class="plan-top">
+            <div class="plan-ico"><i class="fa-solid fa-crown"></i></div>
+            <div class="pill">VIP</div>
+          </div>
+          <h3>VIP-08</h3>
+          
+          <ul class="features">
+            <li><i class="fa-solid fa-check"></i> Plan Price:- <span style="color:var(--muted)"> 66200 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Daily Profit:- <span style="color:var(--muted)"> 16550 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Validity:- 65 Days</li>
+            <li><i class="fa-solid fa-check"></i> Total Profit:- 1075750 Rs </li>
+            
+
+  <ul class="features mt-2">
+
+    <li>
+      <i class="fa-solid fa-users"></i>
+      Refer Bonus:
+    </li>
+
+    
+    
+      
+                        <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 1 :-
+            <span> 13%</span>
+          </li>
+                  <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 2 :-
+            <span> 3%</span>
+          </li>
+              
+      
+      
+      
+      
+    
+  </ul>
+
+
+          </ul>
+        <a href="javascript:void(0)"
+   data-price="66200"
+   data-resource='{"id":8,"name":"VIP-08","badge":"","minimum_amount":"","maximum_amount":"","fixed_amount":"66200","profit":"16550.00","profit_type":0,"profit_is_random":0,"profit_min":"3490.00","profit_max":"3498.00","schedule":24,"status":1,"extra_commission":"0.00","is_capital_back":0,"is_lifetime":0,"repeatable":65,"featured":1,"created_at":"2026-01-05T11:32:04.000000Z","updated_at":"2026-01-11T06:09:26.000000Z","price":"Rs66200"}'
+   class="btn btn-primary plan-btn investNow flex items-center justify-center gap-3">
+
+    <!-- 3D Green Icon -->
+    <span class="icon-3d" aria-hidden="true">
+        <i class="fa-solid fa-arrow-right"></i>
+    </span>
+
+    <!-- Button Text -->
+    <span class="font-extrabold tracking-wide">
+       Invest Plan
+    </span>
+</a>
+
+
+        </div>
+            
+  
+      
+       
+
+        
+        <div class="plan blur">
+          <div class="plan-top">
+            <div class="plan-ico"><i class="fa-solid fa-crown"></i></div>
+            <div class="pill">VIP</div>
+          </div>
+          <h3>VIP-09</h3>
+          
+          <ul class="features">
+            <li><i class="fa-solid fa-check"></i> Plan Price:- <span style="color:var(--muted)"> 97200 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Daily Profit:- <span style="color:var(--muted)"> 24500 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Validity:- 65 Days</li>
+            <li><i class="fa-solid fa-check"></i> Total Profit:- 1592500 Rs </li>
+            
+
+  <ul class="features mt-2">
+
+    <li>
+      <i class="fa-solid fa-users"></i>
+      Refer Bonus:
+    </li>
+
+    
+    
+      
+                        <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 1 :-
+            <span> 13%</span>
+          </li>
+                  <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 2 :-
+            <span> 3%</span>
+          </li>
+              
+      
+      
+      
+      
+    
+  </ul>
+
+
+          </ul>
+        <a href="javascript:void(0)"
+   data-price="97200"
+   data-resource='{"id":9,"name":"VIP-09","badge":"","minimum_amount":"","maximum_amount":"","fixed_amount":"97200","profit":"24500.00","profit_type":0,"profit_is_random":0,"profit_min":"5490.00","profit_max":"5498.00","schedule":24,"status":1,"extra_commission":"0.00","is_capital_back":0,"is_lifetime":0,"repeatable":65,"featured":1,"created_at":"2026-01-05T11:32:35.000000Z","updated_at":"2026-01-11T06:10:28.000000Z","price":"Rs97200"}'
+   class="btn btn-primary plan-btn investNow flex items-center justify-center gap-3">
+
+    <!-- 3D Green Icon -->
+    <span class="icon-3d" aria-hidden="true">
+        <i class="fa-solid fa-arrow-right"></i>
+    </span>
+
+    <!-- Button Text -->
+    <span class="font-extrabold tracking-wide">
+       Invest Plan
+    </span>
+</a>
+
+
+        </div>
+            
+  
+      
+       
+
+        
+        <div class="plan blur">
+          <div class="plan-top">
+            <div class="plan-ico"><i class="fa-solid fa-crown"></i></div>
+            <div class="pill">VIP</div>
+          </div>
+          <h3>VIP-10</h3>
+          
+          <ul class="features">
+            <li><i class="fa-solid fa-check"></i> Plan Price:- <span style="color:var(--muted)"> 187200 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Daily Profit:- <span style="color:var(--muted)"> 46800 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Validity:- 65 Days</li>
+            <li><i class="fa-solid fa-check"></i> Total Profit:- 3042000 Rs </li>
+            
+
+  <ul class="features mt-2">
+
+    <li>
+      <i class="fa-solid fa-users"></i>
+      Refer Bonus:
+    </li>
+
+    
+    
+      
+                        <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 1 :-
+            <span> 13%</span>
+          </li>
+                  <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 2 :-
+            <span> 3%</span>
+          </li>
+              
+      
+      
+      
+      
+    
+  </ul>
+
+
+          </ul>
+        <a href="javascript:void(0)"
+   data-price="187200"
+   data-resource='{"id":10,"name":"VIP-10","badge":"","minimum_amount":"","maximum_amount":"","fixed_amount":"187200","profit":"46800.00","profit_type":0,"profit_is_random":0,"profit_min":"8240.00","profit_max":"8248.00","schedule":24,"status":1,"extra_commission":"0.00","is_capital_back":0,"is_lifetime":0,"repeatable":65,"featured":1,"created_at":"2026-01-05T11:33:08.000000Z","updated_at":"2026-01-11T06:11:22.000000Z","price":"Rs187200"}'
+   class="btn btn-primary plan-btn investNow flex items-center justify-center gap-3">
+
+    <!-- 3D Green Icon -->
+    <span class="icon-3d" aria-hidden="true">
+        <i class="fa-solid fa-arrow-right"></i>
+    </span>
+
+    <!-- Button Text -->
+    <span class="font-extrabold tracking-wide">
+       Invest Plan
+    </span>
+</a>
+
+
+        </div>
+            
+  
+      
+       
+
+        
+        <div class="plan blur">
+          <div class="plan-top">
+            <div class="plan-ico"><i class="fa-solid fa-crown"></i></div>
+            <div class="pill">VIP</div>
+          </div>
+          <h3>VIP-11</h3>
+          
+          <ul class="features">
+            <li><i class="fa-solid fa-check"></i> Plan Price:- <span style="color:var(--muted)"> 374200 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Daily Profit:- <span style="color:var(--muted)"> 93500 Rs</span></li>
+            <li><i class="fa-solid fa-check"></i> Validity:- 65 Days</li>
+            <li><i class="fa-solid fa-check"></i> Total Profit:- 6077500 Rs </li>
+            
+
+  <ul class="features mt-2">
+
+    <li>
+      <i class="fa-solid fa-users"></i>
+      Refer Bonus:
+    </li>
+
+    
+    
+      
+                        <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 1 :-
+            <span> 13%</span>
+          </li>
+                  <li style="padding-left:28px">
+            <i class="fa-solid fa-check" style="opacity:.6"></i>
+            Level 2 :-
+            <span> 2%</span>
+          </li>
+              
+      
+      
+      
+      
+    
+  </ul>
+
+
+          </ul>
+        <a href="javascript:void(0)"
+   data-price="374200"
+   data-resource='{"id":11,"name":"VIP-11","badge":"","minimum_amount":"","maximum_amount":"","fixed_amount":"374200","profit":"93500.00","profit_type":0,"profit_is_random":0,"profit_min":"10740.00","profit_max":"10748.00","schedule":24,"status":1,"extra_commission":"0.00","is_capital_back":0,"is_lifetime":0,"repeatable":65,"featured":1,"created_at":"2026-01-05T11:33:38.000000Z","updated_at":"2026-01-11T06:12:13.000000Z","price":"Rs374200"}'
+   class="btn btn-primary plan-btn investNow flex items-center justify-center gap-3">
+
+    <!-- 3D Green Icon -->
+    <span class="icon-3d" aria-hidden="true">
+        <i class="fa-solid fa-arrow-right"></i>
+    </span>
+
+    <!-- Button Text -->
+    <span class="font-extrabold tracking-wide">
+       Invest Plan
+    </span>
+</a>
+
+
+        </div>
+
+   
+
+    
+  
+      </div>
+    </div>
+    </section>
+   
+    
+
+      
+  
+
+
+
+<!-- Modal -->
+<div id="investNowModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm">
+  <div class="relative w-[90%] max-w-md mx-auto">
+    
+    <div class="modal-content bg-gradient-to-b from-emerald-900 via-green-700 to-lime-500 rounded-2xl shadow-2xl overflow-hidden">
+
+      <!-- Modal Header -->
+      <div class="modal-header flex justify-between items-center px-5 py-3 bg-black/30 text-white border-0">
+        <h5 class="modal-title font-bold text-lg" id="investTitle">Investment Plan</h5>
+        <button type="button" class="btn-close text-white text-2xl leading-none">&times;</button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body p-6 bg-black/20 text-white text-center">
+        <h5 class="title plan-name text-2xl font-bold mb-2"></h5>
+        <p class="price-range text-lg mb-1"></p>
+        <p class="profit-details text-sm opacity-90"></p>
+        <p class="profit-validity text-sm mb-2 opacity-90"></p>
+
+        
+        <div id="modalReferBonusBox" class="mt-3 text-center hidden">
+            <p class="text-white font-semibold text-[15px] mb-1">Refer Bonus</p>
+
+            <div class="text-[13px] font-extrabold text-white drop-shadow space-y-2">
+                <div id="modalInvestBonus" class="hidden">
+                    <span class="block text-white/90 font-bold">Invest:</span>
+                    <div class="modalInvestLevels"></div>
+                </div>
+
+                <div id="modalProfitBonus" class="hidden">
+                    <span class="block text-white/90 font-bold">Profit:</span>
+                    <div class="modalProfitLevels"></div>
+                </div>
+
+                <div id="modalDepositBonus" class="hidden">
+                    <span class="block text-white/90 font-bold">Deposit:</span>
+                    <div class="modalDepositLevels"></div>
+                </div>
+
+                <div id="modalNoBonus" class="hidden">
+                    <span class="text-white/80 font-semibold">No referral bonus set for this plan.</span>
+                </div>
+            </div>
+        </div>
+
+        <form id="invest-form" action="https://allstartrade.pk/user/purchase-plan" method="post" class="space-y-4 mt-4">
+          <input type="hidden" name="_token" value="f9hClGeudksFH0ic82QNiMigtRTjPsniVHDh28Re">
+          <div>
+            <select name="balance_type" class="form-select w-full p-2 rounded-md bg-white/20 text-white font-semibold border border-white/30 focus:outline-none">
+              <option value="checkout">Direct Payment</option>
+            </select>
+          </div>
+
+          
+          <div class="flex items-center border border-lime-200/40 rounded-md overflow-hidden bg-white/10">
+            <input type="text" id="amount" name="amount"
+                   class="invest-amount flex-1 bg-transparent text-white px-3 py-2 focus:outline-none"
+                   placeholder="Enter amount" autocomplete="off"
+                   onkeyup="this.value = this.value.replace(/^\.|[^\d\.]/g, '')">
+
+            
+            <span class="show-currency px-3 py-2 bg-emerald-900/70 text-white font-bold border-l border-lime-200/25"></span>
+          </div>
+
+          <input type="hidden" name="plan_id" class="plan-id">
+
+          
+          <button type="submit"
+                  class="theme-btn7 w-full py-3  bg-gradient-to-r from-green-600 to-lime-500 hover:from-green-700 hover:to-lime-600 text-emerald-950 font-extrabold rounded-md transition shadow-[0_0_24px_rgba(132,204,22,.5)]">
+            Invest Now          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+    .modal-body{
+        background: #064e3b;
+    }
+    .theme-btn7{
+        background: linear-gradient(135deg, #22c55e, #84cc16);
+    }
+</style>
+
+  <!-- HOW IT WORKS + BANNER IMAGE -->
+  <section class="section" id="how">
+    <div class="container">
+      <div class="strip blur">
+        <div class="left">
+          <div class="badge"><i class="fa-solid fa-diagram-project"></i> How it works</div>
+          <h3>Start in 3 Simple Steps</h3>
+          <p>1) Register an account � 2) Choose an investment plan � 3) Track profit and withdraw anytime.</p>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
+            <a class="btn btn-primary" href="/register"><i class="fa-solid fa-user-plus"></i> Register Now</a>
+            <a class="btn" href="/login"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+          </div>
+        </div>
+        <div class="right">
+          <!-- Banner Image 2 (replace with your image) -->
+          <img src="https://images.unsplash.com/photo-1559526324-593bc073d938?auto=format&fit=crop&w=1400&q=70" alt="banner2">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    � <span id="yr"></span> All Star Trades � All Rights Reserved
+  </div>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+    <!-- Footer -->
+<footer class="mt-10 text-center text-white text-sm">
+    © 2026 All Rights Reserved.
+</footer>
+            <script src="https://allstartrade.pk/assets/global/js/jquery.min.js"></script>
+    <script src="https://allstartrade.pk/assets/global/js/bootstrap.min.js"></script>
+    <script src="https://allstartrade.pk/assets/global/js/notiflix-aio-2.7.0.min.js"></script>
+    <script src="https://allstartrade.pk/assets/global/js/pusher.min.js"></script>
+    <script src="https://allstartrade.pk/assets/global/js/vue.min.js"></script>
+    <script src="https://allstartrade.pk/assets/global/js/axios.min.js"></script>
+    <script src="/assets/themes/assets/frontend/js/cookie.js"></script>
+    <script src="/assets/themes/assets/global/js/custom.js"></script>
+
+    <script>
+        "use strict";
+        function notify(status, message) {
+            toastr[status](message);
+        }
+    </script>
+
+    <script>
+"use strict";
+
+(function ($) {
+
+    $(document).on('click', '.investNow', function (e) {
+        e.preventDefault();
+
+        let data  = $(this).data('resource');
+        let price = $(this).data('price');
+
+        // Set plan ID
+        $('.plan-id').val(data.id);
+
+        // Set amount
+        if (data.fixed_amount && data.fixed_amount != 0) {
+            $('.invest-amount').val(data.fixed_amount).prop('readonly', true);
+        } else {
+            $('.invest-amount').val(price).prop('readonly', false);
+        }
+
+        // Optional: set currency text
+        $('.show-currency').text("PKR");
+
+        // Submit form directly
+        $('#invest-form').submit();
+    });
+
+})(jQuery);
+</script>
+
+
+
+   
+
+    
+
+    
+    
+    
+    
+    <script>
+        // Disable right-click
+        // function ctrlShiftKey(e, keyCode) {
+        //     return e.ctrlKey && e.shiftKey && e.keyCode === keyCode.charCodeAt(0);
+        // }
+
+        // document.onkeydown = (e) => {
+        //     // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
+        //     if (
+        //         event.keyCode === 123 ||
+        //         ctrlShiftKey(e, 'I') ||
+        //         ctrlShiftKey(e, 'J') ||
+        //         ctrlShiftKey(e, 'C') ||
+        //         (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0))
+        //     )
+        //         return false;
+        // };
+    </script>
+
+</body>
+
+</html>

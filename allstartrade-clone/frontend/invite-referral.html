@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>All Star Trades | Invite Referral</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="shortcut icon" href="assets/uploads/logo/favicon.png" type="image/x-icon">
+    <style>
+        .history-wrap {
+            padding: 18px 16px 30px 16px;
+        }
+
+        .history-title {
+            color: #a3e635;
+            font-weight: 900;
+            font-size: 20px;
+            margin: 14px 0 14px 0;
+            text-align: center;
+        }
+
+        .panel {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(34, 197, 94, 0.18);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+
+        .ref-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .ref-input-group input {
+            flex: 1;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-weight: 700;
+        }
+
+        .copy-btn {
+            background: #22c55e;
+            color: #001b1a;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            color: #fff;
+            border-collapse: collapse;
+        }
+
+        thead tr {
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        th, td {
+            padding: 10px;
+            vertical-align: top;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #333;
+        }
+
+        .muted {
+            color: rgba(255,255,255,0.7);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-wrapper">
+        <header class="dash-header">
+            <div class="dash-logo">
+                <img src="assets/uploads/logo/logo.png" alt="All Star Trades">
+            </div>
+            <button class="menu-btn" id="menuToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </header>
+
+        <div class="mobile-menu-overlay" id="mobileMenu">
+            <div class="menu-content">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fa-solid fa-layer-group"></i> Dashboard
+                </a>
+                <a href="deposit.html" class="menu-item">Deposit</a>
+                <a href="running-plans.html" class="menu-item">My Plans</a>
+                <a href="deposit-transactions.html" class="menu-item">Deposit Transactions</a>
+                <a href="all-transactions.html" class="menu-item">All Transactions</a>
+                <a href="withdraw.html" class="menu-item">Withdraw</a>
+                <a href="withdraw-history.html" class="menu-item">Withdraw History</a>
+                <a href="invite-referral.html" class="menu-item active">Invite Referral</a>
+                <a href="settings.html" class="menu-item">Settings</a>
+                <a href="referral-bonus.html" class="menu-item">Referral Bonus Transaction</a>
+                <a href="#" class="menu-item" id="logoutBtn">Logout</a>
+            </div>
+        </div>
+
+        <div class="history-wrap">
+            <div class="history-title">Invite Referral</div>
+
+            <div class="panel">
+                <div class="ref-input-group">
+                    <input type="text" id="refLink" value="" readonly>
+                    <button class="copy-btn" id="copyRefBtn"><i class="fa-regular fa-copy"></i> Copy</button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Phone/Email</th>
+                                <th>Joined</th>
+                            </tr>
+                        </thead>
+                        <tbody id="referralsBody">
+                            <tr>
+                                <td colspan="3" class="muted">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const bodyEl = document.getElementById('referralsBody');
+            const refLinkInput = document.getElementById('refLink');
+            const copyRefBtn = document.getElementById('copyRefBtn');
+
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('active');
+                    const icon = menuToggle.querySelector('i');
+                    if (mobileMenu.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+
+                mobileMenu.addEventListener('click', (e) => {
+                    if (e.target === mobileMenu) {
+                        mobileMenu.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    window.location.href = 'login.html';
+                });
+            }
+
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const getApiUrl = (endpoint) => {
+                if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
+                    if (window.location.port === '5500' || window.location.port === '5501') {
+                        return `http://localhost:3000${endpoint}`;
+                    }
+                }
+                return endpoint;
+            };
+
+            const setLoading = (text) => {
+                if (!bodyEl) return;
+                bodyEl.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="muted">${text}</td>
+                    </tr>
+                `;
+            };
+
+            const render = (list) => {
+                if (!bodyEl) return;
+                bodyEl.innerHTML = '';
+
+                if (!list.length) {
+                    setLoading('No records');
+                    return;
+                }
+
+                list.forEach(u => {
+                    const tr = document.createElement('tr');
+                    const joined = u.createdAt ? new Date(u.createdAt).toLocaleDateString() : '-';
+                    tr.innerHTML = `
+                        <td>${u.name || '-'}</td>
+                        <td>${u.email || '-'}</td>
+                        <td>${joined}</td>
+                    `;
+                    bodyEl.appendChild(tr);
+                });
+            };
+
+            const fetchRefLink = async () => {
+                try {
+                    const res = await fetch(getApiUrl('/api/user'), {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (!res.ok) return;
+                    const user = await res.json();
+                    if (refLinkInput && user._id) {
+                        const registerPath = window.location.pathname.includes('.html') ? 'register.html' : 'register';
+                        refLinkInput.value = `${window.location.origin}/${registerPath}?ref=${user._id}`;
+                    }
+                } catch {
+                }
+            };
+
+            const fetchReferrals = async () => {
+                setLoading('Loading...');
+                try {
+                    const res = await fetch(getApiUrl('/api/referrals'), {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (!res.ok) {
+                        const err = await res.json().catch(() => ({}));
+                        throw new Error(err.message || 'Request failed');
+                    }
+                    const data = await res.json();
+                    render(Array.isArray(data) ? data : []);
+                } catch (e) {
+                    setLoading(e.message || 'Failed to load');
+                }
+            };
+
+            if (copyRefBtn) {
+                copyRefBtn.addEventListener('click', () => {
+                    const value = refLinkInput ? refLinkInput.value : '';
+                    if (!value) return;
+                    navigator.clipboard.writeText(value);
+                });
+            }
+
+            fetchRefLink();
+            fetchReferrals();
+        });
+    </script>
+</body>
+</html>

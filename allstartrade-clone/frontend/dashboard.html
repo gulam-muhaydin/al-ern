@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>All Star Trades | Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="shortcut icon" href="assets/uploads/logo/favicon.png" type="image/x-icon">
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-wrapper">
+        <!-- Header -->
+        <header class="dash-header">
+            <div class="dash-logo">
+                <img src="assets/uploads/logo/logo.png" alt="All Star Trades">
+            </div>
+            <button class="menu-btn" id="menuToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </header>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobileMenu">
+            <div class="menu-content">
+                <a href="dashboard.html" class="menu-item active">
+                    <i class="fa-solid fa-layer-group"></i> Dashboard
+                </a>
+                <a href="deposit.html" class="menu-item">Deposit</a>
+                <a href="running-plans.html" class="menu-item">My Plans</a>
+                <a href="deposit-transactions.html" class="menu-item">Deposit Transactions</a>
+                <a href="all-transactions.html" class="menu-item">All Transactions</a>
+                <a href="withdraw.html" class="menu-item">Withdraw</a>
+                <a href="withdraw-history.html" class="menu-item">Withdraw History</a>
+                <a href="invite-referral.html" class="menu-item">Invite Referral</a>
+                <a href="settings.html" class="menu-item">Settings</a>
+                <a href="referral-bonus.html" class="menu-item">Referral Bonus Transaction</a>
+                <a href="#" class="menu-item" id="logoutBtn">Logout</a>
+            </div>
+        </div>
+
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+            Welcome to All Star
+        </div>
+
+        <!-- Profile Card -->
+        <div class="profile-card">
+            <div class="avatar-circle">
+                <img src="assets/images/avatar.png" alt="User" onerror="this.src='https://cdn-icons-png.flaticon.com/512/147/147142.png'">
+            </div>
+            <div class="user-info">
+                <h3>Welcome! <span id="welcomeName">User</span></h3>
+                <span class="ref-badge">Ref by:- N/A</span>
+            </div>
+        </div>
+
+        <!-- Balance Section -->
+        <div class="balance-section">
+            <div class="balance-amount">Rs0.0</div>
+            
+            <div class="action-buttons">
+                <div class="action-btn-main" onclick="window.location.href='deposit.html'">Deposit</div>
+                <div class="action-btn-main" onclick="window.location.href='withdraw.html'">Withdraw</div>
+                <div class="action-btn-main" onclick="window.location.href='running-plans.html'">Next Profit</div>
+            </div>
+        </div>
+
+        <!-- Referral Link -->
+        <div class="referral-section">
+            <h3>Referral Link</h3>
+            <div class="ref-input-group">
+                <input type="text" value="https://allstartrade.pk/register" readonly id="refLink">
+                <button class="copy-btn" onclick="copyRef()">
+                    <i class="fa-regular fa-copy"></i> Copy
+                </button>
+            </div>
+        </div>
+
+        <!-- Quick Buttons Grid -->
+        <div class="quick-grid">
+            <h4>Quick Buttons</h4>
+            
+            <a href="deposit-transactions.html" class="quick-item">
+                <div class="icon-box">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span class="badge">1</span>
+                </div>
+                <span>Deposit<br>Record</span>
+            </a>
+
+            <a href="withdraw-history.html" class="quick-item">
+                <div class="icon-box">
+                    <i class="fa-solid fa-money-bill-transfer"></i>
+                    <span class="badge">1</span>
+                </div>
+                <span>Withdraw<br>Record</span>
+            </a>
+
+            <a href="all-transactions.html" class="quick-item">
+                <div class="icon-box">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span class="badge">1</span>
+                </div>
+                <span>All Profit<br>Record</span>
+            </a>
+
+            <a href="referral-bonus.html" class="quick-item">
+                <div class="icon-box">
+                    <i class="fa-solid fa-gift"></i>
+                    <span class="badge">1</span>
+                </div>
+                <span>Refer Bonus<br>Record</span>
+            </a>
+
+            <a href="invite-referral.html" class="quick-item">
+                <div class="icon-box">
+                    <i class="fa-solid fa-users"></i>
+                    <span class="badge">1</span>
+                </div>
+                <span>My Team</span>
+            </a>
+
+            <a href="#" class="quick-item">
+                <div class="icon-box">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <span>Admin</span>
+            </a>
+
+            <a href="#" class="quick-item">
+                <div class="icon-box">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <span>Channel</span>
+            </a>
+
+            <a href="#" class="quick-item">
+                <div class="icon-box">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <span>Owner<br>Contact</span>
+            </a>
+
+            <a href="assets/app/allstartrade.apk" class="quick-item" id="downloadAppBtn">
+                <div class="icon-box">
+                    <i class="fa-solid fa-download"></i>
+                    <span class="badge">1</span>
+                </div>
+                <span>Download<br>App</span>
+            </a>
+
+            <a href="#" class="quick-item">
+                <div class="icon-box">
+                    <i class="fa-solid fa-certificate"></i>
+                    <span class="badge">1</span>
+                </div>
+                <span>FBR Check</span>
+            </a>
+
+            <a href="#" class="quick-item" id="logoutBtn2">
+                <div class="icon-box">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span class="badge">1</span>
+                </div>
+                <span>Logout</span>
+            </a>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-title">Total Deposit</div>
+                <div class="stat-num">Rs0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-title">Total Withdraw</div>
+                <div class="stat-num" id="refBonusStat">Rs0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-title">Refer Bonus</div>
+                <div class="stat-num">Rs0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-title">All Profit</div>
+                <div class="stat-num">Rs0.0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-title">Total Team</div>
+                <div class="stat-num">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-title">Team Investment</div>
+                <div class="stat-num">Rs0</div>
+            </div>
+        </div>
+
+        <!-- Admin Section (Hidden by default, preserved for functionality) -->
+        <div id="adminSection" style="display:none; padding: 20px;">
+            <h2 style="color:#a3e635; margin-bottom: 20px;">Admin Control Panel</h2>
+            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px;">
+                <button id="refreshUsers" style="background: #22c55e; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;">Refresh Users</button>
+                <div style="overflow-x:auto; margin-top: 15px;">
+                    <table style="width: 100%; color: #fff; border-collapse: collapse;">
+                        <thead>
+                            <tr style="text-align: left; border-bottom: 1px solid #333;">
+                                <th style="padding: 10px;">Name</th>
+                                <th style="padding: 10px;">Email</th>
+                                <th style="padding: 10px;">Role</th>
+                                <th style="padding: 10px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px;">
+                <div style="display:flex; align-items:center; justify-content: space-between; gap: 12px;">
+                    <h3 style="color:#a3e635; margin: 0;">Deposit Requests</h3>
+                    <button id="refreshDepositRequests" style="background: #22c55e; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;">Refresh</button>
+                </div>
+                <div style="overflow-x:auto; margin-top: 15px;">
+                    <table style="width: 100%; color: #fff; border-collapse: collapse;">
+                        <thead>
+                            <tr style="text-align: left; border-bottom: 1px solid #333;">
+                                <th style="padding: 10px;">User</th>
+                                <th style="padding: 10px;">Plan</th>
+                                <th style="padding: 10px;">Amount</th>
+                                <th style="padding: 10px;">Method</th>
+                                <th style="padding: 10px;">TX</th>
+                                <th style="padding: 10px;">Proof</th>
+                                <th style="padding: 10px;">Status</th>
+                                <th style="padding: 10px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="depositRequestsBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hidden elements for JS compatibility -->
+        <div style="display:none;">
+            <span id="headerUsername"></span>
+            <span id="userRole"></span>
+            <span id="joinDate"></span>
+            <div id="userInfoHeader"></div>
+        </div>
+
+    </div>
+
+    <script>
+        function copyRef() {
+            const copyText = document.getElementById("refLink");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); 
+            navigator.clipboard.writeText(copyText.value);
+            alert("Referral link copied: " + copyText.value);
+        }
+    </script>
+    <script src="js/dashboard.js"></script>
+    <script>
+        // Additional logout handler for the new grid button
+        document.addEventListener('DOMContentLoaded', () => {
+            const logoutBtn2 = document.getElementById('logoutBtn2');
+            const menuLogoutBtn = document.querySelector('.menu-item#logoutBtn');
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const balanceEl = document.querySelector('.balance-section .balance-amount');
+            const downloadAppBtn = document.getElementById('downloadAppBtn');
+
+            const PLAN_KEY = 'ast_active_plan';
+            const BALANCE_KEY = 'ast_wallet_balance';
+            const DAY_MS = 24 * 60 * 60 * 1000;
+
+            const getBalance = () => {
+                const n = Number(localStorage.getItem(BALANCE_KEY) || '0');
+                return Number.isFinite(n) ? n : 0;
+            };
+
+            const setBalance = (value) => {
+                localStorage.setItem(BALANCE_KEY, String(value));
+            };
+
+            if (downloadAppBtn) {
+                const appUrl = localStorage.getItem('ast_app_download_url') || 'assets/app/allstartrade.apk';
+                downloadAppBtn.setAttribute('href', appUrl);
+                downloadAppBtn.setAttribute('download', 'allstartrade.apk');
+                downloadAppBtn.setAttribute('target', '_blank');
+            }
+
+            const getActivePlan = () => {
+                try {
+                    const raw = localStorage.getItem(PLAN_KEY);
+                    if (!raw) return null;
+                    const data = JSON.parse(raw);
+                    if (!data || !data.id) return null;
+                    return data;
+                } catch {
+                    return null;
+                }
+            };
+
+            const setActivePlan = (plan) => {
+                if (!plan) {
+                    localStorage.removeItem(PLAN_KEY);
+                    return;
+                }
+                localStorage.setItem(PLAN_KEY, JSON.stringify(plan));
+            };
+
+            const syncPlanPayouts = () => {
+                const plan = getActivePlan();
+                if (!plan) return;
+
+                const now = Date.now();
+                const payoutsDone = Number(plan.payoutsDone || 0);
+                const validityDays = Number(plan.validityDays || 0);
+                const dailyProfit = Number(plan.dailyProfit || 0);
+                const lastPayoutAt = Number(plan.lastPayoutAt || plan.startedAt || now);
+
+                const remaining = Math.max(0, validityDays - payoutsDone);
+                if (remaining <= 0) {
+                    setActivePlan(null);
+                    return;
+                }
+
+                const elapsed = now - lastPayoutAt;
+                const periods = Math.floor(elapsed / DAY_MS);
+                const payable = Math.min(periods, remaining);
+                if (payable > 0) {
+                    setBalance(getBalance() + payable * dailyProfit);
+
+                    const newPayoutsDone = payoutsDone + payable;
+                    const newLastPayoutAt = lastPayoutAt + payable * DAY_MS;
+
+                    if (newPayoutsDone >= validityDays) {
+                        setActivePlan(null);
+                        return;
+                    }
+
+                    setActivePlan({
+                        ...plan,
+                        payoutsDone: newPayoutsDone,
+                        lastPayoutAt: newLastPayoutAt,
+                    });
+                }
+            };
+
+            const renderBalance = () => {
+                if (!balanceEl) return;
+                const balance = getBalance();
+                balanceEl.textContent = `Rs${balance.toFixed(1)}`;
+            };
+
+            // Toggle Mobile Menu
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('active');
+                    const icon = menuToggle.querySelector('i');
+                    if (mobileMenu.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+
+                // Close menu when clicking outside
+                mobileMenu.addEventListener('click', (e) => {
+                    if (e.target === mobileMenu) {
+                        mobileMenu.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+
+            const handleLogout = (e) => {
+                e.preventDefault();
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = 'login.html';
+            };
+
+            if(logoutBtn2) {
+                logoutBtn2.addEventListener('click', handleLogout);
+            }
+
+            if(menuLogoutBtn) {
+                menuLogoutBtn.addEventListener('click', handleLogout);
+            }
+
+            if (!localStorage.getItem(BALANCE_KEY)) {
+                localStorage.setItem(BALANCE_KEY, '0');
+            }
+
+            syncPlanPayouts();
+            renderBalance();
+            setInterval(() => {
+                syncPlanPayouts();
+                renderBalance();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

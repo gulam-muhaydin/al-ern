@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>All Star Trades | Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="shortcut icon" href="assets/uploads/logo/favicon.png" type="image/x-icon">
+    <style>
+        .admin-wrap {
+            padding: 18px 16px 30px 16px;
+        }
+
+        .admin-title {
+            color: #a3e635;
+            font-weight: 900;
+            font-size: 20px;
+            margin: 14px 0 14px 0;
+            text-align: center;
+        }
+
+        .panel {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(34, 197, 94, 0.18);
+            border-radius: 14px;
+            padding: 14px;
+        }
+
+        .panel + .panel {
+            margin-top: 16px;
+        }
+
+        .panel-head {
+            display:flex;
+            align-items:center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .panel-head h3 {
+            margin: 0;
+            color: #a3e635;
+            font-size: 16px;
+            font-weight: 900;
+        }
+
+        .btn {
+            background: #22c55e;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 900;
+            color: #0b1a0b;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .btn-dark {
+            background: #111;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .proof-thumb {
+            width: 54px;
+            height: 54px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid rgba(255,255,255,0.2);
+            cursor: pointer;
+        }
+
+        .proof-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 9998;
+        }
+
+        .proof-modal img {
+            max-width: 92vw;
+            max-height: 82vh;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.18);
+            box-shadow: 0 18px 50px rgba(0,0,0,0.55);
+        }
+
+        .proof-close {
+            position: fixed;
+            top: 18px;
+            right: 18px;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 9999;
+        }
+
+        table {
+            width: 100%;
+            color: #fff;
+            border-collapse: collapse;
+        }
+
+        thead tr {
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        th, td {
+            padding: 10px;
+            vertical-align: top;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #333;
+        }
+
+        .muted {
+            color: rgba(255,255,255,0.7);
+            font-weight: 700;
+        }
+
+        .pin-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.72);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 22px;
+            z-index: 9999;
+        }
+
+        .pin-card {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(0,0,0,0.55);
+            border: 1px solid rgba(34, 197, 94, 0.28);
+            border-radius: 18px;
+            padding: 18px;
+            box-shadow: 0 18px 50px rgba(0,0,0,0.5);
+        }
+
+        .pin-card h3 {
+            margin: 0 0 10px 0;
+            color: #a3e635;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        .pin-input {
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.18);
+            background: rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 14px 14px;
+            color: #fff;
+            font-weight: 900;
+            outline: none;
+            letter-spacing: 4px;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .pin-error {
+            margin-top: 10px;
+            color: #ef4444;
+            font-weight: 900;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-wrapper">
+        <header class="dash-header">
+            <div class="dash-logo">
+                <img src="assets/uploads/logo/logo.png" alt="All Star Trades">
+            </div>
+            <button class="menu-btn" id="menuToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </header>
+
+        <div class="mobile-menu-overlay" id="mobileMenu">
+            <div class="menu-content">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fa-solid fa-layer-group"></i> Dashboard
+                </a>
+                <a href="deposit.html" class="menu-item">Deposit</a>
+                <a href="running-plans.html" class="menu-item">My Plans</a>
+                <a href="withdraw.html" class="menu-item">Withdraw</a>
+                <a href="admin.html" class="menu-item active">Admin</a>
+                <a href="#" class="menu-item" id="logoutBtn">Logout</a>
+            </div>
+        </div>
+
+        <div class="admin-wrap" id="adminApp" style="display:none;">
+            <div class="admin-title">Admin Panel</div>
+
+            <div class="panel">
+                <div class="panel-head">
+                    <h3>Deposit Requests</h3>
+                    <button class="btn" id="refreshDepositRequests">Refresh</button>
+                </div>
+
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Plan</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>TX</th>
+                                <th>Proof</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="depositRequestsBody">
+                            <tr>
+                                <td colspan="8" class="muted">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">
+                    <h3>Withdraw Requests</h3>
+                    <button class="btn" id="refreshWithdrawRequests">Refresh</button>
+                </div>
+
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Account</th>
+                                <th>Wallet</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="withdrawRequestsBody">
+                            <tr>
+                                <td colspan="7" class="muted">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="proof-modal" id="proofModal">
+        <div class="proof-close" id="proofClose"><i class="fa-solid fa-xmark"></i></div>
+        <img id="proofModalImg" alt="Proof">
+    </div>
+
+    <div class="pin-overlay" id="pinOverlay" style="display:none;">
+        <div class="pin-card">
+            <h3>Enter Admin PIN</h3>
+            <input class="pin-input" id="pinInput" type="password" inputmode="numeric" placeholder="••••" maxlength="8" />
+            <button class="btn" id="pinBtn" style="width:100%; margin-top: 12px;">Enter</button>
+            <div class="pin-error" id="pinError">Wrong PIN</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('active');
+                    const icon = menuToggle.querySelector('i');
+                    if (mobileMenu.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+
+                mobileMenu.addEventListener('click', (e) => {
+                    if (e.target === mobileMenu) {
+                        mobileMenu.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    window.location.href = 'login.html';
+                });
+            }
+
+            const token = localStorage.getItem('token') || '';
+
+            const PIN_KEY = 'ast_admin_pin_ok';
+            const REQUIRED_PIN = '2227';
+            const adminApp = document.getElementById('adminApp');
+            const pinOverlay = document.getElementById('pinOverlay');
+            const pinInput = document.getElementById('pinInput');
+            const pinBtn = document.getElementById('pinBtn');
+            const pinError = document.getElementById('pinError');
+            const proofModal = document.getElementById('proofModal');
+            const proofModalImg = document.getElementById('proofModalImg');
+            const proofClose = document.getElementById('proofClose');
+
+            const getApiUrl = (endpoint) => {
+                if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
+                    if (window.location.port === '5500' || window.location.port === '5501') {
+                        return `http://localhost:3000${endpoint}`;
+                    }
+                }
+                return endpoint;
+            };
+
+            const buildHeaders = (includeJson) => {
+                const headers = {};
+                if (includeJson) headers['Content-Type'] = 'application/json';
+                if (token) headers['Authorization'] = `Bearer ${token}`;
+                headers['X-Admin-Pin'] = REQUIRED_PIN;
+                return headers;
+            };
+
+            const refreshBtn = document.getElementById('refreshDepositRequests');
+            const bodyEl = document.getElementById('depositRequestsBody');
+            let lastRequests = [];
+
+            const withdrawRefreshBtn = document.getElementById('refreshWithdrawRequests');
+            const withdrawBodyEl = document.getElementById('withdrawRequestsBody');
+            let lastWithdrawRequests = [];
+
+            const setLoading = (text) => {
+                if (!bodyEl) return;
+                bodyEl.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="muted">${text}</td>
+                    </tr>
+                `;
+            };
+
+            const setWithdrawLoading = (text) => {
+                if (!withdrawBodyEl) return;
+                withdrawBodyEl.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="muted">${text}</td>
+                    </tr>
+                `;
+            };
+
+            const render = (requests) => {
+                if (!bodyEl) return;
+                bodyEl.innerHTML = '';
+
+                if (!requests.length) {
+                    setLoading('No requests');
+                    return;
+                }
+
+                requests.forEach(r => {
+                    const tr = document.createElement('tr');
+                    const userText = r.userName ? `${r.userName}\n${r.userEmail || ''}` : (r.userEmail || r.userId || '-');
+                    const hasProof = r.proof && r.proof.dataUrl;
+                    const status = r.status || 'pending';
+                    const statusColor = status === 'approved' ? '#22c55e' : (status === 'rejected' ? '#ef4444' : '#a3e635');
+                    const approveDisabled = status === 'approved' ? 'disabled' : '';
+                    const rejectDisabled = status === 'rejected' ? 'disabled' : '';
+                    const proofHtml = hasProof ? `<img class="proof-thumb" src="${r.proof.dataUrl}" data-action="view-proof" data-id="${r._id}" alt="Proof">` : '-';
+
+                    tr.innerHTML = `
+                        <td style="white-space: pre-line;">${userText}</td>
+                        <td>${r.planId || '-'}</td>
+                        <td>${r.amount || '-'}</td>
+                        <td>${r.method || '-'}</td>
+                        <td>${r.transactionId || '-'}</td>
+                        <td>${proofHtml}</td>
+                        <td><span style="color:${statusColor}; font-weight:900;">${status}</span></td>
+                        <td style="display:flex; gap:8px; flex-wrap: wrap;">
+                            <button class="btn" data-action="approve" data-id="${r._id}" ${approveDisabled}>Approve</button>
+                            <button class="btn btn-danger" data-action="reject" data-id="${r._id}" ${rejectDisabled}>Reject</button>
+                        </td>
+                    `;
+                    bodyEl.appendChild(tr);
+                });
+
+                bodyEl.querySelectorAll('button[data-action]').forEach(btn => {
+                    btn.addEventListener('click', handleAction);
+                });
+            };
+
+            const fetchRequests = async () => {
+                setLoading('Loading...');
+                try {
+                    const res = await fetch(getApiUrl('/api/deposit-requests'), {
+                        headers: buildHeaders(false)
+                    });
+                    if (!res.ok) {
+                        const err = await res.json().catch(() => ({}));
+                        throw new Error(err.message || 'Request failed');
+                    }
+                    const data = await res.json();
+                    lastRequests = Array.isArray(data) ? data : [];
+                    render(lastRequests);
+                } catch (e) {
+                    setLoading(e.message || 'Failed to load');
+                }
+            };
+
+            const renderWithdraw = (requests) => {
+                if (!withdrawBodyEl) return;
+                withdrawBodyEl.innerHTML = '';
+
+                if (!requests.length) {
+                    setWithdrawLoading('No requests');
+                    return;
+                }
+
+                requests.forEach(r => {
+                    const tr = document.createElement('tr');
+                    const userText = r.userName ? `${r.userName}\n${r.userEmail || ''}` : (r.userEmail || r.userId || '-');
+                    const status = r.status || 'pending';
+                    const statusColor = status === 'approved' ? '#22c55e' : (status === 'rejected' ? '#ef4444' : '#a3e635');
+                    const approveDisabled = status === 'approved' ? 'disabled' : '';
+                    const rejectDisabled = status === 'rejected' ? 'disabled' : '';
+                    const accountText = `${r.accountName || '-'}\n${r.accountNumber || '-'}`;
+                    const walletText = r.fromWallet === 'interest' ? 'Interest' : 'Current';
+
+                    tr.innerHTML = `
+                        <td style="white-space: pre-line;">${userText}</td>
+                        <td>${r.amount || '-'}</td>
+                        <td>${r.method || '-'}</td>
+                        <td style="white-space: pre-line;">${accountText}</td>
+                        <td>${walletText}</td>
+                        <td><span style="color:${statusColor}; font-weight:900;">${status}</span></td>
+                        <td style="display:flex; gap:8px; flex-wrap: wrap;">
+                            <button class="btn" data-action="approve-withdraw" data-id="${r._id}" ${approveDisabled}>Approve</button>
+                            <button class="btn btn-danger" data-action="reject-withdraw" data-id="${r._id}" ${rejectDisabled}>Reject</button>
+                        </td>
+                    `;
+                    withdrawBodyEl.appendChild(tr);
+                });
+
+                withdrawBodyEl.querySelectorAll('button[data-action]').forEach(btn => {
+                    btn.addEventListener('click', handleWithdrawAction);
+                });
+            };
+
+            const fetchWithdrawRequests = async () => {
+                setWithdrawLoading('Loading...');
+                try {
+                    const res = await fetch(getApiUrl('/api/withdraw-requests'), {
+                        headers: buildHeaders(false)
+                    });
+                    if (!res.ok) {
+                        const err = await res.json().catch(() => ({}));
+                        throw new Error(err.message || 'Request failed');
+                    }
+                    const data = await res.json();
+                    lastWithdrawRequests = Array.isArray(data) ? data : [];
+                    renderWithdraw(lastWithdrawRequests);
+                } catch (e) {
+                    setWithdrawLoading(e.message || 'Failed to load');
+                }
+            };
+
+            const updateWithdrawStatus = async (id, status) => {
+                const res = await fetch(getApiUrl(`/api/withdraw-requests?id=${encodeURIComponent(id)}`), {
+                    method: 'PATCH',
+                    headers: buildHeaders(true),
+                    body: JSON.stringify({ status })
+                });
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    throw new Error(err.message || 'Failed to update');
+                }
+                const data = await res.json().catch(() => null);
+                return data;
+            };
+
+            const updateStatus = async (id, status) => {
+                const res = await fetch(getApiUrl(`/api/deposit-requests?id=${encodeURIComponent(id)}`), {
+                    method: 'PATCH',
+                    headers: buildHeaders(true),
+                    body: JSON.stringify({ status })
+                });
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    throw new Error(err.message || 'Failed to update');
+                }
+                const data = await res.json().catch(() => null);
+                return data;
+            };
+
+            async function handleAction(e) {
+                const action = e.target.dataset.action;
+                const id = e.target.dataset.id;
+                if (!action || !id) return;
+
+                if (action === 'view-proof') {
+                    const req = lastRequests.find(r => r && r._id === id);
+                    const dataUrl = req?.proof?.dataUrl;
+                    if (dataUrl && proofModalImg && proofModal) {
+                        proofModalImg.src = dataUrl;
+                        proofModal.style.display = 'flex';
+                    }
+                    return;
+                }
+
+                const status = action === 'approve' ? 'approved' : 'rejected';
+                try {
+                    e.target.disabled = true;
+                    const updated = await updateStatus(id, status);
+
+                    const idx = lastRequests.findIndex(r => r && r._id === id);
+                    if (idx !== -1) {
+                        lastRequests[idx] = updated && updated._id ? updated : { ...lastRequests[idx], status };
+                        render(lastRequests);
+                    } else {
+                        await fetchRequests();
+                    }
+                } catch {
+                    e.target.disabled = false;
+                }
+            }
+
+            async function handleWithdrawAction(e) {
+                const action = e.target.dataset.action;
+                const id = e.target.dataset.id;
+                if (!action || !id) return;
+
+                const status = action === 'approve-withdraw' ? 'approved' : 'rejected';
+                try {
+                    e.target.disabled = true;
+                    const updated = await updateWithdrawStatus(id, status);
+                    const idx = lastWithdrawRequests.findIndex(r => r && r._id === id);
+                    if (idx !== -1) {
+                        lastWithdrawRequests[idx] = updated && updated._id ? updated : { ...lastWithdrawRequests[idx], status };
+                        renderWithdraw(lastWithdrawRequests);
+                    } else {
+                        await fetchWithdrawRequests();
+                    }
+                } catch {
+                    e.target.disabled = false;
+                }
+            }
+
+            if (refreshBtn) refreshBtn.addEventListener('click', fetchRequests);
+            if (withdrawRefreshBtn) withdrawRefreshBtn.addEventListener('click', fetchWithdrawRequests);
+            const unlock = () => {
+                if (pinOverlay) pinOverlay.style.display = 'none';
+                if (adminApp) adminApp.style.display = '';
+                fetchRequests();
+                fetchWithdrawRequests();
+            };
+
+            if (proofClose && proofModal) {
+                proofClose.addEventListener('click', () => {
+                    proofModal.style.display = 'none';
+                    if (proofModalImg) proofModalImg.src = '';
+                });
+            }
+
+            if (proofModal) {
+                proofModal.addEventListener('click', (e) => {
+                    if (e.target === proofModal) {
+                        proofModal.style.display = 'none';
+                        if (proofModalImg) proofModalImg.src = '';
+                    }
+                });
+            }
+
+            const showPin = () => {
+                if (adminApp) adminApp.style.display = 'none';
+                if (pinOverlay) pinOverlay.style.display = 'flex';
+                if (pinError) pinError.style.display = 'none';
+                if (pinInput) {
+                    pinInput.value = '';
+                    pinInput.focus();
+                }
+            };
+
+            const checkPin = () => {
+                const value = (pinInput?.value || '').trim();
+                if (value === REQUIRED_PIN) {
+                    sessionStorage.setItem(PIN_KEY, '1');
+                    unlock();
+                } else {
+                    if (pinError) pinError.style.display = 'block';
+                    if (pinInput) pinInput.value = '';
+                }
+            };
+
+            if (pinBtn) pinBtn.addEventListener('click', checkPin);
+            if (pinInput) {
+                pinInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') checkPin();
+                });
+            }
+
+            if (sessionStorage.getItem(PIN_KEY) === '1') {
+                unlock();
+            } else {
+                showPin();
+            }
+        });
+    </script>
+</body>
+</html>

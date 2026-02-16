@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>All Star Trades | Referral Bonus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="shortcut icon" href="assets/uploads/logo/favicon.png" type="image/x-icon">
+    <style>
+        .history-wrap {
+            padding: 18px 16px 30px 16px;
+        }
+
+        .history-title {
+            color: #a3e635;
+            font-weight: 900;
+            font-size: 20px;
+            margin: 14px 0 14px 0;
+            text-align: center;
+        }
+
+        .panel {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(34, 197, 94, 0.18);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+        }
+
+        .summary-card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .summary-label {
+            color: rgba(255,255,255,0.7);
+            font-weight: 700;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .summary-value {
+            color: #fff;
+            font-weight: 900;
+            font-size: 18px;
+        }
+
+        table {
+            width: 100%;
+            color: #fff;
+            border-collapse: collapse;
+        }
+
+        thead tr {
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        th, td {
+            padding: 10px;
+            vertical-align: top;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #333;
+        }
+
+        .muted {
+            color: rgba(255,255,255,0.7);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-wrapper">
+        <header class="dash-header">
+            <div class="dash-logo">
+                <img src="assets/uploads/logo/logo.png" alt="All Star Trades">
+            </div>
+            <button class="menu-btn" id="menuToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </header>
+
+        <div class="mobile-menu-overlay" id="mobileMenu">
+            <div class="menu-content">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fa-solid fa-layer-group"></i> Dashboard
+                </a>
+                <a href="deposit.html" class="menu-item">Deposit</a>
+                <a href="running-plans.html" class="menu-item">My Plans</a>
+                <a href="deposit-transactions.html" class="menu-item">Deposit Transactions</a>
+                <a href="all-transactions.html" class="menu-item">All Transactions</a>
+                <a href="withdraw.html" class="menu-item">Withdraw</a>
+                <a href="withdraw-history.html" class="menu-item">Withdraw History</a>
+                <a href="invite-referral.html" class="menu-item">Invite Referral</a>
+                <a href="settings.html" class="menu-item">Settings</a>
+                <a href="referral-bonus.html" class="menu-item active">Referral Bonus Transaction</a>
+                <a href="#" class="menu-item" id="logoutBtn">Logout</a>
+            </div>
+        </div>
+
+        <div class="history-wrap">
+            <div class="history-title">Referral Bonus Transactions</div>
+
+            <div class="panel">
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-label">Total Bonus</div>
+                        <div class="summary-value" id="totalBonus">Rs0</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Total Records</div>
+                        <div class="summary-value" id="totalRecords">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Level</th>
+                                <th>Deposit</th>
+                                <th>Bonus</th>
+                                <th>Plan</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bonusHistoryBody">
+                            <tr>
+                                <td colspan="6" class="muted">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const bodyEl = document.getElementById('bonusHistoryBody');
+            const totalBonusEl = document.getElementById('totalBonus');
+            const totalRecordsEl = document.getElementById('totalRecords');
+
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('active');
+                    const icon = menuToggle.querySelector('i');
+                    if (mobileMenu.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+
+                mobileMenu.addEventListener('click', (e) => {
+                    if (e.target === mobileMenu) {
+                        mobileMenu.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    window.location.href = 'login.html';
+                });
+            }
+
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const getApiUrl = (endpoint) => {
+                if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
+                    if (window.location.port === '5500' || window.location.port === '5501') {
+                        return `http://localhost:3000${endpoint}`;
+                    }
+                }
+                return endpoint;
+            };
+
+            const setLoading = (text) => {
+                if (!bodyEl) return;
+                bodyEl.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="muted">${text}</td>
+                    </tr>
+                `;
+            };
+
+            const render = (list) => {
+                if (!bodyEl) return;
+                bodyEl.innerHTML = '';
+
+                if (!list.length) {
+                    setLoading('No records');
+                    return;
+                }
+
+                list.forEach(r => {
+                    const tr = document.createElement('tr');
+                    const dateText = r.approvedAt ? new Date(r.approvedAt).toLocaleString() : '-';
+                    const userText = r.userName ? `${r.userName}<br>${r.userEmail || ''}` : (r.userEmail || '-');
+                    tr.innerHTML = `
+                        <td style="white-space: pre-line;">${userText}</td>
+                        <td>Level ${r.level}</td>
+                        <td>Rs${Number(r.amount || 0).toFixed(2)}</td>
+                        <td>Rs${Number(r.bonusAmount || 0).toFixed(2)} (${r.percent}%)</td>
+                        <td>${r.planId || '-'}</td>
+                        <td>${dateText}</td>
+                    `;
+                    bodyEl.appendChild(tr);
+                });
+            };
+
+            const fetchBonus = async () => {
+                setLoading('Loading...');
+                try {
+                    const res = await fetch(getApiUrl('/api/referral-bonus'), {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (!res.ok) {
+                        const err = await res.json().catch(() => ({}));
+                        throw new Error(err.message || 'Request failed');
+                    }
+                    const data = await res.json();
+                    const items = Array.isArray(data.items) ? data.items : [];
+                    if (totalBonusEl) totalBonusEl.textContent = `Rs${Number(data.totalBonus || 0).toFixed(2)}`;
+                    if (totalRecordsEl) totalRecordsEl.textContent = String(data.totalCount || items.length || 0);
+                    render(items);
+                } catch (e) {
+                    setLoading(e.message || 'Failed to load');
+                }
+            };
+
+            fetchBonus();
+        });
+    </script>
+</body>
+</html>

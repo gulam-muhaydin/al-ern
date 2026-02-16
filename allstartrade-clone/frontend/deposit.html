@@ -1,0 +1,587 @@
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>All Star Trades | Deposit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="shortcut icon" href="assets/uploads/logo/favicon.png" type="image/x-icon">
+    <style>
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 20px 0 20px;
+        }
+
+        .header-content h2 {
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .header-content p {
+            font-size: 14px;
+            color: #888;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .popular-badge {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .plans-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .plan-card {
+            background: linear-gradient(180deg, rgba(16, 36, 20, 0.95), rgba(5, 15, 5, 0.98));
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 20px;
+            padding: 25px 20px;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            font-family: 'Segoe UI', sans-serif;
+            transition: transform 0.3s ease;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(34, 197, 94, 0.5);
+        }
+
+        .plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .crown-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 24px;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.1);
+        }
+
+        .vip-badge {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        .plan-title {
+            font-size: 22px;
+            color: #eee;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .plan-features {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+            color: #ddd;
+            font-weight: 600;
+        }
+
+        .feature-item i {
+            color: #a3e635; /* Neon Lime */
+            font-size: 14px;
+        }
+
+        .feature-value {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .refer-section {
+            margin-top: 10px;
+        }
+        
+        .refer-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .refer-levels {
+            margin-left: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .invest-btn {
+            background: linear-gradient(90deg, #22c55e, #a3e635);
+            width: 100%;
+            border: none;
+            padding: 15px;
+            border-radius: 50px;
+            margin-top: 25px;
+            color: #000;
+            font-weight: 800;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centered text if no icon, or adjust */
+            gap: 10px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(34, 197, 94, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .invest-btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-icon-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+    </style>
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-wrapper">
+        <!-- Header -->
+        <header class="dash-header">
+            <div class="dash-logo">
+                <img src="assets/uploads/logo/logo.png" alt="All Star Trades">
+            </div>
+            <button class="menu-btn" id="menuToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </header>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobileMenu">
+            <div class="menu-content">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fa-solid fa-layer-group"></i> Dashboard
+                </a>
+                <a href="deposit.html" class="menu-item active">Deposit</a>
+                <a href="running-plans.html" class="menu-item">My Plans</a>
+                <a href="deposit-transactions.html" class="menu-item">Deposit Transactions</a>
+                <a href="all-transactions.html" class="menu-item">All Transactions</a>
+                <a href="withdraw.html" class="menu-item">Withdraw</a>
+                <a href="withdraw-history.html" class="menu-item">Withdraw History</a>
+                <a href="invite-referral.html" class="menu-item">Invite Referral</a>
+                <a href="settings.html" class="menu-item">Settings</a>
+                <a href="referral-bonus.html" class="menu-item">Referral Bonus Transaction</a>
+                <a href="#" class="menu-item" id="logoutBtn">Logout</a>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <div class="header-content">
+                <h2>Investment Plans</h2>
+                <p>Pick the best plan for your goals</p>
+            </div>
+            <div class="popular-badge">
+                <i class="fa-solid fa-star"></i> Popular Plans
+            </div>
+        </div>
+
+        <!-- Plans Container -->
+        <div class="plans-container">
+
+            <!-- VIP-01 -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="crown-icon"><i class="fa-solid fa-crown"></i></div>
+                    <div class="vip-badge">VIP</div>
+                </div>
+                <div class="plan-title">VIP-01</div>
+                <div class="plan-features">
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Plan Price:- <span class="feature-value">270 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Daily Profit:- <span class="feature-value">80 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Validity:- <span class="feature-value">65 Days</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Total Profit:- <span class="feature-value">5200 Rs</span></span></div>
+                    <div class="refer-section">
+                        <div class="refer-title"><i class="fa-solid fa-users" style="color:#a3e635;"></i>Refer Bonus:</div>
+                        <div class="refer-levels">
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 1 :- <span class="feature-value">13%</span></span></div>
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 2 :- <span class="feature-value">3%</span></span></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="invest-btn"><div class="btn-icon-circle"><i class="fa-solid fa-arrow-right"></i></div>Invest Plan</button>
+            </div>
+
+            <!-- VIP-02 -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="crown-icon"><i class="fa-solid fa-crown"></i></div>
+                    <div class="vip-badge">VIP</div>
+                </div>
+                <div class="plan-title">VIP-02</div>
+                <div class="plan-features">
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Plan Price:- <span class="feature-value">650 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Daily Profit:- <span class="feature-value">160 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Validity:- <span class="feature-value">65 Days</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Total Profit:- <span class="feature-value">10400 Rs</span></span></div>
+                    <div class="refer-section">
+                        <div class="refer-title"><i class="fa-solid fa-users" style="color:#a3e635;"></i>Refer Bonus:</div>
+                        <div class="refer-levels">
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 1 :- <span class="feature-value">13%</span></span></div>
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 2 :- <span class="feature-value">3%</span></span></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="invest-btn"><div class="btn-icon-circle"><i class="fa-solid fa-arrow-right"></i></div>Invest Plan</button>
+            </div>
+
+            <!-- VIP-03 -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="crown-icon"><i class="fa-solid fa-crown"></i></div>
+                    <div class="vip-badge">VIP</div>
+                </div>
+                <div class="plan-title">VIP-03</div>
+                <div class="plan-features">
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Plan Price:- <span class="feature-value">2750 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Daily Profit:- <span class="feature-value">685 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Validity:- <span class="feature-value">65 Days</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Total Profit:- <span class="feature-value">44525 Rs</span></span></div>
+                    <div class="refer-section">
+                        <div class="refer-title"><i class="fa-solid fa-users" style="color:#a3e635;"></i>Refer Bonus:</div>
+                        <div class="refer-levels">
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 1 :- <span class="feature-value">13%</span></span></div>
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 2 :- <span class="feature-value">3%</span></span></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="invest-btn"><div class="btn-icon-circle"><i class="fa-solid fa-arrow-right"></i></div>Invest Plan</button>
+            </div>
+
+            <!-- VIP-04 -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="crown-icon"><i class="fa-solid fa-crown"></i></div>
+                    <div class="vip-badge">VIP</div>
+                </div>
+                <div class="plan-title">VIP-04</div>
+                <div class="plan-features">
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Plan Price:- <span class="feature-value">5550 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Daily Profit:- <span class="feature-value">1385 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Validity:- <span class="feature-value">65 Days</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Total Profit:- <span class="feature-value">90025 Rs</span></span></div>
+                    <div class="refer-section">
+                        <div class="refer-title"><i class="fa-solid fa-users" style="color:#a3e635;"></i>Refer Bonus:</div>
+                        <div class="refer-levels">
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 1 :- <span class="feature-value">13%</span></span></div>
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 2 :- <span class="feature-value">3%</span></span></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="invest-btn"><div class="btn-icon-circle"><i class="fa-solid fa-arrow-right"></i></div>Invest Plan</button>
+            </div>
+
+            <!-- VIP-05 -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="crown-icon"><i class="fa-solid fa-crown"></i></div>
+                    <div class="vip-badge">VIP</div>
+                </div>
+                <div class="plan-title">VIP-05</div>
+                <div class="plan-features">
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Plan Price:- <span class="feature-value">9550 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Daily Profit:- <span class="feature-value">2385 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Validity:- <span class="feature-value">65 Days</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Total Profit:- <span class="feature-value">155025 Rs</span></span></div>
+                    <div class="refer-section">
+                        <div class="refer-title"><i class="fa-solid fa-users" style="color:#a3e635;"></i>Refer Bonus:</div>
+                        <div class="refer-levels">
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 1 :- <span class="feature-value">13%</span></span></div>
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 2 :- <span class="feature-value">3%</span></span></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="invest-btn"><div class="btn-icon-circle"><i class="fa-solid fa-arrow-right"></i></div>Invest Plan</button>
+            </div>
+
+            <!-- VIP-06 -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="crown-icon"><i class="fa-solid fa-crown"></i></div>
+                    <div class="vip-badge">VIP</div>
+                </div>
+                <div class="plan-title">VIP-06</div>
+                <div class="plan-features">
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Plan Price:- <span class="feature-value">17200 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Daily Profit:- <span class="feature-value">4300 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Validity:- <span class="feature-value">65 Days</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Total Profit:- <span class="feature-value">279500 Rs</span></span></div>
+                    <div class="refer-section">
+                        <div class="refer-title"><i class="fa-solid fa-users" style="color:#a3e635;"></i>Refer Bonus:</div>
+                        <div class="refer-levels">
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 1 :- <span class="feature-value">13%</span></span></div>
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 2 :- <span class="feature-value">3%</span></span></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="invest-btn"><div class="btn-icon-circle"><i class="fa-solid fa-arrow-right"></i></div>Invest Plan</button>
+            </div>
+
+            <!-- VIP-07 -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="crown-icon"><i class="fa-solid fa-crown"></i></div>
+                    <div class="vip-badge">VIP</div>
+                </div>
+                <div class="plan-title">VIP-07</div>
+                <div class="plan-features">
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Plan Price:- <span class="feature-value">34200 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Daily Profit:- <span class="feature-value">8550 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Validity:- <span class="feature-value">65 Days</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Total Profit:- <span class="feature-value">555750 Rs</span></span></div>
+                    <div class="refer-section">
+                        <div class="refer-title"><i class="fa-solid fa-users" style="color:#a3e635;"></i>Refer Bonus:</div>
+                        <div class="refer-levels">
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 1 :- <span class="feature-value">13%</span></span></div>
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 2 :- <span class="feature-value">3%</span></span></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="invest-btn"><div class="btn-icon-circle"><i class="fa-solid fa-arrow-right"></i></div>Invest Plan</button>
+            </div>
+
+            <!-- VIP-08 -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="crown-icon"><i class="fa-solid fa-crown"></i></div>
+                    <div class="vip-badge">VIP</div>
+                </div>
+                <div class="plan-title">VIP-08</div>
+                <div class="plan-features">
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Plan Price:- <span class="feature-value">66200 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Daily Profit:- <span class="feature-value">16550 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Validity:- <span class="feature-value">65 Days</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Total Profit:- <span class="feature-value">1075750 Rs</span></span></div>
+                    <div class="refer-section">
+                        <div class="refer-title"><i class="fa-solid fa-users" style="color:#a3e635;"></i>Refer Bonus:</div>
+                        <div class="refer-levels">
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 1 :- <span class="feature-value">13%</span></span></div>
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 2 :- <span class="feature-value">3%</span></span></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="invest-btn"><div class="btn-icon-circle"><i class="fa-solid fa-arrow-right"></i></div>Invest Plan</button>
+            </div>
+
+            <!-- VIP-09 -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="crown-icon"><i class="fa-solid fa-crown"></i></div>
+                    <div class="vip-badge">VIP</div>
+                </div>
+                <div class="plan-title">VIP-09</div>
+                <div class="plan-features">
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Plan Price:- <span class="feature-value">97200 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Daily Profit:- <span class="feature-value">24500 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Validity:- <span class="feature-value">65 Days</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Total Profit:- <span class="feature-value">1592500 Rs</span></span></div>
+                    <div class="refer-section">
+                        <div class="refer-title"><i class="fa-solid fa-users" style="color:#a3e635;"></i>Refer Bonus:</div>
+                        <div class="refer-levels">
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 1 :- <span class="feature-value">13%</span></span></div>
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 2 :- <span class="feature-value">3%</span></span></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="invest-btn"><div class="btn-icon-circle"><i class="fa-solid fa-arrow-right"></i></div>Invest Plan</button>
+            </div>
+
+            <!-- VIP-10 -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="crown-icon"><i class="fa-solid fa-crown"></i></div>
+                    <div class="vip-badge">VIP</div>
+                </div>
+                <div class="plan-title">VIP-10</div>
+                <div class="plan-features">
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Plan Price:- <span class="feature-value">187200 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Daily Profit:- <span class="feature-value">46800 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Validity:- <span class="feature-value">65 Days</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Total Profit:- <span class="feature-value">3042000 Rs</span></span></div>
+                    <div class="refer-section">
+                        <div class="refer-title"><i class="fa-solid fa-users" style="color:#a3e635;"></i>Refer Bonus:</div>
+                        <div class="refer-levels">
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 1 :- <span class="feature-value">13%</span></span></div>
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 2 :- <span class="feature-value">3%</span></span></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="invest-btn"><div class="btn-icon-circle"><i class="fa-solid fa-arrow-right"></i></div>Invest Plan</button>
+            </div>
+
+            <!-- VIP-11 -->
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="crown-icon"><i class="fa-solid fa-crown"></i></div>
+                    <div class="vip-badge">VIP</div>
+                </div>
+                <div class="plan-title">VIP-11</div>
+                <div class="plan-features">
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Plan Price:- <span class="feature-value">374200 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Daily Profit:- <span class="feature-value">93500 Rs</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Validity:- <span class="feature-value">65 Days</span></span></div>
+                    <div class="feature-item"><i class="fa-solid fa-check"></i><span>Total Profit:- <span class="feature-value">6077500 Rs</span></span></div>
+                    <div class="refer-section">
+                        <div class="refer-title"><i class="fa-solid fa-users" style="color:#a3e635;"></i>Refer Bonus:</div>
+                        <div class="refer-levels">
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 1 :- <span class="feature-value">13%</span></span></div>
+                            <div class="feature-item"><i class="fa-solid fa-check"></i><span>Level 2 :- <span class="feature-value">2%</span></span></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="invest-btn"><div class="btn-icon-circle"><i class="fa-solid fa-arrow-right"></i></div>Invest Plan</button>
+            </div>
+            
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            const parseNumber = (value) => {
+                if (!value) return 0;
+                const n = Number(String(value).replace(/[^0-9.]/g, ''));
+                return Number.isFinite(n) ? n : 0;
+            };
+
+            const parseDays = (value) => {
+                if (!value) return 0;
+                const n = Number(String(value).replace(/[^0-9]/g, ''));
+                return Number.isFinite(n) ? n : 0;
+            };
+
+            const extractPlanData = (planCard) => {
+                const id = planCard.querySelector('.plan-title')?.textContent?.trim() || 'VIP-01';
+                const featureItems = Array.from(planCard.querySelectorAll('.feature-item'));
+
+                const findValueByLabel = (label) => {
+                    const item = featureItems.find(el => el.textContent?.toLowerCase().includes(label.toLowerCase()));
+                    const valueEl = item?.querySelector('.feature-value');
+                    return valueEl?.textContent?.trim() || item?.textContent?.trim() || '';
+                };
+
+                const priceRaw = findValueByLabel('Plan Price');
+                const dailyProfitRaw = findValueByLabel('Daily Profit');
+                const validityRaw = findValueByLabel('Validity');
+                const totalProfitRaw = findValueByLabel('Total Profit');
+
+                const price = parseNumber(priceRaw);
+                const dailyProfit = parseNumber(dailyProfitRaw);
+                const validityDays = parseDays(validityRaw);
+                const totalProfit = totalProfitRaw ? parseNumber(totalProfitRaw) : validityDays * dailyProfit;
+
+                return {
+                    id,
+                    price,
+                    dailyProfit,
+                    validityDays,
+                    totalProfit,
+                };
+            };
+
+            // Toggle Mobile Menu
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('active');
+                    const icon = menuToggle.querySelector('i');
+                    if (mobileMenu.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+
+                // Close menu when clicking outside
+                mobileMenu.addEventListener('click', (e) => {
+                    if (e.target === mobileMenu) {
+                        mobileMenu.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+
+            // Logout Logic
+            if(logoutBtn) {
+                logoutBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    window.location.href = 'login.html';
+                });
+            }
+
+            const investButtons = document.querySelectorAll('.invest-btn');
+            investButtons.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const card = btn.closest('.plan-card');
+                    if (!card) return;
+
+                    const plan = extractPlanData(card);
+                    localStorage.setItem('ast_pending_plan', JSON.stringify(plan));
+                    window.location.href = 'select-payment.html';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

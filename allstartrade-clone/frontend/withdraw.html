@@ -1,0 +1,516 @@
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>All Star Trades | Withdraw</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="shortcut icon" href="assets/uploads/logo/favicon.png" type="image/x-icon">
+    <style>
+        .withdraw-container {
+            padding: 20px;
+        }
+
+        .back-btn-circle {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .main-card {
+            background: linear-gradient(180deg, rgba(20, 20, 20, 0.95), rgba(10, 10, 10, 0.98));
+            border-radius: 20px;
+            padding: 25px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            color: #fff;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .header-icon {
+            font-size: 24px;
+            color: #22c55e;
+        }
+
+        .card-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin: 0;
+            color: #fff;
+        }
+
+        /* Gateway Grid */
+        .gateway-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .gateway-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .gateway-item:hover, .gateway-item.active {
+            border-color: #22c55e;
+            background: rgba(34, 197, 94, 0.1);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .gateway-item.active::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: #22c55e;
+            font-size: 10px;
+        }
+
+        .gateway-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            border-radius: 50%;
+            background: #fff;
+            padding: 5px;
+        }
+
+        .gateway-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        /* Placeholder colors for icons */
+        .icon-easypaisa { color: #22c55e; }
+        .icon-jazzcash { color: #ef4444; }
+        .icon-bank { color: #3b82f6; }
+
+        .gateway-name {
+            font-size: 11px;
+            font-weight: 600;
+            color: #ccc;
+            text-align: center;
+        }
+        
+        .gateway-item.active .gateway-name {
+            color: #fff;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: transparent;
+            border-radius: 15px;
+            padding: 0;
+            border: none;
+        }
+
+        .balance-display {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: #22c55e;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .balance-amount {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #aaa;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .input-label i {
+            color: #22c55e;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: #22c55e;
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.1);
+        }
+        
+        .form-control::placeholder {
+            color: #555;
+        }
+
+        .helper-text {
+            font-size: 12px;
+            color: #666;
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        .confirm-btn {
+            background: linear-gradient(90deg, #86efac, #4ade80); /* Lighter green gradient */
+            width: 100%;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            color: #14532d; /* Dark green text */
+            font-weight: 700;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2);
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+
+        .confirm-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Specific override for dropdown */
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px top 50%;
+            background-size: 12px auto;
+        }
+
+    </style>
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-wrapper">
+        <!-- Header -->
+        <header class="dash-header">
+            <div class="dash-logo">
+                <img src="assets/uploads/logo/logo.png" alt="All Star Trades">
+            </div>
+            <button class="menu-btn" id="menuToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </header>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobileMenu">
+            <div class="menu-content">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fa-solid fa-layer-group"></i> Dashboard
+                </a>
+                <a href="deposit.html" class="menu-item">Deposit</a>
+                <a href="running-plans.html" class="menu-item">My Plans</a>
+                <a href="deposit-transactions.html" class="menu-item">Deposit Transactions</a>
+                <a href="all-transactions.html" class="menu-item">All Transactions</a>
+                <a href="withdraw.html" class="menu-item active">Withdraw</a>
+                <a href="withdraw-history.html" class="menu-item">Withdraw History</a>
+                <a href="invite-referral.html" class="menu-item">Invite Referral</a>
+                <a href="settings.html" class="menu-item">Settings</a>
+                <a href="referral-bonus.html" class="menu-item">Referral Bonus Transaction</a>
+                <a href="#" class="menu-item" id="logoutBtn">Logout</a>
+            </div>
+        </div>
+
+        <div class="withdraw-container">
+            <!-- Back Button -->
+            <div class="back-btn-circle" onclick="window.history.back()">
+                <i class="fa-solid fa-arrow-left"></i>
+            </div>
+
+            <!-- Main Card -->
+            <div class="main-card">
+                <div class="card-header">
+                    <i class="fa-solid fa-money-bill-transfer header-icon"></i>
+                    <h2>Withdraw Profits</h2>
+                </div>
+
+                <!-- Gateway Grid -->
+                <div class="gateway-grid">
+                    <div class="gateway-item active" onclick="selectGateway(this, 'easypaisa')">
+                        <div class="gateway-icon">
+                            <img src="https://bigprofit.xyz/assets/uploads/withdraw/698a536f3060e1770673007.jpg" alt="Easypaisa" class="gateway-img">
+                        </div>
+                        <span class="gateway-name">Easypaisa</span>
+                    </div>
+                    <div class="gateway-item" onclick="selectGateway(this, 'jazzcash')">
+                        <div class="gateway-icon">
+                            <img src="https://bigprofit.xyz/assets/uploads/withdraw/698a5384d4c761770673028.jpg" alt="Jazzcash" class="gateway-img">
+                        </div>
+                        <span class="gateway-name">Jazzcash</span>
+                    </div>
+                    <div class="gateway-item" onclick="selectGateway(this, 'bank')">
+                        <div class="gateway-icon icon-bank">
+                            <i class="fa-solid fa-building-columns"></i>
+                        </div>
+                        <span class="gateway-name">Bank Withdraw</span>
+                    </div>
+                </div>
+
+                <!-- Form Section -->
+                <div class="form-section">
+                    <div class="balance-display">
+                        <i class="fa-solid fa-wallet"></i>
+                        <span>Current Balance</span>
+                        <div class="balance-amount" id="balanceAmount">Rs0.00</div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">
+                            <i class="fa-solid fa-coins"></i> Withdraw Amount
+                        </label>
+                        <input type="number" class="form-control" id="withdrawAmount" placeholder="0.00">
+                        <div class="helper-text">Select a gateway to see limits</div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">
+                            <i class="fa-solid fa-user"></i> Account Title
+                        </label>
+                        <input type="text" class="form-control" id="accountName" placeholder="Enter Account Name">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">
+                            <i class="fa-solid fa-phone"></i> Account Number
+                        </label>
+                        <input type="text" class="form-control" id="accountNumber" placeholder="Enter Account/Phone Number">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">
+                            <i class="fa-solid fa-wallet"></i> Withdraw From
+                        </label>
+                        <select class="form-control" id="withdrawFrom">
+                            <option value="current">Current Balance (Rs0.00)</option>
+                            <option value="interest">Interest Wallet (Rs0.00)</option>
+                        </select>
+                    </div>
+
+                    <button class="confirm-btn" id="withdrawSubmit">
+                        <i class="fa-solid fa-paper-plane"></i> Confirm Withdraw
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let selectedGateway = 'easypaisa';
+        function selectGateway(element, gateway) {
+            // Remove active class from all items
+            document.querySelectorAll('.gateway-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            // Add active class to clicked item
+            element.classList.add('active');
+            selectedGateway = gateway;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const balanceAmount = document.getElementById('balanceAmount');
+            const withdrawAmount = document.getElementById('withdrawAmount');
+            const accountName = document.getElementById('accountName');
+            const accountNumber = document.getElementById('accountNumber');
+            const withdrawFrom = document.getElementById('withdrawFrom');
+            const withdrawSubmit = document.getElementById('withdrawSubmit');
+
+            // Toggle Mobile Menu
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('active');
+                    const icon = menuToggle.querySelector('i');
+                    if (mobileMenu.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+
+                // Close menu when clicking outside
+                mobileMenu.addEventListener('click', (e) => {
+                    if (e.target === mobileMenu) {
+                        mobileMenu.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+
+            // Logout Logic
+            if(logoutBtn) {
+                logoutBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    window.location.href = 'login.html';
+                });
+            }
+
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const getApiUrl = (endpoint) => {
+                if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
+                    if (window.location.port === '5500' || window.location.port === '5501') {
+                        return `http://localhost:3000${endpoint}`;
+                    }
+                }
+                return endpoint;
+            };
+
+            const getBalance = () => {
+                const balance = Number(localStorage.getItem('ast_wallet_balance') || '0');
+                return Number.isFinite(balance) ? balance : 0;
+            };
+
+            const setBalance = (value) => {
+                localStorage.setItem('ast_wallet_balance', String(value));
+            };
+
+            const renderBalance = () => {
+                const safeBalance = getBalance();
+                if (balanceAmount) balanceAmount.textContent = `Rs${safeBalance.toFixed(2)}`;
+                if (withdrawFrom) {
+                    withdrawFrom.querySelectorAll('option').forEach(opt => {
+                        if (opt.value === 'current') opt.textContent = `Current Balance (Rs${safeBalance.toFixed(2)})`;
+                    });
+                }
+            };
+
+            renderBalance();
+
+            const submitWithdraw = async () => {
+                const amount = Number(withdrawAmount?.value || 0);
+                const name = (accountName?.value || '').trim();
+                const number = (accountNumber?.value || '').trim();
+                const fromWallet = withdrawFrom?.value || 'current';
+                const balance = getBalance();
+
+                if (!amount || amount <= 0) return alert('Please enter withdraw amount');
+                if (!name) return alert('Please enter account name');
+                if (!number) return alert('Please enter account number');
+                if (fromWallet === 'current' && amount > balance) return alert('Insufficient balance');
+
+                if (withdrawSubmit) withdrawSubmit.disabled = true;
+                try {
+                    const res = await fetch(getApiUrl('/api/withdraw-requests'), {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            method: selectedGateway,
+                            amount,
+                            accountName: name,
+                            accountNumber: number,
+                            fromWallet
+                        })
+                    });
+                    if (!res.ok) {
+                        const err = await res.json().catch(() => ({}));
+                        throw new Error(err.message || 'Request failed');
+                    }
+                    alert('Withdraw request submitted');
+                    if (fromWallet === 'current') {
+                        setBalance(Math.max(0, balance - amount));
+                        renderBalance();
+                    }
+                    if (withdrawAmount) withdrawAmount.value = '';
+                    if (accountName) accountName.value = '';
+                    if (accountNumber) accountNumber.value = '';
+                } catch (e) {
+                    alert(e.message || 'Request failed');
+                } finally {
+                    if (withdrawSubmit) withdrawSubmit.disabled = false;
+                }
+            };
+
+            if (withdrawSubmit) {
+                withdrawSubmit.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    submitWithdraw();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

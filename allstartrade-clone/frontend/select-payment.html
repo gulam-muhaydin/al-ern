@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>All Star Trades | Select Payment Method</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="shortcut icon" href="assets/uploads/logo/favicon.png" type="image/x-icon">
+    <style>
+        .payment-wrap {
+            padding: 22px 18px 40px 18px;
+        }
+
+        .payment-title {
+            margin: 26px 0 16px 0;
+            text-align: center;
+            font-size: 34px;
+            font-weight: 900;
+            color: #9cf93a;
+            letter-spacing: 0.5px;
+            text-decoration: underline;
+            text-underline-offset: 10px;
+            text-decoration-thickness: 4px;
+        }
+
+        .amount-pill {
+            margin: 20px auto 20px auto;
+            width: fit-content;
+            max-width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(90deg, #77ff28, #2fbf25);
+            border-radius: 999px;
+            padding: 14px 18px;
+            color: #fff;
+            font-weight: 900;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+        }
+
+        .amount-pill .divider {
+            width: 2px;
+            height: 24px;
+            background: rgba(255,255,255,0.35);
+        }
+
+        .amount-pill .amt {
+            min-width: 90px;
+            text-align: right;
+        }
+
+        .method-card {
+            margin-top: 10px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(34, 197, 94, 0.25);
+            border-radius: 18px;
+            padding: 26px 18px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+        }
+
+        .method-inner {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #77ff28, #2fbf25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18), 0 14px 30px rgba(0,0,0,0.3);
+        }
+
+        .method-logo {
+            width: 96px;
+            height: 96px;
+            border-radius: 12px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 10px 18px rgba(0,0,0,0.18);
+        }
+
+        .method-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .method-name {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 900;
+            color: #9cf93a;
+            margin-top: 18px;
+        }
+
+        .invest-now-btn {
+            margin-top: 18px;
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            padding: 16px 14px;
+            font-size: 18px;
+            font-weight: 900;
+            background: linear-gradient(90deg, #77ff28, #2fbf25);
+            color: #0b1a0b;
+            cursor: pointer;
+            box-shadow: 0 10px 22px rgba(0,0,0,0.25);
+        }
+
+        .invest-now-btn:active {
+            transform: scale(0.99);
+        }
+    </style>
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-wrapper">
+        <header class="dash-header">
+            <div class="dash-logo">
+                <img src="assets/uploads/logo/logo.png" alt="All Star Trades">
+            </div>
+            <button class="menu-btn" id="menuToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </header>
+
+        <div class="mobile-menu-overlay" id="mobileMenu">
+            <div class="menu-content">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fa-solid fa-layer-group"></i> Dashboard
+                </a>
+                <a href="deposit.html" class="menu-item">Deposit</a>
+                <a href="running-plans.html" class="menu-item">My Plans</a>
+                <a href="deposit-transactions.html" class="menu-item">Deposit Transactions</a>
+                <a href="all-transactions.html" class="menu-item">All Transactions</a>
+                <a href="withdraw.html" class="menu-item">Withdraw</a>
+                <a href="withdraw-history.html" class="menu-item">Withdraw History</a>
+                <a href="invite-referral.html" class="menu-item">Invite Referral</a>
+                <a href="settings.html" class="menu-item">Settings</a>
+                <a href="referral-bonus.html" class="menu-item">Referral Bonus Transaction</a>
+                <a href="#" class="menu-item" id="logoutBtn">Logout</a>
+            </div>
+        </div>
+
+        <div class="payment-wrap">
+            <div class="payment-title">Select Payment Method</div>
+
+            <div class="amount-pill">
+                <i class="fa-solid fa-receipt"></i>
+                <span>Send Amount to:</span>
+                <span class="divider"></span>
+                <span class="amt" id="sendAmount">0 Rs</span>
+            </div>
+
+            <div class="method-card">
+                <div class="method-inner">
+                    <div class="method-logo">
+                        <img src="https://bigprofit.xyz/assets/uploads/withdraw/698a5384d4c761770673028.jpg" alt="Jazzcash">
+                    </div>
+                </div>
+                <div class="method-name">Jazzcash</div>
+                <button class="invest-now-btn" id="investNowBtn">Invest Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('active');
+                    const icon = menuToggle.querySelector('i');
+                    if (mobileMenu.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+
+                mobileMenu.addEventListener('click', (e) => {
+                    if (e.target === mobileMenu) {
+                        mobileMenu.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    window.location.href = 'login.html';
+                });
+            }
+
+            const sendAmountEl = document.getElementById('sendAmount');
+            const investNowBtn = document.getElementById('investNowBtn');
+
+            const getPendingPlan = () => {
+                try {
+                    const raw = localStorage.getItem('ast_pending_plan');
+                    if (!raw) return null;
+                    const plan = JSON.parse(raw);
+                    if (!plan || !plan.id) return null;
+                    return plan;
+                } catch {
+                    return null;
+                }
+            };
+
+            const pending = getPendingPlan();
+            if (!pending) {
+                window.location.href = 'deposit.html';
+                return;
+            }
+
+            if (sendAmountEl) sendAmountEl.textContent = `${pending.price} Rs`;
+
+            if (investNowBtn) {
+                investNowBtn.addEventListener('click', () => {
+                    window.location.href = 'deposit-request.html';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

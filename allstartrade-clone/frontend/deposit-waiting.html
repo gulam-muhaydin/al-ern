@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>All Star Trades | Waiting</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="shortcut icon" href="assets/uploads/logo/favicon.png" type="image/x-icon">
+    <style>
+        .wait-wrap {
+            padding: 24px 18px 40px 18px;
+            text-align: center;
+        }
+
+        .wait-card {
+            margin-top: 26px;
+            background: rgba(0,0,0,0.45);
+            border: 1px solid rgba(34, 197, 94, 0.22);
+            border-radius: 22px;
+            padding: 24px 18px 22px 18px;
+            box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+        }
+
+        .wait-icon {
+            width: 74px;
+            height: 74px;
+            margin: 0 auto;
+            border-radius: 24px;
+            background: rgba(34, 197, 94, 0.12);
+            border: 1px solid rgba(34, 197, 94, 0.28);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a3e635;
+            font-size: 28px;
+        }
+
+        .wait-title {
+            margin-top: 14px;
+            color: #a3e635;
+            font-weight: 900;
+            font-size: 20px;
+        }
+
+        .wait-sub {
+            margin-top: 10px;
+            color: rgba(255,255,255,0.85);
+            font-weight: 700;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .pill {
+            margin: 16px auto 0 auto;
+            width: fit-content;
+            max-width: 100%;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 999px;
+            padding: 10px 14px;
+            color: rgba(255,255,255,0.9);
+            font-weight: 800;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+            font-weight: 900;
+        }
+
+        .status.pending { color: #a3e635; }
+        .status.approved { color: #22c55e; }
+        .status.rejected { color: #ef4444; }
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border-radius: 999px;
+            border: 3px solid rgba(255,255,255,0.25);
+            border-top-color: rgba(163,230,53,1);
+            animation: spin 0.9s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .btn {
+            margin-top: 18px;
+            width: 100%;
+            border: none;
+            border-radius: 14px;
+            padding: 14px 14px;
+            font-size: 16px;
+            font-weight: 900;
+            background: linear-gradient(90deg, #77ff28, #2fbf25);
+            color: #0b1a0b;
+            cursor: pointer;
+            box-shadow: 0 10px 22px rgba(0,0,0,0.25);
+        }
+
+        .btn-dark {
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.14);
+        }
+    </style>
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-wrapper">
+        <header class="dash-header">
+            <div class="dash-logo">
+                <img src="assets/uploads/logo/logo.png" alt="All Star Trades">
+            </div>
+            <button class="menu-btn" id="menuToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </header>
+
+        <div class="mobile-menu-overlay" id="mobileMenu">
+            <div class="menu-content">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fa-solid fa-layer-group"></i> Dashboard
+                </a>
+                <a href="deposit.html" class="menu-item">Deposit</a>
+                <a href="running-plans.html" class="menu-item">My Plans</a>
+                <a href="withdraw.html" class="menu-item">Withdraw</a>
+                <a href="#" class="menu-item" id="logoutBtn">Logout</a>
+            </div>
+        </div>
+
+        <div class="wait-wrap">
+            <div class="wait-card">
+                <div class="wait-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+                <div class="wait-title">Please Wait</div>
+                <div class="wait-sub">Your deposit request has been sent. Admin approval is pending.</div>
+                <div class="pill"><i class="fa-solid fa-receipt"></i> Request ID: <span id="reqIdText">-</span></div>
+                <div class="status pending" id="statusLine"><span class="spinner"></span> Pending</div>
+                <button class="btn btn-dark" id="backBtn" type="button" style="display:none;">Back to Deposit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('active');
+                    const icon = menuToggle.querySelector('i');
+                    if (mobileMenu.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+                mobileMenu.addEventListener('click', (e) => {
+                    if (e.target === mobileMenu) {
+                        mobileMenu.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    window.location.href = 'login.html';
+                });
+            }
+
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const reqId = localStorage.getItem('ast_last_deposit_request_id') || '';
+            const reqIdText = document.getElementById('reqIdText');
+            const statusLine = document.getElementById('statusLine');
+            const backBtn = document.getElementById('backBtn');
+
+            if (reqIdText) reqIdText.textContent = reqId || '-';
+            if (!reqId) {
+                window.location.href = 'deposit.html';
+                return;
+            }
+
+            const getApiUrl = (endpoint) => {
+                if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
+                    if (window.location.port === '5500' || window.location.port === '5501') {
+                        return `http://localhost:3000${endpoint}`;
+                    }
+                }
+                return endpoint;
+            };
+
+            const setStatus = (status) => {
+                if (!statusLine) return;
+                if (status === 'approved') {
+                    statusLine.className = 'status approved';
+                    statusLine.innerHTML = '<i class="fa-solid fa-circle-check"></i> Approved';
+                } else if (status === 'rejected') {
+                    statusLine.className = 'status rejected';
+                    statusLine.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Rejected';
+                } else {
+                    statusLine.className = 'status pending';
+                    statusLine.innerHTML = '<span class="spinner"></span> Pending';
+                }
+            };
+
+            const activatePlan = (plan) => {
+                if (!plan || !plan.id) return;
+                const now = Date.now();
+                const dailyProfit = Number(plan.dailyProfit || 0);
+                const validityDays = Number(plan.validityDays || 0);
+                const initialPayouts = validityDays > 0 ? 1 : 0;
+
+                const currentBalance = Number(localStorage.getItem('ast_wallet_balance') || '0');
+                const safeBalance = Number.isFinite(currentBalance) ? currentBalance : 0;
+                localStorage.setItem('ast_wallet_balance', String(safeBalance + (initialPayouts ? dailyProfit : 0)));
+
+                const activePlan = {
+                    ...plan,
+                    startedAt: now,
+                    lastPayoutAt: now,
+                    payoutsDone: initialPayouts,
+                };
+                localStorage.setItem('ast_active_plan', JSON.stringify(activePlan));
+                localStorage.removeItem('ast_pending_plan');
+                localStorage.removeItem('ast_last_deposit_request_id');
+                if (!localStorage.getItem('ast_wallet_balance')) {
+                    localStorage.setItem('ast_wallet_balance', '0');
+                }
+                window.location.href = 'running-plans.html';
+            };
+
+            const fetchStatus = async () => {
+                const res = await fetch(getApiUrl(`/api/deposit-requests?id=${encodeURIComponent(reqId)}`), {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!res.ok) throw new Error('failed');
+                const data = await res.json();
+                return data;
+            };
+
+            let stopped = false;
+            const loop = async () => {
+                if (stopped) return;
+                try {
+                    const req = await fetchStatus();
+                    const status = req?.status || 'pending';
+                    setStatus(status);
+
+                    if (status === 'approved') {
+                        stopped = true;
+                        try {
+                            const raw = localStorage.getItem('ast_processed_deposit_requests') || '[]';
+                            const ids = JSON.parse(raw);
+                            const next = Array.isArray(ids) ? ids : [];
+                            if (!next.includes(reqId)) next.push(reqId);
+                            localStorage.setItem('ast_processed_deposit_requests', JSON.stringify(next));
+                        } catch {
+                        }
+                        activatePlan(req.plan || JSON.parse(localStorage.getItem('ast_pending_plan') || 'null'));
+                        return;
+                    }
+
+                    if (status === 'rejected') {
+                        stopped = true;
+                        if (backBtn) {
+                            backBtn.style.display = '';
+                            backBtn.addEventListener('click', () => {
+                                localStorage.removeItem('ast_last_deposit_request_id');
+                                window.location.href = 'deposit.html';
+                            });
+                        }
+                        return;
+                    }
+                } catch {
+                }
+                setTimeout(loop, 3000);
+            };
+
+            setStatus('pending');
+            loop();
+        });
+    </script>
+</body>
+</html>

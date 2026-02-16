@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>All Star Trades | My Running Plans</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="shortcut icon" href="assets/uploads/logo/favicon.png" type="image/x-icon">
+    <style>
+        .page-header {
+            text-align: center;
+            padding: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .header-icon-circle {
+            width: 40px;
+            height: 40px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #22c55e;
+            font-size: 18px;
+        }
+
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin: 0;
+        }
+
+        .plans-list {
+            padding: 0 20px 20px 20px;
+        }
+
+        .running-plan-card {
+            background: linear-gradient(180deg, #5ea83b 0%, #3a7c22 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .card-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-row:last-child {
+            border-bottom: none;
+        }
+
+        .row-label {
+            font-size: 18px;
+            font-weight: 800;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .row-content {
+            text-align: right;
+        }
+
+        .plan-name {
+            font-size: 16px;
+            font-weight: 700;
+            display: block;
+        }
+
+        .plan-amount {
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .profit-text {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .calc-text {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .timer-text {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 5px;
+        }
+
+        .row-icon {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Specific alignment for the screenshot look */
+        .invest-row .row-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .invest-row .icon-wrapper {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-wrapper">
+        <!-- Header -->
+        <header class="dash-header">
+            <div class="dash-logo">
+                <img src="assets/uploads/logo/logo.png" alt="All Star Trades">
+            </div>
+            <button class="menu-btn" id="menuToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </header>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobileMenu">
+            <div class="menu-content">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fa-solid fa-layer-group"></i> Dashboard
+                </a>
+                <a href="deposit.html" class="menu-item">Deposit</a>
+                <a href="running-plans.html" class="menu-item active">My Plans</a>
+                <a href="deposit-transactions.html" class="menu-item">Deposit Transactions</a>
+                <a href="all-transactions.html" class="menu-item">All Transactions</a>
+                <a href="withdraw.html" class="menu-item">Withdraw</a>
+                <a href="withdraw-history.html" class="menu-item">Withdraw History</a>
+                <a href="invite-referral.html" class="menu-item">Invite Referral</a>
+                <a href="settings.html" class="menu-item">Settings</a>
+                <a href="referral-bonus.html" class="menu-item">Referral Bonus Transaction</a>
+                <a href="#" class="menu-item" id="logoutBtn">Logout</a>
+            </div>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="header-icon-circle">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <h2 class="page-title">My Running Plans</h2>
+        </div>
+
+        <!-- Plans List -->
+        <div class="plans-list">
+            <!-- Card based on screenshot -->
+            <div class="running-plan-card">
+                <!-- Invest Row -->
+                <div class="card-row invest-row">
+                    <div class="row-label">Invest</div>
+                    <div class="row-content">
+                        <div class="icon-wrapper"><i class="fa-solid fa-lock row-icon"></i></div>
+                        <span class="plan-name" id="rpPlanId">VIP-01</span>
+                        <span class="plan-amount" id="rpInvestAmount">270 PKR</span>
+                    </div>
+                </div>
+
+                <!-- Profit Row -->
+                <div class="card-row">
+                    <div class="row-label">Profit</div>
+                    <div class="row-content">
+                        <div class="icon-wrapper" style="text-align: right; margin-bottom: 5px;"><i class="fa-solid fa-chart-line row-icon"></i></div>
+                        <span class="profit-text" id="rpProfitText">3x • Fixed Profit: 80 PKR</span>
+                    </div>
+                </div>
+
+                <!-- Count Days Row -->
+                <div class="card-row">
+                    <div class="row-label">Count Days</div>
+                    <div class="row-content">
+                        <div class="icon-wrapper" style="text-align: right; margin-bottom: 5px;"><i class="fa-solid fa-coins row-icon"></i></div>
+                        <span class="calc-text" id="rpCountText">3 x 80.00 = 240 PKR</span>
+                    </div>
+                </div>
+
+                <!-- Timer Row -->
+                <div class="card-row">
+                    <div class="row-label">Timer</div>
+                    <div class="row-content">
+                        <div class="icon-wrapper" style="text-align: right; margin-bottom: 5px;"><i class="fa-solid fa-stopwatch row-icon"></i></div>
+                        <span class="timer-text" id="rpTimerText">0d: 10h 27m 49s</span>
+                        <span class="progress-text" id="rpProgressText"><i class="fa-solid fa-bolt"></i> 54.17%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('active');
+                    const icon = menuToggle.querySelector('i');
+                    if (mobileMenu.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    window.location.href = 'login.html';
+                });
+            }
+
+            const PLAN_KEY = 'ast_active_plan';
+            const BALANCE_KEY = 'ast_wallet_balance';
+            const DAY_MS = 24 * 60 * 60 * 1000;
+
+            const getBalance = () => {
+                const n = Number(localStorage.getItem(BALANCE_KEY) || '0');
+                return Number.isFinite(n) ? n : 0;
+            };
+
+            const setBalance = (value) => {
+                localStorage.setItem(BALANCE_KEY, String(value));
+            };
+
+            const getActivePlan = () => {
+                try {
+                    const raw = localStorage.getItem(PLAN_KEY);
+                    if (!raw) return null;
+                    const data = JSON.parse(raw);
+                    if (!data || !data.id) return null;
+                    return data;
+                } catch {
+                    return null;
+                }
+            };
+
+            const setActivePlan = (plan) => {
+                if (!plan) {
+                    localStorage.removeItem(PLAN_KEY);
+                    return;
+                }
+                localStorage.setItem(PLAN_KEY, JSON.stringify(plan));
+            };
+
+            const syncPlanPayouts = () => {
+                const plan = getActivePlan();
+                if (!plan) return null;
+
+                const now = Date.now();
+                const payoutsDone = Number(plan.payoutsDone || 0);
+                const validityDays = Number(plan.validityDays || 0);
+                const dailyProfit = Number(plan.dailyProfit || 0);
+                const lastPayoutAt = Number(plan.lastPayoutAt || plan.startedAt || now);
+
+                const remaining = Math.max(0, validityDays - payoutsDone);
+                if (remaining <= 0) {
+                    setActivePlan(null);
+                    return null;
+                }
+
+                const elapsed = now - lastPayoutAt;
+                const periods = Math.floor(elapsed / DAY_MS);
+                const payable = Math.min(periods, remaining);
+                if (payable > 0) {
+                    const newBalance = getBalance() + payable * dailyProfit;
+                    setBalance(newBalance);
+
+                    const newPayoutsDone = payoutsDone + payable;
+                    const newLastPayoutAt = lastPayoutAt + payable * DAY_MS;
+
+                    if (newPayoutsDone >= validityDays) {
+                        setActivePlan(null);
+                        return null;
+                    }
+
+                    const updated = {
+                        ...plan,
+                        payoutsDone: newPayoutsDone,
+                        lastPayoutAt: newLastPayoutAt,
+                    };
+                    setActivePlan(updated);
+                    return updated;
+                }
+
+                return plan;
+            };
+
+            const formatTimer = (ms) => {
+                const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+                const days = Math.floor(totalSeconds / 86400);
+                const hours = Math.floor((totalSeconds % 86400) / 3600);
+                const minutes = Math.floor((totalSeconds % 3600) / 60);
+                const seconds = totalSeconds % 60;
+                return `${days}d: ${hours}h ${minutes}m ${seconds}s`;
+            };
+
+            const render = (plan) => {
+                const card = document.querySelector('.running-plan-card');
+                const planIdEl = document.getElementById('rpPlanId');
+                const investEl = document.getElementById('rpInvestAmount');
+                const profitEl = document.getElementById('rpProfitText');
+                const countEl = document.getElementById('rpCountText');
+                const timerEl = document.getElementById('rpTimerText');
+                const progressEl = document.getElementById('rpProgressText');
+
+                if (!card) return;
+
+                if (!plan) {
+                    card.style.display = 'none';
+                    if (!document.getElementById('rpEmpty')) {
+                        const empty = document.createElement('div');
+                        empty.id = 'rpEmpty';
+                        empty.style.textAlign = 'center';
+                        empty.style.padding = '30px 20px';
+                        empty.style.color = '#aaa';
+                        empty.innerHTML = `No running plan. <a href="deposit.html" style="color:#22c55e; text-decoration:none; font-weight:700;">Invest Now</a>`;
+                        document.querySelector('.plans-list')?.appendChild(empty);
+                    }
+                    return;
+                }
+
+                const emptyEl = document.getElementById('rpEmpty');
+                if (emptyEl) emptyEl.remove();
+                card.style.display = '';
+
+                const payoutsDone = Number(plan.payoutsDone || 0);
+                const validityDays = Number(plan.validityDays || 0);
+                const remainingDays = Math.max(0, validityDays - payoutsDone);
+                const dailyProfit = Number(plan.dailyProfit || 0);
+                const price = Number(plan.price || 0);
+
+                if (planIdEl) planIdEl.textContent = plan.id;
+                if (investEl) investEl.textContent = `${price} PKR`;
+                if (profitEl) profitEl.textContent = `${remainingDays}x • Fixed Profit: ${dailyProfit} PKR`;
+                if (countEl) countEl.textContent = `${remainingDays} x ${dailyProfit.toFixed(2)} = ${(remainingDays * dailyProfit)} PKR`;
+
+                const now = Date.now();
+                const lastPayoutAt = Number(plan.lastPayoutAt || plan.startedAt || now);
+                const nextPayoutAt = lastPayoutAt + DAY_MS;
+                const remainingMs = Math.max(0, nextPayoutAt - now);
+                const progress = Math.min(100, Math.max(0, ((DAY_MS - remainingMs) / DAY_MS) * 100));
+
+                if (timerEl) timerEl.textContent = formatTimer(remainingMs);
+                if (progressEl) progressEl.innerHTML = `<i class="fa-solid fa-bolt"></i> ${progress.toFixed(2)}%`;
+            };
+
+            let currentPlan = syncPlanPayouts();
+            render(currentPlan);
+
+            setInterval(() => {
+                currentPlan = syncPlanPayouts();
+                render(currentPlan);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

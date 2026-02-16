@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>All Star Trades | Deposit Request</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="shortcut icon" href="assets/uploads/logo/favicon.png" type="image/x-icon">
+    <style>
+        .req-wrap {
+            padding: 22px 18px 40px 18px;
+        }
+
+        .req-card {
+            margin-top: 26px;
+            background: linear-gradient(180deg, #22c55e 0%, #12a54d 100%);
+            border-radius: 26px;
+            padding: 26px 18px 22px 18px;
+            box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+            border: 1px solid rgba(255,255,255,0.14);
+        }
+
+        .req-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            color: rgba(0,0,0,0.65);
+            font-size: 22px;
+            padding: 6px 6px 16px 6px;
+        }
+
+        .req-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(0,0,0,0.65);
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
+        }
+
+        .req-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.35);
+            margin: 0 6px 18px 6px;
+        }
+
+        .req-text {
+            color: rgba(255,255,255,0.92);
+            text-align: center;
+            line-height: 1.5;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 0 10px;
+            margin-bottom: 18px;
+        }
+
+        .req-text b {
+            color: #0b1a0b;
+            background: rgba(255,255,255,0.55);
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-weight: 900;
+        }
+
+        .acc-block {
+            padding: 0 10px;
+            color: rgba(255,255,255,0.95);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .acc-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .acc-value {
+            font-weight: 900;
+            font-size: 14px;
+        }
+
+        .copy-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255,255,255,0.35);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(0,0,0,0.7);
+            cursor: pointer;
+        }
+
+        .form-box {
+            margin-top: 18px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 18px;
+            padding: 14px 14px 16px 14px;
+            border: 1px solid rgba(255,255,255,0.22);
+        }
+
+        .field {
+            background: rgba(255,255,255,0.22);
+            border-radius: 16px;
+            padding: 14px 14px 14px 14px;
+            border: 1px solid rgba(255,255,255,0.22);
+            margin-top: 12px;
+        }
+
+        .field-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255,255,255,0.95);
+            font-weight: 900;
+            font-size: 14px;
+        }
+
+        .field-title .req-star {
+            color: #ff2d2d;
+        }
+
+        .file-row {
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 14px;
+            padding: 12px;
+            border: 1px solid rgba(255,255,255,0.16);
+        }
+
+        .file-row input[type="file"] {
+            display: none;
+        }
+
+        .choose-btn {
+            background: rgba(255,255,255,0.55);
+            border: none;
+            border-radius: 999px;
+            padding: 10px 14px;
+            font-weight: 900;
+            color: rgba(0,0,0,0.8);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .file-name {
+            color: rgba(255,255,255,0.95);
+            font-weight: 700;
+            font-size: 13px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 160px;
+        }
+
+        .text-input {
+            width: 100%;
+            border: none;
+            background: rgba(255,255,255,0.18);
+            border-radius: 14px;
+            padding: 14px 14px;
+            margin-top: 12px;
+            color: rgba(0,0,0,0.75);
+            font-weight: 800;
+            outline: none;
+        }
+
+        .text-input::placeholder {
+            color: rgba(0,0,0,0.45);
+            font-weight: 700;
+        }
+
+        .send-btn {
+            margin-top: 18px;
+            width: 100%;
+            border: none;
+            border-radius: 14px;
+            padding: 16px 14px;
+            font-size: 16px;
+            font-weight: 900;
+            background: linear-gradient(90deg, #b6ffcc, #7cff5b);
+            color: rgba(0,0,0,0.8);
+            cursor: pointer;
+            box-shadow: 0 10px 22px rgba(0,0,0,0.25);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="dashboard-body">
+
+    <div class="dashboard-wrapper">
+        <header class="dash-header">
+            <div class="dash-logo">
+                <img src="assets/uploads/logo/logo.png" alt="All Star Trades">
+            </div>
+            <button class="menu-btn" id="menuToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </header>
+
+        <div class="mobile-menu-overlay" id="mobileMenu">
+            <div class="menu-content">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fa-solid fa-layer-group"></i> Dashboard
+                </a>
+                <a href="deposit.html" class="menu-item">Deposit</a>
+                <a href="running-plans.html" class="menu-item">My Plans</a>
+                <a href="deposit-transactions.html" class="menu-item">Deposit Transactions</a>
+                <a href="all-transactions.html" class="menu-item">All Transactions</a>
+                <a href="withdraw.html" class="menu-item">Withdraw</a>
+                <a href="withdraw-history.html" class="menu-item">Withdraw History</a>
+                <a href="invite-referral.html" class="menu-item">Invite Referral</a>
+                <a href="settings.html" class="menu-item">Settings</a>
+                <a href="referral-bonus.html" class="menu-item">Referral Bonus Transaction</a>
+                <a href="#" class="menu-item" id="logoutBtn">Logout</a>
+            </div>
+        </div>
+
+        <div class="req-wrap">
+            <div class="req-card">
+                <div class="req-header">
+                    <div class="req-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+                    <div>Send Money Jazzcash</div>
+                </div>
+                <div class="req-divider"></div>
+
+                <div class="req-text" id="reqText">
+                    You have requested to deposit this Plan <b>0 PKR</b>, Please Send <b>0 PKR</b> for successful payment.
+                </div>
+
+                <div class="acc-block">
+                    <div>Account Number</div>
+                    <div class="acc-row">
+                        <div class="acc-value" id="accNumber">03468380608</div>
+                        <button class="copy-btn" id="copyNumberBtn" type="button"><i class="fa-regular fa-copy"></i></button>
+                    </div>
+                </div>
+
+                <div class="acc-block" style="margin-top: 12px;">
+                    <div>Account Name</div>
+                    <div class="acc-row">
+                        <div class="acc-value" id="accName">Muhammad Fiaz</div>
+                        <button class="copy-btn" id="copyNameBtn" type="button"><i class="fa-regular fa-copy"></i></button>
+                    </div>
+                </div>
+
+                <div class="form-box">
+                    <div class="field">
+                        <div class="field-title"><i class="fa-solid fa-image"></i> Upload Screenshot <span class="req-star">*</span></div>
+                        <div class="file-row">
+                            <label class="choose-btn" for="proofFile">Choose File</label>
+                            <div class="file-name" id="fileName">No file chosen</div>
+                            <input id="proofFile" type="file" accept="image/*">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="field-title"><i class="fa-solid fa-hashtag"></i> Enter transaction id <span class="req-star">*</span></div>
+                        <input class="text-input" id="txId" type="text" placeholder="Enter transaction id">
+                    </div>
+
+                    <button class="send-btn" id="sendRequestBtn">Send Request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('active');
+                    const icon = menuToggle.querySelector('i');
+                    if (mobileMenu.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+
+                mobileMenu.addEventListener('click', (e) => {
+                    if (e.target === mobileMenu) {
+                        mobileMenu.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            }
+
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    window.location.href = 'login.html';
+                });
+            }
+
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const getPendingPlan = () => {
+                try {
+                    const raw = localStorage.getItem('ast_pending_plan');
+                    if (!raw) return null;
+                    const plan = JSON.parse(raw);
+                    if (!plan || !plan.id) return null;
+                    return plan;
+                } catch {
+                    return null;
+                }
+            };
+
+            const pending = getPendingPlan();
+            if (!pending) {
+                window.location.href = 'deposit.html';
+                return;
+            }
+
+            const reqText = document.getElementById('reqText');
+            if (reqText) {
+                reqText.innerHTML = `You have requested to deposit this Plan <b>${pending.price} PKR</b>, Please Send <b>${pending.price} PKR</b> for successful payment.`;
+            }
+
+            const copyText = async (text) => {
+                try {
+                    await navigator.clipboard.writeText(text);
+                } catch {
+                }
+            };
+
+            const accNumberEl = document.getElementById('accNumber');
+            const accNameEl = document.getElementById('accName');
+            const copyNumberBtn = document.getElementById('copyNumberBtn');
+            const copyNameBtn = document.getElementById('copyNameBtn');
+
+            if (copyNumberBtn && accNumberEl) {
+                copyNumberBtn.addEventListener('click', () => copyText(accNumberEl.textContent || ''));
+            }
+            if (copyNameBtn && accNameEl) {
+                copyNameBtn.addEventListener('click', () => copyText(accNameEl.textContent || ''));
+            }
+
+            const proofFile = document.getElementById('proofFile');
+            const fileName = document.getElementById('fileName');
+            let proofPayload = null;
+
+            const toBase64 = (file) => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(String(reader.result || ''));
+                reader.onerror = () => reject(new Error('read_failed'));
+                reader.readAsDataURL(file);
+            });
+
+            if (proofFile) {
+                proofFile.addEventListener('change', async () => {
+                    const file = proofFile.files && proofFile.files[0] ? proofFile.files[0] : null;
+                    if (fileName) fileName.textContent = file ? file.name : 'No file chosen';
+                    proofPayload = null;
+                    if (!file) return;
+                    const dataUrl = await toBase64(file);
+                    proofPayload = { name: file.name, type: file.type, dataUrl };
+                });
+            }
+
+            const txId = document.getElementById('txId');
+            const sendRequestBtn = document.getElementById('sendRequestBtn');
+
+            const getApiUrl = (endpoint) => {
+                if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
+                    if (window.location.port === '5500' || window.location.port === '5501') {
+                        return `http://localhost:3000${endpoint}`;
+                    }
+                }
+                return endpoint;
+            };
+
+            const createActivePlan = () => {
+                const now = Date.now();
+                const activePlan = {
+                    ...pending,
+                    startedAt: now,
+                    lastPayoutAt: now,
+                    payoutsDone: 0,
+                };
+                localStorage.setItem('ast_active_plan', JSON.stringify(activePlan));
+                if (!localStorage.getItem('ast_wallet_balance')) {
+                    localStorage.setItem('ast_wallet_balance', '0');
+                }
+            };
+
+            if (sendRequestBtn) {
+                sendRequestBtn.addEventListener('click', async () => {
+                    const tx = (txId?.value || '').trim();
+                    if (!proofPayload) return alert('Please upload screenshot');
+                    if (!tx) return alert('Please enter transaction id');
+
+                    sendRequestBtn.disabled = true;
+                    try {
+                        const payload = {
+                            method: 'jazzcash',
+                            plan: pending,
+                            planId: pending.id,
+                            amount: pending.price,
+                            transactionId: tx,
+                            accountNumber: accNumberEl?.textContent || '',
+                            accountName: accNameEl?.textContent || '',
+                            proof: proofPayload,
+                        };
+
+                        const res = await fetch(getApiUrl('/api/deposit-requests'), {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`,
+                            },
+                            body: JSON.stringify(payload),
+                        });
+
+                        if (!res.ok) {
+                            const err = await res.json().catch(() => ({}));
+                            throw new Error(err.message || 'Request failed');
+                        }
+
+                        const created = await res.json().catch(() => ({}));
+                        if (!created || !created._id) {
+                            throw new Error('Request failed');
+                        }
+                        localStorage.setItem('ast_last_deposit_request_id', created._id);
+                        window.location.href = 'deposit-waiting.html';
+                    } catch (e) {
+                        alert(e.message || 'Request failed');
+                        sendRequestBtn.disabled = false;
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

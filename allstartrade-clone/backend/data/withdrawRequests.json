@@ -1,0 +1,50 @@
+[
+  {
+    "_id": "1771254644030",
+    "userId": "1771250411009",
+    "userName": "Ali745367",
+    "userEmail": "03083869891",
+    "method": "jazzcash",
+    "amount": 160,
+    "accountNumber": "0987654321",
+    "accountName": "askjhgf",
+    "fromWallet": "current",
+    "status": "approved",
+    "approvedAt": "2026-02-16T15:12:22.950Z",
+    "rejectedAt": null,
+    "createdAt": "2026-02-16T15:10:44.030Z",
+    "updatedAt": "2026-02-16T15:12:22.951Z"
+  },
+  {
+    "_id": "1771248867173",
+    "userId": "1771247559982",
+    "userName": "Ali745367",
+    "userEmail": "03083869892",
+    "method": "easypaisa",
+    "amount": 160,
+    "accountNumber": "0987654321",
+    "accountName": "asam tahira",
+    "fromWallet": "current",
+    "status": "approved",
+    "approvedAt": "2026-02-16T13:49:44.090Z",
+    "rejectedAt": null,
+    "createdAt": "2026-02-16T13:34:27.173Z",
+    "updatedAt": "2026-02-16T13:49:44.092Z"
+  },
+  {
+    "_id": "1771248393754",
+    "userId": "1771247559982",
+    "userName": "Ali745367",
+    "userEmail": "03083869892",
+    "method": "jazzcash",
+    "amount": 160,
+    "accountNumber": "03083869891",
+    "accountName": "Asam Tahira",
+    "fromWallet": "current",
+    "status": "approved",
+    "approvedAt": "2026-02-16T13:49:45.808Z",
+    "rejectedAt": null,
+    "createdAt": "2026-02-16T13:26:33.754Z",
+    "updatedAt": "2026-02-16T13:49:45.809Z"
+  }
+]
