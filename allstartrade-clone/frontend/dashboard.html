@@ -278,6 +278,84 @@
             const menuToggle = document.getElementById('menuToggle');
             const mobileMenu = document.getElementById('mobileMenu');
             const downloadAppBtn = document.getElementById('downloadAppBtn');
+            const balanceEl = document.querySelector('.balance-section .balance-amount');
+
+            const PLAN_KEY = 'ast_active_plan';
+            const BALANCE_KEY = 'ast_wallet_balance';
+            const DAY_MS = 24 * 60 * 60 * 1000;
+
+            const getBalance = () => {
+                const n = Number(localStorage.getItem(BALANCE_KEY) || '0');
+                return Number.isFinite(n) ? n : 0;
+            };
+
+            const setBalance = (value) => {
+                localStorage.setItem(BALANCE_KEY, String(value));
+            };
+
+            const getActivePlan = () => {
+                try {
+                    const raw = localStorage.getItem(PLAN_KEY);
+                    if (!raw) return null;
+                    const data = JSON.parse(raw);
+                    if (!data || !data.id) return null;
+                    return data;
+                } catch {
+                    return null;
+                }
+            };
+
+            const setActivePlan = (plan) => {
+                if (!plan) {
+                    localStorage.removeItem(PLAN_KEY);
+                    return;
+                }
+                localStorage.setItem(PLAN_KEY, JSON.stringify(plan));
+            };
+
+            const syncPlanPayouts = () => {
+                const plan = getActivePlan();
+                if (!plan) return;
+
+                const now = Date.now();
+                const payoutsDone = Number(plan.payoutsDone || 0);
+                const validityDays = Number(plan.validityDays || 0);
+                const dailyProfit = Number(plan.dailyProfit || 0);
+                const lastPayoutAt = Number(plan.lastPayoutAt || plan.startedAt || now);
+
+                const remaining = Math.max(0, validityDays - payoutsDone);
+                if (remaining <= 0) {
+                    setActivePlan(null);
+                    return;
+                }
+
+                const elapsed = now - lastPayoutAt;
+                const periods = Math.floor(elapsed / DAY_MS);
+                const payable = Math.min(periods, remaining);
+                if (payable > 0) {
+                    setBalance(getBalance() + payable * dailyProfit);
+
+                    const newPayoutsDone = payoutsDone + payable;
+                    const newLastPayoutAt = lastPayoutAt + payable * DAY_MS;
+
+                    if (newPayoutsDone >= validityDays) {
+                        setActivePlan(null);
+                        return;
+                    }
+
+                    setActivePlan({
+                        ...plan,
+                        payoutsDone: newPayoutsDone,
+                        lastPayoutAt: newLastPayoutAt,
+                    });
+                }
+            };
+
+            const renderBalance = () => {
+                if (!balanceEl) return;
+                const balance = getBalance();
+                balanceEl.textContent = `Rs${balance.toFixed(1)}`;
+            };
 
             if (downloadAppBtn) {
                 const appUrl = localStorage.getItem('ast_app_download_url') || 'assets/app/allstartrade.apk';
@@ -326,6 +404,17 @@
             if(menuLogoutBtn) {
                 menuLogoutBtn.addEventListener('click', handleLogout);
             }
+
+            if (!localStorage.getItem(BALANCE_KEY)) {
+                localStorage.setItem(BALANCE_KEY, '0');
+            }
+
+            syncPlanPayouts();
+            renderBalance();
+            setInterval(() => {
+                syncPlanPayouts();
+                renderBalance();
+            }, 1000);
 
         });
     </script>
