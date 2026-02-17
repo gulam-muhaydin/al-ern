@@ -8,7 +8,7 @@
     <script>
         if (location.protocol === 'file:') {
             const base = document.createElement('base');
-            base.href = 'https://faithful-wonder-production.up.railway.app/';
+            base.href = location.href.replace(/[^/]*$/, '');
             document.head.appendChild(base);
         }
     </script>
@@ -131,7 +131,7 @@
                 <span>My Team</span>
             </a>
 
-            <a href="#" class="quick-item">
+            <a href="https://whatsapp.com/channel/0029Vb7pDu60lwgiWHriJy0p" class="quick-item" target="_blank" rel="noopener noreferrer">
                 <div class="icon-box">
                     <i class="fa-brands fa-whatsapp"></i>
                 </div>
@@ -399,10 +399,11 @@
             };
 
             if (downloadAppBtn) {
-                const appUrl = localStorage.getItem('ast_app_download_url') || 'assets/app/allstartrade.apk';
+                const defaultAppUrl = 'https://faithful-wonder-production.up.railway.app/assets/app/allstartrade.apk';
+                const appUrl = localStorage.getItem('ast_app_download_url') || defaultAppUrl;
                 downloadAppBtn.setAttribute('href', appUrl);
                 downloadAppBtn.setAttribute('download', 'allstartrade.apk');
-                downloadAppBtn.setAttribute('target', '_blank');
+                downloadAppBtn.setAttribute('target', '_self');
             }
 
 

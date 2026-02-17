@@ -7,7 +7,7 @@
     <script>
         if (location.protocol === 'file:') {
             const base = document.createElement('base');
-            base.href = 'https://faithful-wonder-production.up.railway.app/';
+            base.href = location.href.replace(/[^/]*$/, '');
             document.head.appendChild(base);
         }
     </script>

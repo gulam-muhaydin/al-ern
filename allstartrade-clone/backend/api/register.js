@@ -39,6 +39,12 @@ module.exports = async (req, res) => {
     if (userExists) {
       return res.status(400).json({ message: 'User already exists' });
     }
+    if (normalizedName) {
+      const nameExists = await User.findOne({ name: normalizedName });
+      if (nameExists) {
+        return res.status(400).json({ message: 'Name already exists' });
+      }
+    }
     if (normalizedUsername) {
       const usernameExists = await User.findOne({ username: normalizedUsername });
       if (usernameExists) {
