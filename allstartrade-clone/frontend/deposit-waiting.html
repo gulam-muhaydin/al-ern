@@ -211,6 +211,9 @@
             }
 
             const getApiUrl = (endpoint) => {
+                if (window.location.protocol === 'file:') {
+                    return `https://faithful-wonder-production.up.railway.app${endpoint}`;
+                }
                 if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
                     if (window.location.port === '5500' || window.location.port === '5501') {
                         return `http://localhost:3000${endpoint}`;
