@@ -10,8 +10,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 
 // API Routes Adapter (mimic Vercel function signature)
 const apiAdapter = (handler) => async (req, res) => {
