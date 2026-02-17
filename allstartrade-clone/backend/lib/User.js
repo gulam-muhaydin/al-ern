@@ -34,8 +34,15 @@ class User {
 
     static async findOne(query) {
         const users = getUsers();
+        const normalize = (value) => String(value || '').trim().toLowerCase();
         if (query.email) {
-            const user = users.find(u => u.email === query.email);
+            const target = normalize(query.email);
+            const user = users.find(u => normalize(u.email) === target);
+            return user ? new User(user) : null;
+        }
+        if (query.name) {
+            const target = normalize(query.name);
+            const user = users.find(u => normalize(u.name) === target);
             return user ? new User(user) : null;
         }
         return null;

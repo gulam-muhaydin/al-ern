@@ -5,6 +5,13 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+        if (location.protocol === 'file:') {
+            const base = document.createElement('base');
+            base.href = 'https://faithful-wonder-production.up.railway.app/';
+            document.head.appendChild(base);
+        }
+    </script>
     <title>All Star Trades | Deposit</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="css/dashboard.css">

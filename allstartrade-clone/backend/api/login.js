@@ -24,9 +24,16 @@ module.exports = async (req, res) => {
   try {
     await connectToDatabase();
 
-    const { email, password } = req.body;
+    const { email, password, username, phone } = req.body;
+    const identifier = (email || username || phone || '').toString().trim();
+    if (!identifier || !password) {
+      return res.status(400).json({ message: 'Please provide all fields' });
+    }
 
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email: identifier });
+    if (!user) {
+      user = await User.findOne({ name: identifier });
+    }
 
     if (user && (await user.matchPassword(password))) {
       res.json({

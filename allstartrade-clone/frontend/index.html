@@ -13,6 +13,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1' />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      if (location.protocol === 'file:') {
+        const base = document.createElement('base');
+        base.href = 'https://faithful-wonder-production.up.railway.app/';
+        document.head.appendChild(base);
+      }
+    </script>
     <meta name="apple-mobile-web-app-capable" content="yes">  <meta name="mobile-web-app-capable" content="yes">
 <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
