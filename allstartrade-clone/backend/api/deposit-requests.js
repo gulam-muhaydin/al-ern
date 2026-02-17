@@ -113,6 +113,9 @@ module.exports = async (req, res) => {
 
         const updated = await DepositRequest.updateById(id, updates);
         if (!updated) return res.status(404).json({ message: 'Request not found' });
+        if (status === 'approved') {
+            await User.addPlanForUser(updated.userId, updated.plan || {}, updated._id);
+        }
         return res.json(updated);
     }
 

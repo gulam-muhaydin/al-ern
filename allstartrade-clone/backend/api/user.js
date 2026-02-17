@@ -42,8 +42,10 @@ module.exports = async (req, res) => {
         return res.status(404).json({ message: 'User not found' });
       }
 
-      // Remove password from response
-      const { password, ...userWithoutPassword } = user;
+      const updatedUser = await User.applyPayoutsForUserId(user._id);
+      const finalUser = updatedUser || user;
+
+      const { password, ...userWithoutPassword } = finalUser;
       res.json(userWithoutPassword);
     } catch (error) {
       console.error(error);

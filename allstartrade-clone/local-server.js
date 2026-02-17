@@ -3,6 +3,8 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const dotenv = require('dotenv');
+const connectToDatabase = require('./backend/lib/db');
+const User = require('./backend/lib/User');
 
 // Load env vars
 dotenv.config();
@@ -77,6 +79,11 @@ app.get('*', (req, res) => {
     return res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on 0.0.0.0:${PORT}`);
+connectToDatabase().then(() => {
+    setInterval(async () => {
+        await User.applyPayoutsForAll();
+    }, 60 * 60 * 1000);
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log(`Server running on 0.0.0.0:${PORT}`);
+    });
 });

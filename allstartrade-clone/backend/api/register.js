@@ -74,6 +74,8 @@ module.exports = async (req, res) => {
       phone: normalizedPhone,
       password,
       referredBy,
+      walletBalance: 0,
+      plans: []
     });
 
     if (user) {
