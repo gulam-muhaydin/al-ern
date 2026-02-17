@@ -122,10 +122,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const validityDays = Number(plan.validityDays || 0);
         const initialPayouts = validityDays > 0 ? 1 : 0;
 
-        const currentBalance = Number(localStorage.getItem('ast_wallet_balance') || '0');
-        const safeBalance = Number.isFinite(currentBalance) ? currentBalance : 0;
-        localStorage.setItem('ast_wallet_balance', String(safeBalance + (initialPayouts ? dailyProfit : 0)));
-
         const activePlan = {
             ...plan,
             startedAt: now,
@@ -161,10 +157,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
-    const refundWithdraw = (amount) => {
-        const currentBalance = Number(localStorage.getItem('ast_wallet_balance') || '0');
-        const safeBalance = Number.isFinite(currentBalance) ? currentBalance : 0;
-        localStorage.setItem('ast_wallet_balance', String(safeBalance + amount));
+    const refundWithdraw = () => {
     };
 
     const checkWithdrawRequests = async () => {
