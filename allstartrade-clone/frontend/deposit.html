@@ -571,6 +571,8 @@
             if(logoutBtn) {
                 logoutBtn.addEventListener('click', (e) => {
                     e.preventDefault();
+                    sessionStorage.removeItem('token');
+                    sessionStorage.removeItem('user');
                     localStorage.removeItem('token');
                     localStorage.removeItem('user');
                     window.location.href = 'login.html';

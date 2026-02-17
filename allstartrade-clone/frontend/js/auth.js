@@ -83,8 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const result = await response.json();
 
                 if (response.ok) {
-                    localStorage.setItem('token', result.token);
-                    localStorage.setItem('user', JSON.stringify(result));
+                    sessionStorage.setItem('token', result.token);
+                    sessionStorage.setItem('user', JSON.stringify(result));
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
                     window.location.href = 'dashboard.html';
                 } else {
                     showPopup(result.message || 'Login failed', 'error');
@@ -151,9 +153,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const result = await response.json();
 
                 if (response.ok) {
-                    localStorage.setItem('token', result.token);
-                    localStorage.setItem('user', JSON.stringify(result));
-                    
+                    sessionStorage.setItem('token', result.token);
+                    sessionStorage.setItem('user', JSON.stringify(result));
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
                     showPopup('Registration successful! Redirecting to dashboard...', 'success');
                     window.location.href = 'dashboard.html';
                 } else {

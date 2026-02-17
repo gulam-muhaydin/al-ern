@@ -389,13 +389,13 @@
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
+                    sessionStorage.removeItem('token');
+                    sessionStorage.removeItem('user');
                     window.location.href = 'login.html';
                 });
             }
 
-            const token = localStorage.getItem('token') || '';
+            const token = sessionStorage.getItem('token') || '';
 
             const PIN_KEY = 'ast_admin_pin_ok';
             const REQUIRED_PIN = '2227';

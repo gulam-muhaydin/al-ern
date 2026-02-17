@@ -63,8 +63,12 @@ module.exports = async (req, res) => {
 
     if (req.method === 'POST') {
         const { method, amount, accountNumber, accountName, fromWallet } = req.body || {};
-        if (!amount || !accountNumber || !accountName) {
+        const numericAmount = Number(amount || 0);
+        if (!numericAmount || !accountNumber || !accountName) {
             return res.status(400).json({ message: 'Missing required fields' });
+        }
+        if (numericAmount < 80) {
+            return res.status(400).json({ message: 'Minimum withdraw amount is 80' });
         }
 
         const created = await WithdrawRequest.create({
@@ -72,7 +76,7 @@ module.exports = async (req, res) => {
             userName: user.name,
             userEmail: user.email,
             method: method || 'jazzcash',
-            amount,
+            amount: numericAmount,
             accountNumber,
             accountName,
             fromWallet: fromWallet || 'current',

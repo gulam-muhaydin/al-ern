@@ -187,13 +187,15 @@
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', (e) => {
                     e.preventDefault();
+                    sessionStorage.removeItem('token');
+                    sessionStorage.removeItem('user');
                     localStorage.removeItem('token');
                     localStorage.removeItem('user');
                     window.location.href = 'login.html';
                 });
             }
 
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             if (!token) {
                 window.location.href = 'login.html';
                 return;
@@ -236,32 +238,6 @@
                 }
             };
 
-            const activatePlan = (plan) => {
-                if (!plan || !plan.id) return;
-                const now = Date.now();
-                const dailyProfit = Number(plan.dailyProfit || 0);
-                const validityDays = Number(plan.validityDays || 0);
-                const initialPayouts = validityDays > 0 ? 1 : 0;
-
-                const currentBalance = Number(localStorage.getItem('ast_wallet_balance') || '0');
-                const safeBalance = Number.isFinite(currentBalance) ? currentBalance : 0;
-                localStorage.setItem('ast_wallet_balance', String(safeBalance + (initialPayouts ? dailyProfit : 0)));
-
-                const activePlan = {
-                    ...plan,
-                    startedAt: now,
-                    lastPayoutAt: now,
-                    payoutsDone: initialPayouts,
-                };
-                localStorage.setItem('ast_active_plan', JSON.stringify(activePlan));
-                localStorage.removeItem('ast_pending_plan');
-                localStorage.removeItem('ast_last_deposit_request_id');
-                if (!localStorage.getItem('ast_wallet_balance')) {
-                    localStorage.setItem('ast_wallet_balance', '0');
-                }
-                window.location.href = 'running-plans.html';
-            };
-
             const fetchStatus = async () => {
                 const res = await fetch(getApiUrl(`/api/deposit-requests?id=${encodeURIComponent(reqId)}`), {
                     headers: { 'Authorization': `Bearer ${token}` }
@@ -289,7 +265,8 @@
                             localStorage.setItem('ast_processed_deposit_requests', JSON.stringify(next));
                         } catch {
                         }
-                        activatePlan(req.plan || JSON.parse(localStorage.getItem('ast_pending_plan') || 'null'));
+                        localStorage.removeItem('ast_last_deposit_request_id');
+                        window.location.href = 'running-plans.html';
                         return;
                     }
 

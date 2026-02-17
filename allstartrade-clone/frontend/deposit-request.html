@@ -322,13 +322,15 @@
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', (e) => {
                     e.preventDefault();
+                    sessionStorage.removeItem('token');
+                    sessionStorage.removeItem('user');
                     localStorage.removeItem('token');
                     localStorage.removeItem('user');
                     window.location.href = 'login.html';
                 });
             }
 
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             if (!token) {
                 window.location.href = 'login.html';
                 return;
@@ -482,20 +484,6 @@
                     }
                 }
                 return endpoint;
-            };
-
-            const createActivePlan = () => {
-                const now = Date.now();
-                const activePlan = {
-                    ...pending,
-                    startedAt: now,
-                    lastPayoutAt: now,
-                    payoutsDone: 0,
-                };
-                localStorage.setItem('ast_active_plan', JSON.stringify(activePlan));
-                if (!localStorage.getItem('ast_wallet_balance')) {
-                    localStorage.setItem('ast_wallet_balance', '0');
-                }
             };
 
             if (sendRequestBtn) {

@@ -175,6 +175,8 @@
             }
 
             const doLogout = () => {
+                sessionStorage.removeItem('token');
+                sessionStorage.removeItem('user');
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
                 window.location.href = 'login.html';
@@ -194,7 +196,7 @@
                 });
             }
 
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             if (!token) {
                 window.location.href = 'login.html';
                 return;

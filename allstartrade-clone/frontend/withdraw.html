@@ -422,13 +422,13 @@
             if(logoutBtn) {
                 logoutBtn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
+                    sessionStorage.removeItem('token');
+                    sessionStorage.removeItem('user');
                     window.location.href = 'login.html';
                 });
             }
 
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             if (!token) {
                 window.location.href = 'login.html';
                 return;
@@ -484,36 +484,47 @@
                 return endpoint;
             };
 
-            const getBalance = () => {
-                const balance = Number(localStorage.getItem('ast_wallet_balance') || '0');
-                return Number.isFinite(balance) ? balance : 0;
-            };
-
-            const setBalance = (value) => {
-                localStorage.setItem('ast_wallet_balance', String(value));
-            };
+            let currentBalance = 0;
 
             const renderBalance = () => {
-                const safeBalance = getBalance();
-                if (balanceAmount) balanceAmount.textContent = `Rs${safeBalance.toFixed(2)}`;
+                if (balanceAmount) balanceAmount.textContent = `Rs${currentBalance.toFixed(2)}`;
                 if (withdrawFrom) {
                     withdrawFrom.querySelectorAll('option').forEach(opt => {
-                        if (opt.value === 'current') opt.textContent = `Current Balance (Rs${safeBalance.toFixed(2)})`;
+                        if (opt.value === 'current') opt.textContent = `Current Balance (Rs${currentBalance.toFixed(2)})`;
                     });
                 }
             };
 
-            renderBalance();
+            const fetchBalance = async () => {
+                try {
+                    const res = await fetch(getApiUrl('/api/user'), {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    if (!res.ok) return;
+                    const user = await res.json();
+                    const balance = Number(user.walletBalance || 0);
+                    currentBalance = Number.isFinite(balance) ? balance : 0;
+                    renderBalance();
+                } catch {
+                }
+            };
+
+            fetchBalance();
 
             const submitWithdraw = async () => {
                 const amount = Number(withdrawAmount?.value || 0);
                 const name = (accountName?.value || '').trim();
                 const number = (accountNumber?.value || '').trim();
                 const fromWallet = withdrawFrom?.value || 'current';
-                const balance = getBalance();
 
                 if (!amount || amount <= 0) {
                     showPopup('Please enter withdraw amount', 'error');
+                    return;
+                }
+                if (amount < 80) {
+                    showPopup('Minimum withdraw amount is 80', 'error');
                     return;
                 }
                 if (!name) {
@@ -524,7 +535,7 @@
                     showPopup('Please enter account number', 'error');
                     return;
                 }
-                if (fromWallet === 'current' && amount > balance) {
+                if (fromWallet === 'current' && amount > currentBalance) {
                     showPopup('Insufficient balance', 'error');
                     return;
                 }
@@ -550,10 +561,7 @@
                         throw new Error(err.message || 'Request failed');
                     }
                     showPopup('Withdraw request submitted', 'success');
-                    if (fromWallet === 'current') {
-                        setBalance(Math.max(0, balance - amount));
-                        renderBalance();
-                    }
+                    fetchBalance();
                     if (withdrawAmount) withdrawAmount.value = '';
                     if (accountName) accountName.value = '';
                     if (accountNumber) accountNumber.value = '';

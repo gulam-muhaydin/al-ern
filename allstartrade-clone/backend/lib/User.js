@@ -119,6 +119,7 @@ class User {
         const planEntry = {
             requestId: reqKey,
             planId: plan?.id || plan?.planId || '',
+            price: Number(plan?.price || plan?.amount || 0),
             dailyProfit,
             validityDays,
             startedAt: now,

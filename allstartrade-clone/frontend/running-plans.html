@@ -245,86 +245,44 @@
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
+                    sessionStorage.removeItem('token');
+                    sessionStorage.removeItem('user');
                     window.location.href = 'login.html';
                 });
             }
 
-            const PLAN_KEY = 'ast_active_plan';
-            const BALANCE_KEY = 'ast_wallet_balance';
-            const DAY_MS = 24 * 60 * 60 * 1000;
+            const token = sessionStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
 
-            const getBalance = () => {
-                const n = Number(localStorage.getItem(BALANCE_KEY) || '0');
-                return Number.isFinite(n) ? n : 0;
-            };
-
-            const setBalance = (value) => {
-                localStorage.setItem(BALANCE_KEY, String(value));
-            };
-
-            const getActivePlan = () => {
-                try {
-                    const raw = localStorage.getItem(PLAN_KEY);
-                    if (!raw) return null;
-                    const data = JSON.parse(raw);
-                    if (!data || !data.id) return null;
-                    return data;
-                } catch {
-                    return null;
+            const getApiUrl = (endpoint) => {
+                if (window.location.protocol === 'file:') {
+                    return `https://faithful-wonder-production.up.railway.app${endpoint}`;
                 }
-            };
-
-            const setActivePlan = (plan) => {
-                if (!plan) {
-                    localStorage.removeItem(PLAN_KEY);
-                    return;
-                }
-                localStorage.setItem(PLAN_KEY, JSON.stringify(plan));
-            };
-
-            const syncPlanPayouts = () => {
-                const plan = getActivePlan();
-                if (!plan) return null;
-
-                const now = Date.now();
-                const payoutsDone = Number(plan.payoutsDone || 0);
-                const validityDays = Number(plan.validityDays || 0);
-                const dailyProfit = Number(plan.dailyProfit || 0);
-                const lastPayoutAt = Number(plan.lastPayoutAt || plan.startedAt || now);
-
-                const remaining = Math.max(0, validityDays - payoutsDone);
-                if (remaining <= 0) {
-                    setActivePlan(null);
-                    return null;
-                }
-
-                const elapsed = now - lastPayoutAt;
-                const periods = Math.floor(elapsed / DAY_MS);
-                const payable = Math.min(periods, remaining);
-                if (payable > 0) {
-                    const newBalance = getBalance() + payable * dailyProfit;
-                    setBalance(newBalance);
-
-                    const newPayoutsDone = payoutsDone + payable;
-                    const newLastPayoutAt = lastPayoutAt + payable * DAY_MS;
-
-                    if (newPayoutsDone >= validityDays) {
-                        setActivePlan(null);
-                        return null;
+                if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
+                    if (window.location.port === '5500' || window.location.port === '5501') {
+                        return `http://localhost:3000${endpoint}`;
                     }
-
-                    const updated = {
-                        ...plan,
-                        payoutsDone: newPayoutsDone,
-                        lastPayoutAt: newLastPayoutAt,
-                    };
-                    setActivePlan(updated);
-                    return updated;
                 }
+                return endpoint;
+            };
 
-                return plan;
+            const DAY_MS = 24 * 60 * 60 * 1000;
+            let currentPlan = null;
+
+            const normalizePlan = (plan) => {
+                if (!plan) return null;
+                return {
+                    id: plan.planId || plan.id || '-',
+                    price: Number(plan.price || 0),
+                    dailyProfit: Number(plan.dailyProfit || 0),
+                    validityDays: Number(plan.validityDays || 0),
+                    payoutsDone: Number(plan.payoutsDone || 0),
+                    startedAt: Number(plan.startedAt || Date.now()),
+                    lastPayoutAt: Number(plan.lastPayoutAt || plan.startedAt || Date.now())
+                };
             };
 
             const formatTimer = (ms) => {
@@ -386,13 +344,26 @@
                 if (progressEl) progressEl.innerHTML = `<i class="fa-solid fa-bolt"></i> ${progress.toFixed(2)}%`;
             };
 
-            let currentPlan = syncPlanPayouts();
-            render(currentPlan);
+            const fetchPlan = async () => {
+                try {
+                    const res = await fetch(getApiUrl('/api/user'), {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (!res.ok) return;
+                    const user = await res.json();
+                    const plans = Array.isArray(user.plans) ? user.plans : [];
+                    const active = plans.find(p => (p.status || 'active') === 'active') || null;
+                    currentPlan = normalizePlan(active);
+                    render(currentPlan);
+                } catch {
+                }
+            };
 
+            fetchPlan();
             setInterval(() => {
-                currentPlan = syncPlanPayouts();
                 render(currentPlan);
             }, 1000);
+            setInterval(fetchPlan, 30000);
         });
     </script>
 </body>
