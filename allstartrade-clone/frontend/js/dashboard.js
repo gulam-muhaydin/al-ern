@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }, 2600);
     };
 
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     
     // 1. Auth Check
     if (!token) {
@@ -257,16 +257,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     } catch (error) {
         console.error('Auth Error:', error);
-        sessionStorage.removeItem('token');
-        sessionStorage.removeItem('user');
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
         window.location.href = 'login.html';
     }
 
     // Logout
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
-            sessionStorage.removeItem('token');
-            sessionStorage.removeItem('user');
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
             window.location.href = 'login.html';
         });
     }
