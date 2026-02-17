@@ -31,9 +31,9 @@ module.exports = async (req, res) => {
     }
 
     let user = await User.findOne({ email: identifier });
-    if (!user) {
-      user = await User.findOne({ name: identifier });
-    }
+    if (!user) user = await User.findOne({ username: identifier });
+    if (!user) user = await User.findOne({ phone: identifier });
+    if (!user) user = await User.findOne({ name: identifier });
 
     if (user && (await user.matchPassword(password))) {
       res.json({

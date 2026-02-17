@@ -207,9 +207,9 @@
 
         <!-- Admin Section (Hidden by default, preserved for functionality) -->
         <div id="adminSection" style="display:none; padding: 20px;">
-            <h2 style="color:#a3e635; margin-bottom: 20px;">Admin Control Panel</h2>
+            <h2 style="color:#FFA000; margin-bottom: 20px;">Admin Control Panel</h2>
             <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px;">
-                <button id="refreshUsers" style="background: #22c55e; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;">Refresh Users</button>
+                <button id="refreshUsers" style="background: #1ECBA1; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;">Refresh Users</button>
                 <div style="overflow-x:auto; margin-top: 15px;">
                     <table style="width: 100%; color: #fff; border-collapse: collapse;">
                         <thead>
@@ -227,8 +227,8 @@
 
             <div style="margin-top: 20px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px;">
                 <div style="display:flex; align-items:center; justify-content: space-between; gap: 12px;">
-                    <h3 style="color:#a3e635; margin: 0;">Deposit Requests</h3>
-                    <button id="refreshDepositRequests" style="background: #22c55e; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;">Refresh</button>
+                    <h3 style="color:#FFA000; margin: 0;">Deposit Requests</h3>
+                    <button id="refreshDepositRequests" style="background: #1ECBA1; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;">Refresh</button>
                 </div>
                 <div style="overflow-x:auto; margin-top: 15px;">
                     <table style="width: 100%; color: #fff; border-collapse: collapse;">
@@ -261,12 +261,53 @@
     </div>
 
     <script>
+        function showPopup(message, type = 'info') {
+            const existing = document.getElementById('ast-popup');
+            if (existing) existing.remove();
+            const popup = document.createElement('div');
+            popup.id = 'ast-popup';
+            popup.textContent = message;
+            const colors = {
+                success: '#1ECBA1',
+                error: '#E63946',
+                info: '#FFA000'
+            };
+            const border = colors[type] || colors.info;
+            popup.style.position = 'fixed';
+            popup.style.top = '20px';
+            popup.style.right = '20px';
+            popup.style.zIndex = '99999';
+            popup.style.background = 'rgba(2,6,23,0.95)';
+            popup.style.color = '#fff';
+            popup.style.border = `1px solid ${border}`;
+            popup.style.padding = '12px 16px';
+            popup.style.borderRadius = '10px';
+            popup.style.boxShadow = '0 10px 30px rgba(0,0,0,0.35)';
+            popup.style.fontWeight = '700';
+            popup.style.maxWidth = '320px';
+            popup.style.fontSize = '14px';
+            popup.style.lineHeight = '1.4';
+            popup.style.opacity = '0';
+            popup.style.transform = 'translateY(-6px)';
+            popup.style.transition = 'opacity .2s ease, transform .2s ease';
+            document.body.appendChild(popup);
+            requestAnimationFrame(() => {
+                popup.style.opacity = '1';
+                popup.style.transform = 'translateY(0)';
+            });
+            setTimeout(() => {
+                popup.style.opacity = '0';
+                popup.style.transform = 'translateY(-6px)';
+                setTimeout(() => popup.remove(), 220);
+            }, 2600);
+        }
+
         function copyRef() {
             const copyText = document.getElementById("refLink");
             copyText.select();
-            copyText.setSelectionRange(0, 99999); 
+            copyText.setSelectionRange(0, 99999);
             navigator.clipboard.writeText(copyText.value);
-            alert("Referral link copied: " + copyText.value);
+            showPopup("Referral link copied: " + copyText.value, 'success');
         }
     </script>
     <script src="js/dashboard.js"></script>

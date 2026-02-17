@@ -10,6 +10,47 @@ document.addEventListener('DOMContentLoaded', async () => {
         return endpoint;
     };
 
+    const showPopup = (message, type = 'info') => {
+        const existing = document.getElementById('ast-popup');
+        if (existing) existing.remove();
+        const popup = document.createElement('div');
+        popup.id = 'ast-popup';
+        popup.textContent = message;
+        const colors = {
+            success: '#1ECBA1',
+            error: '#E63946',
+            info: '#FFA000'
+        };
+        const border = colors[type] || colors.info;
+        popup.style.position = 'fixed';
+        popup.style.top = '20px';
+        popup.style.right = '20px';
+        popup.style.zIndex = '99999';
+        popup.style.background = 'rgba(2,6,23,0.95)';
+        popup.style.color = '#fff';
+        popup.style.border = `1px solid ${border}`;
+        popup.style.padding = '12px 16px';
+        popup.style.borderRadius = '10px';
+        popup.style.boxShadow = '0 10px 30px rgba(0,0,0,0.35)';
+        popup.style.fontWeight = '700';
+        popup.style.maxWidth = '320px';
+        popup.style.fontSize = '14px';
+        popup.style.lineHeight = '1.4';
+        popup.style.opacity = '0';
+        popup.style.transform = 'translateY(-6px)';
+        popup.style.transition = 'opacity .2s ease, transform .2s ease';
+        document.body.appendChild(popup);
+        requestAnimationFrame(() => {
+            popup.style.opacity = '1';
+            popup.style.transform = 'translateY(0)';
+        });
+        setTimeout(() => {
+            popup.style.opacity = '0';
+            popup.style.transform = 'translateY(-6px)';
+            setTimeout(() => popup.remove(), 220);
+        }, 2600);
+    };
+
     const token = localStorage.getItem('token');
     
     // 1. Auth Check
@@ -281,7 +322,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const userText = r.userName ? `${r.userName}\n${r.userEmail || ''}` : (r.userEmail || r.userId || '-');
             const proofBtn = r.proof && r.proof.dataUrl ? `<button class="action-btn" data-action="view-proof" data-id="${r._id}">View</button>` : '-';
 
-            const statusColor = r.status === 'approved' ? '#22c55e' : (r.status === 'rejected' ? '#ef4444' : '#a3e635');
+            const statusColor = r.status === 'approved' ? '#1ECBA1' : (r.status === 'rejected' ? '#ef4444' : '#FFA000');
             const statusHtml = `<span style="color:${statusColor}; font-weight:900;">${r.status || 'pending'}</span>`;
 
             const approveDisabled = r.status === 'approved' ? 'disabled' : '';
@@ -296,7 +337,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <td style="padding: 10px;">${proofBtn === '-' ? '-' : `<button style="background:#111; border:1px solid rgba(255,255,255,0.2); color:#fff; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:800;" data-action="view-proof" data-id="${r._id}">View</button>`}</td>
                 <td style="padding: 10px;">${statusHtml}</td>
                 <td style="padding: 10px; display:flex; gap:8px; flex-wrap: wrap;">
-                    <button style="background:#22c55e; border:none; color:#0b1a0b; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:900;" data-action="approve" data-id="${r._id}" ${approveDisabled}>Approve</button>
+                    <button style="background:#1ECBA1; border:none; color:#0b1a0b; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:900;" data-action="approve" data-id="${r._id}" ${approveDisabled}>Approve</button>
                     <button style="background:#ef4444; border:none; color:#fff; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:900;" data-action="reject" data-id="${r._id}" ${rejectDisabled}>Reject</button>
                 </td>
             `;
@@ -377,7 +418,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (response.ok) {
                 fetchUsers(); // Refresh list
             } else {
-                alert('Failed to delete user');
+                showPopup('Failed to delete user', 'error');
             }
         } catch (error) {
             console.error('Delete error:', error);

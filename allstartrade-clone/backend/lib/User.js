@@ -26,6 +26,8 @@ class User {
         this._id = data._id || Date.now().toString();
         this.name = data.name;
         this.email = data.email;
+        this.username = data.username || '';
+        this.phone = data.phone || '';
         this.password = data.password;
         this.role = data.role || 'user';
         this.referredBy = data.referredBy || '';
@@ -43,6 +45,16 @@ class User {
         if (query.name) {
             const target = normalize(query.name);
             const user = users.find(u => normalize(u.name) === target);
+            return user ? new User(user) : null;
+        }
+        if (query.username) {
+            const target = normalize(query.username);
+            const user = users.find(u => normalize(u.username) === target);
+            return user ? new User(user) : null;
+        }
+        if (query.phone) {
+            const target = normalize(query.phone);
+            const user = users.find(u => normalize(u.phone) === target);
             return user ? new User(user) : null;
         }
         return null;

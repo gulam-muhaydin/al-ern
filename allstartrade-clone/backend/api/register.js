@@ -28,15 +28,28 @@ module.exports = async (req, res) => {
 
     const normalizedName = (name || username || '').toString().trim();
     const normalizedEmail = (email || phone || username || '').toString().trim();
+    const normalizedUsername = (username || '').toString().trim();
+    const normalizedPhone = (phone || '').toString().trim();
 
     if (!normalizedName || !normalizedEmail || !password) {
       return res.status(400).json({ message: 'Please provide all fields' });
     }
 
     const userExists = await User.findOne({ email: normalizedEmail });
-
     if (userExists) {
       return res.status(400).json({ message: 'User already exists' });
+    }
+    if (normalizedUsername) {
+      const usernameExists = await User.findOne({ username: normalizedUsername });
+      if (usernameExists) {
+        return res.status(400).json({ message: 'Username already exists' });
+      }
+    }
+    if (normalizedPhone) {
+      const phoneExists = await User.findOne({ phone: normalizedPhone });
+      if (phoneExists) {
+        return res.status(400).json({ message: 'Phone already exists' });
+      }
     }
 
     let referredBy = '';
@@ -51,6 +64,8 @@ module.exports = async (req, res) => {
     const user = await User.create({
       name: normalizedName,
       email: normalizedEmail,
+      username: normalizedUsername,
+      phone: normalizedPhone,
       password,
       referredBy,
     });

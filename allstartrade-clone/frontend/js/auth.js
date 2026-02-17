@@ -15,6 +15,47 @@ document.addEventListener('DOMContentLoaded', () => {
         return endpoint;
     };
 
+    const showPopup = (message, type = 'info') => {
+        const existing = document.getElementById('ast-popup');
+        if (existing) existing.remove();
+        const popup = document.createElement('div');
+        popup.id = 'ast-popup';
+        popup.textContent = message;
+        const colors = {
+            success: '#1ECBA1',
+            error: '#E63946',
+            info: '#FFA000'
+        };
+        const border = colors[type] || colors.info;
+        popup.style.position = 'fixed';
+        popup.style.top = '20px';
+        popup.style.right = '20px';
+        popup.style.zIndex = '99999';
+        popup.style.background = 'rgba(2,6,23,0.95)';
+        popup.style.color = '#fff';
+        popup.style.border = `1px solid ${border}`;
+        popup.style.padding = '12px 16px';
+        popup.style.borderRadius = '10px';
+        popup.style.boxShadow = '0 10px 30px rgba(0,0,0,0.35)';
+        popup.style.fontWeight = '700';
+        popup.style.maxWidth = '320px';
+        popup.style.fontSize = '14px';
+        popup.style.lineHeight = '1.4';
+        popup.style.opacity = '0';
+        popup.style.transform = 'translateY(-6px)';
+        popup.style.transition = 'opacity .2s ease, transform .2s ease';
+        document.body.appendChild(popup);
+        requestAnimationFrame(() => {
+            popup.style.opacity = '1';
+            popup.style.transform = 'translateY(0)';
+        });
+        setTimeout(() => {
+            popup.style.opacity = '0';
+            popup.style.transform = 'translateY(-6px)';
+            setTimeout(() => popup.remove(), 220);
+        }, 2600);
+    };
+
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -46,13 +87,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('user', JSON.stringify(result));
                     window.location.href = 'dashboard.html';
                 } else {
-                    alert(result.message || 'Login failed');
+                    showPopup(result.message || 'Login failed', 'error');
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalBtnText;
                 }
             } catch (error) {
                 console.error('Login error:', error);
-                alert('An error occurred during login. Ensure the backend server is running on port 3000.');
+                showPopup('An error occurred during login. Ensure the backend server is running on port 3000.', 'error');
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnText;
             }
@@ -79,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = Object.fromEntries(formData.entries());
 
             if (data.password_confirmation && data.password !== data.password_confirmation) {
-                alert("Passwords do not match!");
+                showPopup('Passwords do not match!', 'error');
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnText;
                 return;
@@ -113,16 +154,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('token', result.token);
                     localStorage.setItem('user', JSON.stringify(result));
                     
-                    alert('Registration successful! Redirecting to dashboard...');
+                    showPopup('Registration successful! Redirecting to dashboard...', 'success');
                     window.location.href = 'dashboard.html';
                 } else {
-                    alert(result.message || 'Registration failed');
+                    showPopup(result.message || 'Registration failed', 'error');
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalBtnText;
                 }
             } catch (error) {
                 console.error('Registration error:', error);
-                alert('An error occurred during registration. Ensure the backend server is running on port 3000.');
+                showPopup('An error occurred during registration. Ensure the backend server is running on port 3000.', 'error');
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnText;
             }
