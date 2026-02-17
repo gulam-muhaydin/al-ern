@@ -79,11 +79,30 @@ app.get('*', (req, res) => {
     return res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
-connectToDatabase().then(() => {
-    setInterval(async () => {
-        await User.applyPayoutsForAll();
-    }, 60 * 60 * 1000);
+let serverStarted = false;
+const startServer = () => {
+    if (serverStarted) return;
+    serverStarted = true;
     app.listen(PORT, '0.0.0.0', () => {
         console.log(`Server running on 0.0.0.0:${PORT}`);
     });
-});
+};
+
+const boot = async () => {
+    try {
+        await connectToDatabase();
+        setInterval(async () => {
+            try {
+                await User.applyPayoutsForAll();
+            } catch (error) {
+                console.error(error);
+            }
+        }, 60 * 60 * 1000);
+    } catch (error) {
+        console.error(error);
+    } finally {
+        startServer();
+    }
+};
+
+boot();
