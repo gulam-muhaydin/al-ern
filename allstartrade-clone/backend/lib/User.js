@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 
-const usersFile = path.join(process.cwd(), 'backend', 'data', 'users.json');
+const usersFile = path.join(__dirname, '..', 'data', 'users.json');
 
 const getUsers = () => {
     try {

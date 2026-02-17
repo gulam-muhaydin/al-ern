@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const requestsFile = path.join(process.cwd(), 'backend', 'data', 'withdrawRequests.json');
+const requestsFile = path.join(__dirname, '..', 'data', 'withdrawRequests.json');
 
 const getRequests = () => {
     try {

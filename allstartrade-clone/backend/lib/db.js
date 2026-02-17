@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const dataDir = path.join(process.cwd(), 'backend', 'data');
+const dataDir = path.join(__dirname, '..', 'data');
 const usersFile = path.join(dataDir, 'users.json');
 const depositRequestsFile = path.join(dataDir, 'depositRequests.json');
 
