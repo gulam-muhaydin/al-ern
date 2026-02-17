@@ -213,10 +213,10 @@
                 <a href="dashboard.html" class="menu-item">
                     <i class="fa-solid fa-layer-group"></i> Dashboard
                 </a>
-                <a href="deposit.html" class="menu-item">Deposit</a>
-                <a href="running-plans.html" class="menu-item">My Plans</a>
-                <a href="withdraw.html" class="menu-item">Withdraw</a>
-                <a href="admin.html" class="menu-item active">Admin</a>
+                <a href="#" class="menu-item active" data-target="new-deposits">New Deposits</a>
+                <a href="#" class="menu-item" data-target="deposit-history">Deposit History</a>
+                <a href="#" class="menu-item" data-target="new-withdraws">New Withdraws</a>
+                <a href="#" class="menu-item" data-target="withdraw-history">Withdraw History</a>
                 <a href="#" class="menu-item" id="logoutBtn">Logout</a>
             </div>
         </div>
@@ -224,9 +224,9 @@
         <div class="admin-wrap" id="adminApp" style="display:none;">
             <div class="admin-title">Admin Panel</div>
 
-            <div class="panel">
+            <div class="panel" id="section-new-deposits">
                 <div class="panel-head">
-                    <h3>Deposit Requests</h3>
+                    <h3>New Deposit Requests</h3>
                     <button class="btn" id="refreshDepositRequests">Refresh</button>
                 </div>
 
@@ -253,9 +253,36 @@
                 </div>
             </div>
 
-            <div class="panel">
+            <div class="panel" id="section-deposit-history" style="display:none;">
                 <div class="panel-head">
-                    <h3>Withdraw Requests</h3>
+                    <h3>Deposit History</h3>
+                </div>
+
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Plan</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>TX</th>
+                                <th>Proof</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="depositHistoryBody">
+                            <tr>
+                                <td colspan="7" class="muted">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel" id="section-new-withdraws" style="display:none;">
+                <div class="panel-head">
+                    <h3>New Withdraw Requests</h3>
                     <button class="btn" id="refreshWithdrawRequests">Refresh</button>
                 </div>
 
@@ -275,6 +302,32 @@
                         <tbody id="withdrawRequestsBody">
                             <tr>
                                 <td colspan="7" class="muted">Loading...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel" id="section-withdraw-history" style="display:none;">
+                <div class="panel-head">
+                    <h3>Withdraw History</h3>
+                </div>
+
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Account</th>
+                                <th>Wallet</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="withdrawHistoryBody">
+                            <tr>
+                                <td colspan="6" class="muted">Loading...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -367,67 +420,109 @@
 
             const refreshBtn = document.getElementById('refreshDepositRequests');
             const bodyEl = document.getElementById('depositRequestsBody');
+            const historyBodyEl = document.getElementById('depositHistoryBody');
             let lastRequests = [];
 
             const withdrawRefreshBtn = document.getElementById('refreshWithdrawRequests');
             const withdrawBodyEl = document.getElementById('withdrawRequestsBody');
+            const withdrawHistoryBodyEl = document.getElementById('withdrawHistoryBody');
             let lastWithdrawRequests = [];
 
             const setLoading = (text) => {
-                if (!bodyEl) return;
-                bodyEl.innerHTML = `
-                    <tr>
-                        <td colspan="8" class="muted">${text}</td>
-                    </tr>
-                `;
+                if (bodyEl) {
+                    bodyEl.innerHTML = `<tr><td colspan="8" class="muted">${text}</td></tr>`;
+                }
+                if (historyBodyEl) {
+                    historyBodyEl.innerHTML = `<tr><td colspan="7" class="muted">${text}</td></tr>`;
+                }
             };
 
             const setWithdrawLoading = (text) => {
-                if (!withdrawBodyEl) return;
-                withdrawBodyEl.innerHTML = `
-                    <tr>
-                        <td colspan="7" class="muted">${text}</td>
-                    </tr>
-                `;
+                if (withdrawBodyEl) {
+                    withdrawBodyEl.innerHTML = `<tr><td colspan="7" class="muted">${text}</td></tr>`;
+                }
+                if (withdrawHistoryBodyEl) {
+                    withdrawHistoryBodyEl.innerHTML = `<tr><td colspan="6" class="muted">${text}</td></tr>`;
+                }
             };
 
             const render = (requests) => {
                 if (!bodyEl) return;
                 bodyEl.innerHTML = '';
+                if (historyBodyEl) historyBodyEl.innerHTML = '';
 
-                if (!requests.length) {
-                    setLoading('No requests');
-                    return;
+                const pending = requests.filter(r => (r.status || 'pending') === 'pending');
+                const history = requests.filter(r => (r.status || 'pending') !== 'pending');
+
+                // Render Pending
+                if (!pending.length) {
+                    bodyEl.innerHTML = `<tr><td colspan="8" class="muted">No new requests</td></tr>`;
+                } else {
+                    pending.forEach(r => {
+                        const tr = document.createElement('tr');
+                        const userText = r.userName ? `${r.userName}\n${r.userEmail || ''}` : (r.userEmail || r.userId || '-');
+                        const hasProof = r.proof && r.proof.dataUrl;
+                        const status = r.status || 'pending';
+                        const statusColor = '#a3e635';
+                        const proofHtml = hasProof ? `<img class="proof-thumb" src="${r.proof.dataUrl}" data-action="view-proof" data-id="${r._id}" alt="Proof">` : '-';
+
+                        tr.innerHTML = `
+                            <td style="white-space: pre-line;">${userText}</td>
+                            <td>${r.planId || '-'}</td>
+                            <td>${r.amount || '-'}</td>
+                            <td>${r.method || '-'}</td>
+                            <td>${r.transactionId || '-'}</td>
+                            <td>${proofHtml}</td>
+                            <td><span style="color:${statusColor}; font-weight:900;">${status}</span></td>
+                            <td style="display:flex; gap:8px; flex-wrap: wrap;">
+                                <button class="btn" data-action="approve" data-id="${r._id}">Approve</button>
+                                <button class="btn btn-danger" data-action="reject" data-id="${r._id}">Reject</button>
+                            </td>
+                        `;
+                        bodyEl.appendChild(tr);
+                    });
                 }
 
-                requests.forEach(r => {
-                    const tr = document.createElement('tr');
-                    const userText = r.userName ? `${r.userName}\n${r.userEmail || ''}` : (r.userEmail || r.userId || '-');
-                    const hasProof = r.proof && r.proof.dataUrl;
-                    const status = r.status || 'pending';
-                    const statusColor = status === 'approved' ? '#22c55e' : (status === 'rejected' ? '#ef4444' : '#a3e635');
-                    const approveDisabled = status === 'approved' ? 'disabled' : '';
-                    const rejectDisabled = status === 'rejected' ? 'disabled' : '';
-                    const proofHtml = hasProof ? `<img class="proof-thumb" src="${r.proof.dataUrl}" data-action="view-proof" data-id="${r._id}" alt="Proof">` : '-';
+                // Render History
+                if (!history.length) {
+                    if (historyBodyEl) historyBodyEl.innerHTML = `<tr><td colspan="7" class="muted">No history</td></tr>`;
+                } else {
+                    history.forEach(r => {
+                        const tr = document.createElement('tr');
+                        const userText = r.userName ? `${r.userName}\n${r.userEmail || ''}` : (r.userEmail || r.userId || '-');
+                        const hasProof = r.proof && r.proof.dataUrl;
+                        const status = r.status || 'pending';
+                        const statusColor = status === 'approved' ? '#22c55e' : '#ef4444';
+                        const proofHtml = hasProof ? `<img class="proof-thumb" src="${r.proof.dataUrl}" data-action="view-proof" data-id="${r._id}" alt="Proof">` : '-';
 
-                    tr.innerHTML = `
-                        <td style="white-space: pre-line;">${userText}</td>
-                        <td>${r.planId || '-'}</td>
-                        <td>${r.amount || '-'}</td>
-                        <td>${r.method || '-'}</td>
-                        <td>${r.transactionId || '-'}</td>
-                        <td>${proofHtml}</td>
-                        <td><span style="color:${statusColor}; font-weight:900;">${status}</span></td>
-                        <td style="display:flex; gap:8px; flex-wrap: wrap;">
-                            <button class="btn" data-action="approve" data-id="${r._id}" ${approveDisabled}>Approve</button>
-                            <button class="btn btn-danger" data-action="reject" data-id="${r._id}" ${rejectDisabled}>Reject</button>
-                        </td>
-                    `;
-                    bodyEl.appendChild(tr);
-                });
+                        tr.innerHTML = `
+                            <td style="white-space: pre-line;">${userText}</td>
+                            <td>${r.planId || '-'}</td>
+                            <td>${r.amount || '-'}</td>
+                            <td>${r.method || '-'}</td>
+                            <td>${r.transactionId || '-'}</td>
+                            <td>${proofHtml}</td>
+                            <td><span style="color:${statusColor}; font-weight:900;">${status}</span></td>
+                        `;
+                        if (historyBodyEl) historyBodyEl.appendChild(tr);
+                    });
+                }
 
+                // Attach listeners only to bodyEl buttons (pending actions)
                 bodyEl.querySelectorAll('button[data-action]').forEach(btn => {
                     btn.addEventListener('click', handleAction);
+                });
+                
+                // Attach listeners to history proof images
+                if (historyBodyEl) {
+                    historyBodyEl.querySelectorAll('img[data-action="view-proof"]').forEach(img => {
+                        img.addEventListener('click', handleAction);
+                    });
+                }
+                
+                // Attach listeners to pending proof images
+                bodyEl.querySelectorAll('img[data-action="view-proof"]').forEach(img => {
+                    img.addEventListener('click', handleAction);
                 });
             };
 
@@ -452,37 +547,64 @@
             const renderWithdraw = (requests) => {
                 if (!withdrawBodyEl) return;
                 withdrawBodyEl.innerHTML = '';
+                if (withdrawHistoryBodyEl) withdrawHistoryBodyEl.innerHTML = '';
 
-                if (!requests.length) {
-                    setWithdrawLoading('No requests');
-                    return;
+                const pending = requests.filter(r => (r.status || 'pending') === 'pending');
+                const history = requests.filter(r => (r.status || 'pending') !== 'pending');
+
+                // Render Pending Withdraws
+                if (!pending.length) {
+                    withdrawBodyEl.innerHTML = `<tr><td colspan="7" class="muted">No new requests</td></tr>`;
+                } else {
+                    pending.forEach(r => {
+                        const tr = document.createElement('tr');
+                        const userText = r.userName ? `${r.userName}\n${r.userEmail || ''}` : (r.userEmail || r.userId || '-');
+                        const status = r.status || 'pending';
+                        const statusColor = '#a3e635';
+                        const accountText = `${r.accountName || '-'}\n${r.accountNumber || '-'}`;
+                        const walletText = r.fromWallet === 'interest' ? 'Interest' : 'Current';
+
+                        tr.innerHTML = `
+                            <td style="white-space: pre-line;">${userText}</td>
+                            <td>${r.amount || '-'}</td>
+                            <td>${r.method || '-'}</td>
+                            <td style="white-space: pre-line;">${accountText}</td>
+                            <td>${walletText}</td>
+                            <td><span style="color:${statusColor}; font-weight:900;">${status}</span></td>
+                            <td style="display:flex; gap:8px; flex-wrap: wrap;">
+                                <button class="btn" data-action="approve-withdraw" data-id="${r._id}">Approve</button>
+                                <button class="btn btn-danger" data-action="reject-withdraw" data-id="${r._id}">Reject</button>
+                            </td>
+                        `;
+                        withdrawBodyEl.appendChild(tr);
+                    });
                 }
 
-                requests.forEach(r => {
-                    const tr = document.createElement('tr');
-                    const userText = r.userName ? `${r.userName}\n${r.userEmail || ''}` : (r.userEmail || r.userId || '-');
-                    const status = r.status || 'pending';
-                    const statusColor = status === 'approved' ? '#22c55e' : (status === 'rejected' ? '#ef4444' : '#a3e635');
-                    const approveDisabled = status === 'approved' ? 'disabled' : '';
-                    const rejectDisabled = status === 'rejected' ? 'disabled' : '';
-                    const accountText = `${r.accountName || '-'}\n${r.accountNumber || '-'}`;
-                    const walletText = r.fromWallet === 'interest' ? 'Interest' : 'Current';
+                // Render History Withdraws
+                if (!history.length) {
+                    if (withdrawHistoryBodyEl) withdrawHistoryBodyEl.innerHTML = `<tr><td colspan="6" class="muted">No history</td></tr>`;
+                } else {
+                    history.forEach(r => {
+                        const tr = document.createElement('tr');
+                        const userText = r.userName ? `${r.userName}\n${r.userEmail || ''}` : (r.userEmail || r.userId || '-');
+                        const status = r.status || 'pending';
+                        const statusColor = status === 'approved' ? '#22c55e' : '#ef4444';
+                        const accountText = `${r.accountName || '-'}\n${r.accountNumber || '-'}`;
+                        const walletText = r.fromWallet === 'interest' ? 'Interest' : 'Current';
 
-                    tr.innerHTML = `
-                        <td style="white-space: pre-line;">${userText}</td>
-                        <td>${r.amount || '-'}</td>
-                        <td>${r.method || '-'}</td>
-                        <td style="white-space: pre-line;">${accountText}</td>
-                        <td>${walletText}</td>
-                        <td><span style="color:${statusColor}; font-weight:900;">${status}</span></td>
-                        <td style="display:flex; gap:8px; flex-wrap: wrap;">
-                            <button class="btn" data-action="approve-withdraw" data-id="${r._id}" ${approveDisabled}>Approve</button>
-                            <button class="btn btn-danger" data-action="reject-withdraw" data-id="${r._id}" ${rejectDisabled}>Reject</button>
-                        </td>
-                    `;
-                    withdrawBodyEl.appendChild(tr);
-                });
+                        tr.innerHTML = `
+                            <td style="white-space: pre-line;">${userText}</td>
+                            <td>${r.amount || '-'}</td>
+                            <td>${r.method || '-'}</td>
+                            <td style="white-space: pre-line;">${accountText}</td>
+                            <td>${walletText}</td>
+                            <td><span style="color:${statusColor}; font-weight:900;">${status}</span></td>
+                        `;
+                        if (withdrawHistoryBodyEl) withdrawHistoryBodyEl.appendChild(tr);
+                    });
+                }
 
+                // Attach listeners to pending buttons
                 withdrawBodyEl.querySelectorAll('button[data-action]').forEach(btn => {
                     btn.addEventListener('click', handleWithdrawAction);
                 });
@@ -645,6 +767,41 @@
             } else {
                 showPin();
             }
+
+            // Menu Navigation Logic
+            const menuItems = document.querySelectorAll('.menu-item[data-target]');
+            const panels = document.querySelectorAll('.panel[id^="section-"]');
+
+            menuItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Remove active class from all menu items
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    // Add active class to clicked item
+                    item.classList.add('active');
+
+                    // Hide all panels
+                    panels.forEach(p => p.style.display = 'none');
+                    
+                    // Show target panel
+                    const targetId = `section-${item.dataset.target}`;
+                    const targetPanel = document.getElementById(targetId);
+                    if (targetPanel) {
+                        targetPanel.style.display = 'block';
+                    }
+
+                    // Close mobile menu
+                    if (mobileMenu && mobileMenu.classList.contains('active')) {
+                        mobileMenu.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    }
+                });
+            });
         });
     </script>
 </body>
