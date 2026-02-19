@@ -72,6 +72,10 @@ module.exports = async (req, res) => {
         if (!finalPlanId || !finalAmount || !transactionId || !proof) {
             return res.status(400).json({ message: 'Missing required fields' });
         }
+        const existingTx = await DepositRequest.findByTransactionId(transactionId);
+        if (existingTx) {
+            return res.status(400).json({ message: 'Transaction ID already used' });
+        }
 
         const created = await DepositRequest.create({
             userId: user._id,

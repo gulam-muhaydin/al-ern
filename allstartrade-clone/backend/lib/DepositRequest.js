@@ -56,6 +56,15 @@ class DepositRequest {
         return found ? new DepositRequest(found) : null;
     }
 
+    static async findByTransactionId(transactionId) {
+        const requests = getRequests();
+        const normalize = (value) => String(value || '').trim().toLowerCase();
+        const target = normalize(transactionId);
+        if (!target) return null;
+        const found = requests.find(r => normalize(r.transactionId) === target);
+        return found ? new DepositRequest(found) : null;
+    }
+
     static async updateById(id, updates) {
         const requests = getRequests();
         const idx = requests.findIndex(r => r._id === id);
