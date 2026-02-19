@@ -131,14 +131,14 @@
                 <span>My Team</span>
             </a>
 
-            <a href="https://whatsapp.com/channel/0029Vb7pDu60lwgiWHriJy0p" class="quick-item" target="_blank" rel="noopener noreferrer">
+            <a href="#" class="quick-item" target="_blank" rel="noopener noreferrer">
                 <div class="icon-box">
                     <i class="fa-brands fa-whatsapp"></i>
                 </div>
                 <span>Admin</span>
             </a>
 
-            <a href="#" class="quick-item">
+            <a href="https://whatsapp.com/channel/0029Vb7pDu60lwgiWHriJy0p" class="quick-item" target="_blank" rel="noopener noreferrer">
                 <div class="icon-box">
                     <i class="fa-brands fa-whatsapp"></i>
                 </div>
@@ -150,14 +150,6 @@
                     <i class="fa-brands fa-whatsapp"></i>
                 </div>
                 <span>Owner<br>Contact</span>
-            </a>
-
-            <a href="assets/app/allstartrade.apk" class="quick-item" id="downloadAppBtn">
-                <div class="icon-box">
-                    <i class="fa-solid fa-download"></i>
-                    <span class="badge">1</span>
-                </div>
-                <span>Download<br>App</span>
             </a>
 
             <a href="#" class="quick-item">
@@ -318,22 +310,12 @@
             const menuLogoutBtn = document.querySelector('.menu-item#logoutBtn');
             const menuToggle = document.getElementById('menuToggle');
             const mobileMenu = document.getElementById('mobileMenu');
-            const downloadAppBtn = document.getElementById('downloadAppBtn');
             const balanceEl = document.querySelector('.balance-section .balance-amount');
 
             const renderBalance = () => {
                 if (!balanceEl) return;
                 balanceEl.textContent = 'Rs0.0';
             };
-
-            if (downloadAppBtn) {
-                const defaultAppUrl = 'https://faithful-wonder-production.up.railway.app/assets/app/allstartrade.apk';
-                const appUrl = localStorage.getItem('ast_app_download_url') || defaultAppUrl;
-                downloadAppBtn.setAttribute('href', appUrl);
-                downloadAppBtn.setAttribute('download', 'allstartrade.apk');
-                downloadAppBtn.setAttribute('target', '_self');
-            }
-
 
             // Toggle Mobile Menu
             if (menuToggle && mobileMenu) {
