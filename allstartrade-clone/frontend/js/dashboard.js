@@ -75,7 +75,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const processedDepositRequestsKey = 'ast_processed_deposit_requests';
     const processedWithdrawRequestsKey = 'ast_processed_withdraw_requests';
     const refBonusStat = document.getElementById('refBonusStat');
-    const refByBadge = document.getElementById('refByBadge');
     const balanceEl = document.querySelector('.balance-section .balance-amount');
 
     const getProcessedDepositRequestIds = () => {
@@ -229,10 +228,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const balance = Number(user.walletBalance || 0);
             const safeBalance = Number.isFinite(balance) ? balance : 0;
             balanceEl.textContent = `Rs${safeBalance.toFixed(2)}`;
-        }
-        if (refByBadge) {
-            const refName = (user.referredByName || '').toString().trim();
-            refByBadge.textContent = `Ref by:- ${refName || 'N/A'}`;
         }
         const refLinkInput = document.getElementById('refLink');
         if (refLinkInput && user._id) {
